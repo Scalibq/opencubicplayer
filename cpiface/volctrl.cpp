@@ -194,7 +194,7 @@ static void cpiVolCtrl_c::Draw(int focus)
   if (yoff)
     su++;
 
-  for(i=yoff; i<(yoff+(y1-1)); i++)
+  for(int i=yoff; i<(yoff+(y1-1)); i++)
   {
     ocpvolstruct x;
     int hc=focus?((i==active)?7:8):8;

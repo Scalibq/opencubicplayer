@@ -17,7 +17,7 @@ unsigned short isqrt(unsigned long);
 "  mov ecx,40000000h" \
 "fastloop:" \
 "    cmp ebx,ecx" \
-"    jae near goloop" \
+"    jae near ptr goloop" \
 "    shr ecx,2" \
 "  jnz fastloop" \
 "  xor edx,edx" \
