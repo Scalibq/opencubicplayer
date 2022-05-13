@@ -12,13 +12,14 @@
 */
 // #define ASFDEBUG
 
+#define INITGUID
+#define WIN32_LEAN_AND_MEAN
+
 #include <conio.h>
 #include <stdio.h>
 #include "binfile.h"
 #include "asfread.h"
 
-#define INITGUID
-#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 //#include <basetyps.h>
 #include <objbase.h>
