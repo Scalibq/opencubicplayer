@@ -1,0 +1,104 @@
+% OpenCP Module Player
+%
+% Documentation LaTeX source
+%
+% revision history: (please note changes here)
+% -doj990413  Dirk Jagdmann  <doj@cubic.org>
+%   -initial release
+% -doj990421  Dirk Jagdmann  <doj@cubic.org>
+%   -some beauty modifications
+% -doj20010511 Dirk Jagdmann <doj@cubic.org>
+%   -removed porting nonsense, we don't port this anymore
+
+\parbox[b][2cm]{1cm}{}
+
+{\Huge Foreword}
+
+\parbox[b][0.75cm]{1cm}{}
+
+\begin{latexonly}
+% Escher Cube
+% modelled 3. September 1998 by Dirk Jagdmann <doj@cubic.org>
+\newlength{\myTemp}
+\setlength{\myTemp}{\unitlength}
+\setlength{\unitlength}{0.15cm}
+\mbox{
+\begin{picture}(18,18)
+% vorne unten
+\put(0,0){\line(1,0){13}}
+\put(1,1){\line(1,0){11}}
+\put(1.5,1.5){\line(1,0){10.5}}
+% vorne links
+\put(0,0){\line(0,1){13}}
+\put(1,1){\line(0,1){11}}
+\put(1.5,1.5){\line(0,1){10.5}}
+% vorne oben
+\put(0,13){\line(1,0){4.5}}
+\put(6,13){\line(1,0){7}}
+\put(1,12){\line(1,0){3.5}}
+\put(6,12){\line(1,0){6}}
+\put(1.5,13.5){\line(1,0){3}}
+\put(6,13.5){\line(1,0){6.5}}
+% vorne rechts
+\put(13,0){\line(0,1){13}}
+\put(12,1){\line(0,1){11}}
+\put(13.5,1.5){\line(0,1){11}}
+% mitte links unten
+\put(1.5,1.5){\line(1,1){4.5}}
+\put(1.5,2.5){\line(1,1){3}}
+\put(2.5,1.5){\line(1,1){3}}
+% mitte links oben
+\put(0,13){\line(1,1){5}}
+\put(1.5,13.5){\line(1,1){4}}
+\put(2.5,13.5){\line(1,1){3}}
+% mitte rechts unten
+\put(13,0){\line(1,1){5}}
+\put(13.5,1.5){\line(1,1){4}}
+\put(13.5,2.5){\line(1,1){3}}
+% mitte rechts oben
+\put(12.5,13.5){\line(1,1){4}}
+\put(13,13){\line(1,1){5}}
+\put(13.5,12.5){\line(1,1){4}}
+% hinten links
+\put(4.5,5.5){\line(0,1){10}}
+\put(5.5,4.5){\line(0,1){13}}
+\put(6,6){\line(0,1){10.5}}
+% hinten oben
+\put(5,18){\line(1,0){13}}
+\put(5.5,17.5){\line(1,0){11}}
+\put(5.5,16.5){\line(1,0){10}}
+% hinten rechts
+\put(18,5){\line(0,1){13}}
+\put(17.5,5.5){\line(0,1){11}}
+\put(16.5,5.5){\line(0,1){10}}
+% hinten unten
+\put(6,6){\line(1,0){6}}
+\put(13.5,6){\line(1,0){3}}
+\put(4.5,5.5){\line(1,0){7.5}}
+\put(13.5,5.5){\line(1,0){4}}
+\put(5.5,4.5){\line(1,0){6.5}}
+\put(13.5,4.5){\line(1,0){2}}
+\end{picture}
+% end of Escher Cube
+}
+\setlength{\unitlength}{\myTemp}
+\end{latexonly}
+
+\cp\ is a music file player. It is derived from the
+\begin{latexonly}
+\emph{Cubic Player 2.0}$\alpha$\emph{ppe}
+\end{latexonly}
+\begin{htmlonly}
+\emph{Cubic Player 2.0appe}
+\end{htmlonly}
+which was developed by Niklas Beisert. The latest version of is \cpversion.
+See chapter \ref{homepage} on how to get a copy of \cp.
+
+\cp\ is published under the GNU General Public License (GPL). That means you
+can use this software without charging for it. However \cp\ is not in the public domain!
+The source code is
+available to the public and everybody is encouraged to make changes to it.
+Please send any modifications and bugfixes to the authors. The authors do not
+take any warranty for any damages whatever kind produced by this software.
+For further details see the file
+\htmladdnormallink{\texttt{COPYING.TXT}}{http://www.gnu.org/copyleft/gpl.html}

@@ -1,0 +1,17 @@
+#!/usr/bin/perl
+
+print<<AAAA;
+\\documentclass{book}
+
+\\newenvironment{dojlist}{\\begin{list}{-}{}}{\\end{list}}
+\\newcommand{\\keys}[1]{\\texttt{<#1>}}
+\\newcommand{\\faq}[2]{\\emph{#1}\\\\#2}
+\\newcommand{\\dojdots}{...}
+\\RequirePackage{latexsym}
+\\RequirePackage{html}
+\\RequirePackage{longtable}
+\\bodytext{bgcolor="ffffff" text="000000" link="0000ff" vlink="0000cc" alink="cccccc"}
+AAAA
+
+while(<>) { last if /\\documentclass\{ocpmanual\}/ }
+print while(<>);

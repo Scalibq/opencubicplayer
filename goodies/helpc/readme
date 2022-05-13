@@ -1,0 +1,16 @@
+okay, i included some crippled zlib just for compiling the help compiler
+
+don't contact/blame/flame jean-loup gailly or mark adler because of problems
+with this. this code has not much to do with their original work :)
+
+almost all comments have been removed (except copyright notices and some
+general descriptions) to make the source tight (because this is what kb
+wanted, i think)
+
+you surely won't be able to see it, but this is based on zlib-1.1.3
+
+original copyright should be in file zlib.txt
+
+have fun
+
+Fabian Giesen aka RYG^Chrome Design/ARF!Studios <fabian@jdcs.su.nw.schule.de>

@@ -1,0 +1,376 @@
+% OpenCP Module Player
+%
+% Documentation LaTeX source
+%
+% revision history: (please note changes here)
+% -doj990413  Dirk Jagdmann  <doj@cubic.org>
+%   -initial release
+
+\chapter{Fileselector}
+If \cp\ is started without any command line arguments the fileselector will be
+loaded. With this powerful tool you can browse through your modules and set
+up playlists to be processed by the player. If you switch to the player the
+selected files will be loaded and processed.
+
+Files can be stored inside compressed archives to save space on the hard disk.
+Those files are automatically unpacked to a temporary directory before
+scanning or loading. If you have many modules you should use this feature, as
+storing modules inside archives is totally transparent when using the fileselector.
+
+\section{Main screen}
+The fileselector splits into three main windows: directory list, playlist
+and module information as shown in figure \ref{fileselectorscreen}.
+
+\begin{figure}
+\hfill
+\setlength{\unitlength}{0.8cm}
+\begin{picture}(13.3,10)
+\thicklines
+\put(0,0){\framebox(13.3,10){}} % ‰uﬂerer Rahmen
+\thinlines
+\put(0,0){\makebox(13.3,0.5){quickfind}} 
+\put(0,0.5){\framebox(13.3,2.5){module information}} 
+\put(0,3){\makebox(10,6){directory list}}
+\put(10,3){\line(0,6){6}}
+\put(10,3){\makebox(3.3,6){play list}}
+\put(0,9){\framebox(13.3,0.5){path}} 
+\put(0,9.5){\makebox(13.3,0.5){title bar}}
+\end{picture}
+\hfill\hbox{}
+\caption{\label{fileselectorscreen}the fileselector screen}
+\end{figure}
+
+The path window shows the current
+path and file mask. If you started \cp\ from the home directory you will get
+the following: \texttt{C:\symbol{92}OPENCP\symbol{92}*.*} means
+that the current directory is \texttt{OPENCP} on your \texttt{C} harddrive
+and all files are shown (\texttt{*.*}). You can edit the path and the mask
+by pressing \keys{CTRL}+\keys{Enter}. After editing the path press \keys{Enter}
+to change to the appropriate directory. You can edit the file mask to include
+only some files.
+\begin{quote}
+\texttt{C:\symbol{92}*.mod} will change to the root directory of hard disk \texttt{C} and
+show all files ending with \texttt{.mod}. The default setting should be the
+current directory with a file mask \texttt{*.*} to show all files.
+\end{quote}
+
+The most important window is the directory list. Here you can see all files
+in the current directory. If the extension is known to \cp\ the file information
+will be shown in different colors depending on the file type. Files not known
+to \cp\ will be shown in standard grey.
+
+Leftmost the file name provided by the operating system is shown.
+The extension \texttt{.???} will specify the file type. The next column shows the
+title of the file if the file type includes a title. In the third column the
+number of channels is displayed. Finally rightmost the filesize is shown in
+bytes. If the module is included in a ZIP archive the \emph{real} file size
+is displayed.
+
+Right to the directory list you can see the play list. All files listed in
+this window will be played, after you change into the player. The order of
+entries in this window determine the order in which files are loaded unless you
+have enabled the \emph{random} option.
+
+The window at the bottom is the module information. Many music formats can
+store general information which is displayed here. If the file type does not
+support those information you can edit the fields inside this window manually
+and \cp\ will store the information for you.
+
+Finally at the very bottom is the quick find feature, which lets you easily
+find files in the current directory.
+
+\section{Usage of the fileselector}
+\label{fileselector}
+The directory list shows you all files in the current directory which fit to
+the file mask set in the path window and \cp\ can detect. Under the alphabetically sorted files
+the directories and drives are shown.\footnote{\texttt{@:} is a special drive
+which lets you configure \cp\ without editing the \texttt{cp.ini} file, see page \pageref{specialdrive}.}
+Use the
+\keys{$\uparrow$} and \keys{$\downarrow$} to browse through the files. If you
+press \keys{Enter} the selected file will be loaded and played with the player.
+Pressing \keys{Enter} while selecting a directory or drive will switch to the
+selected item and the directory will be read. \keys{Pgup}, \keys{Pgdown},
+\keys{Home} and \keys{End} will work as expected.
+
+If a module is played and you are in the player \keys{f} will beam you to
+the fileselector. You can always leave the
+fileselector by pressing \keys{Esc} twice! If no module is playing the program
+will exit, while you will get back to the player if a module is played in the
+background.
+
+Playlists are shown in the playlist window at the right side of the screen. The
+currently selected file is appended to the playlist by pressing \keys{$\rightarrow$}
+or \keys{Ins}. \keys{$\leftarrow$} or \keys{Del} will remove it again. You can
+insert files multiple times into the playlist by pressing the appropriate
+keys more than once. If you have files in the playlist exit the fileselector
+by pressing \keys{Esc}! This might seem confusing in the beginning, but you
+will notice the logic very soon. In the player you start the next song in the
+playlist by pressing \keys{Enter}.
+
+Normally you will start the fileselector from the player by pressing \keys{f}.
+The current module will continue playing in the background. After you have
+selected a file you have to choices:
+\begin{itemize}
+\item \keys{Enter} will stop the currently played module and load the selected
+one. Then you will get back to the player. Use this key if you want to play the
+selected module immiediatly.
+\item \keys{Esc} will change to the player. Then you can start the next songs
+in the playlist by pressing \keys{Enter}. If you have inserted files into the
+playlist use this key to exit the fileselector.
+\end{itemize}
+
+All files in the current directory will be inserted into the playlist by
+pressing \keys{CTRL}+\keys{$\rightarrow$} or \keys{CTRL}+\keys{Ins}. The
+playlist will be deleted by pressing \keys{CTRL}+\keys{$\leftarrow$} or
+\keys{CTRL}+\keys{Del}.
+
+Although in the playlist window only the filename is shown, \cp\ stores the
+complete path information. So you can insert files into the playlist from
+totally different directories and drives. If files are inserted into the
+playlist you can change to the playlist window by pressing \keys{Tab}. Inside
+the playlist window all keys have full functionality. So you can load the
+selected module immiediatly by pressing \keys{Enter} or remove the file from
+the list by pressing \keys{$\leftarrow$}. If you are in the playlist window
+you can move the currently selected file by pressing \keys{CTRL}+\keys{$\uparrow$}
+and \keys{CTRL}+\keys{$\downarrow$}. This will affect the order in which files
+are processed. \keys{CTRL}+\{\keys{Pgup},\keys{Pgdown},\keys{Home},\keys{End}\}
+work as expected.
+
+If many files are inside a directory selecting a module with the cursor keys can
+be annoying, because it takes a long time to browse through the list. If you
+know the filename you can start typing it on the keyboard. This enables the
+quickfind feature. Characters already typed are shown in the quickfind window.
+The current directory is searched for files matching the typed characters.
+Often you don't have to type the complete filename, as it can be already determined
+by the leading chars. The typed characters must not fit the file exactly as
+small errors are neglected.
+
+At the bottom of the screen the fileinformation window is located. If the
+file includes any additional information it will be shown at the appropriate
+fields. You can edit each entry manually. {\small All module information is read by
+the fileselector once if it runs along this module the first time. The data
+is stored in three files located in your home directory of \cp\ refered as the \emph{module information cache}. If the
+fileselector scans a directory and finds a module already stored in the
+module information cache it will use the information found in the cache. This
+way you can overwrite the information fields of the module. If you change to
+a directory which has not been processed by the fileselector it may take some
+time to read all file information out of the files and store them in the
+module information cache.}
+
+To switch to the module information window press \keys{SHIFT}+\keys{Tab}. You
+can use the cursor keys to select the entries. After pressing \keys{Enter}
+the information can be edited. When pressing \keys{Enter} again the changes
+are stored in the module information cache. Note: \emph{Do not change the entry
+\emph{type} as the file could not be loaded properly when the wrong filetype
+is entered! Normally you never have to change this entry, except for old
+15 instruments amiga noisetracker modules!}
+
+\section{Advanced usage}
+\label{fileselectoradvance}
+The appearance and behaviour of the fileselector can be edited in the
+\texttt{cp.ini} (page \pageref{cp.ini}) file or by pressing \keys{ALT}+\keys{c}. Changes made to the
+\texttt{cp.ini} are permanently, while configuration applied with  \keys{ALT}+\keys{c}
+is only valid while \cp\ is running.
+
+Afer pressing \keys{ALT}+\keys{c} you can toggle 13 options with keys
+\keys{1}\dojdots\keys{9} and \keys{a}\dojdots\keys{d}. The following list
+will explain every option:
+\begin{itemize}
+\item[1] \emph{screen mode:} you can change the screen mode for the fileselector.
+80x25 and 80x50 are standard screen modes and should be available on every
+vga card. 80x30, 80x60, 132x25, 132x30, 132x50 and 132x60 are only available
+with a proper VESA bios installed.
+\item[2] \emph{scramble module list order:} if this options is enabled the
+files inside the playlist will be played in random order. Otherwise the
+order shown in the fileselector from top to bottom will be used.
+\item[3] \emph{remove modules from playlist when played:} normally you will
+want this enabled as modules are only played once. If you disable this option
+you playlist can be processed foreever.
+\item[4] \emph{loop modules:} if the music file ends it will start again. The
+next file will be played after pressing \keys{Enter}. If you turn off this
+option the playlist will play all modules without any user interaction.
+\item[5] \emph{scan module information:} When entering a directory the files
+are processed to gather module information which can be shown. If you disable
+this option directories will be processed quicker.
+\item[6] \emph{scan module information files:} the module information cache
+in the home directory of \cp\ will be read if this option is enabled.
+\item[7] \emph{scan archive contents:} to save hard disk space you can store
+your files inside archives like \texttt{ARJ} or \texttt{ZIP}. If the fileselector finds an
+archive it will open it to scan for files.
+\item[8] \emph{scan module information in archives:} if modules are found
+inside archives they will be decrunched to find any module information. This
+option can take several minutes if many modules are stored in archives
+\item[9] \emph{save module information to disk:} toggles weather to save
+gathered informations in the module information chache.
+\item[A] \emph{edit window:} If you don't want the module information window
+at the bottom disable this option. The directory and playlist windows will
+spawn over the complete screen.
+\item[B] \emph{module type colors:} different file types are shown in
+different colors on the screen. When watched on monochrome monitors or laptops
+you might want to disable this option.
+\item[C] \emph{module information display mode:} changes the contents of the
+directory window. You can also use \keys{ALT}+\keys{tab} or \keys{ALT}+\keys{i}
+inside the fileselector.
+\item[D] \emph{put archives:} Show archives, so they can be accessed like directories.
+Normally this should be disabled if archives are scanned automatically.
+\end{itemize}
+
+The screen size can be changed by pressing \keys{ALT}+\keys{z}. In 132 columns
+mode some additional module information can be shown in the directory window.
+If the fileselector is busy scanning the current directory for files, you can
+interrupt the scanning with \keys{ALT}+\keys{s}.
+
+You can delete a file with
+\keys{ALT}+\keys{k}. You will be prompted if you really want to delete this
+file. When pressing \keys{y} the file will be deleted. If the file is stored
+inside an archive the file will be deleted from the archive.\footnote{If
+only one file was stored inside a \texttt{.ZIP} archive pkzip will leave an
+empty archive of 22 bytes on your harddisk. See section \ref{cp.ini} on how to
+avoid this.} The current file can be moved by \keys{ALT}+\keys{m}. You will
+have to type the new path in the path window into which the file will be
+moved. If the file is inside an archive it will be extracted. You can specify
+an existing \texttt{.ARJ} file and the file will be packed into the archive.\footnote{this
+works only with ARJ archives by now.}
+
+The module information shown in the module information window can be saved to
+a portable ascii file (see page \pageref{mdz}). You may want this feature if you are a composer of
+music and want to trade your music together with already processed module
+information files. Start the fileselector and edit the information for the
+file. Then switch back to the directory window and press \keys{ALT}+\keys{w}.
+The fileselector will save a file with the extension \texttt{.MDZ} and the
+filename of the selected file, which stores all module information seen in
+the module information window. If a directory is scanned and the fileselector
+finds such \texttt{.MDZ} files they will be read and processed. The module
+information for all files in the current directory can be saved with
+\keys{ALT}+\keys{a}. You have to type the filename manually in the path window
+without extension!
+
+You may want to change the entry \emph{type} in the module information window
+if you have old amiga modules or a non-standard midi file. Very old Noise- and
+SoundTracker modules only had 15 instruments and no file identification. So
+the fileselector is not able to detect those files as valid modules and refuses
+to play them. You have to insert \texttt{M15} in the \emph{type} entry. If
+the module does not differ between tempo and speed and is of the 15 instrument
+type insert \texttt{M15t}. Some ProTracker modules do not differ between tempo
+and speed too. If you have one of those modules use \texttt{MODt}. A module
+player for PC called DMP introduced a feature called panning. To enable this
+(non-standard) feature insert \texttt{MODd}. If you want to play midi files
+with a second drum track on channel 16 use the \texttt{MIDd} option. Any other
+file should be autodetected correctly. {\small If you have renamed a module
+to a different extension (say \texttt{hello.mod} to \texttt{hello.s3m}) \cp\
+will refuse to play it, because the file type is wrong. You could correct this
+by inserting the right file type in the module information as shown above. But
+it is recommended to rename the file to the right extension instead of tweaking the
+autodetetion of the player.}
+
+The current playlist can be saved into the .PLS format by pressing
+\keys{ALT}+\keys{p}. You have to type the filename without extension in the path
+window. A standard extension \texttt{.PLS} is appended. The playlist can be
+loaded just like any other module from the fileselector or at startup.
+
+\label{specialdrive}
+The drive \texttt{@:} is a special device which can be used to change the
+hardware configuration without leaving the player. If you access this drive
+you will see two subdirectories.
+
+In the \texttt{INPUTS} subdirectory you can choose the device which will be
+used when sampling from external sources (when playing CD audio tracks or
+starting \cp\ in sample mode). The \texttt{DEVICES} directory displays all
+devices which where detected at startup. Normally you might want to change
+this if you want to save the next file as a \texttt{.WAV} or \texttt{.MP2}
+file to the harddisk.\footnote{See section \ref{diskwriter}.}
+If you have a soundcard with hardware mixing support
+(Gravis, AWE, EWS) you can enable softwaremixing.
+
+If you are the lucky owner of a soundcard capable of hardware sample
+playing\footnote{Gravis Ultrasounds, Sound Blaster AWE series and Terratec EWS
+series} you only have limited sample memory. If the sample data of the music
+is larger than the available memory \cp\ will try to reduce the sample size by
+applying the following steps:
+\begin{enumerate}
+\item Convert 16bit of 8bit samples. This is indicated by a ``!'' in the bit
+entry of the instrument section.
+\item Half the size of an 8bit sample. This is shown by a small $\frac{1}{2}$.
+\item Quarter the size of an 8bit sample, indicated by a $\frac{1}{4}$.
+\end{enumerate}
+
+Before \emph{downsampling} the sample data \cp\ will search for the sample with
+the lowest frequency spectrum. This sample will be converted first. If enough
+space is freed up \cp\ will stop downsampling. If not the loader will continue
+until the sample data fits into the sound card memory.
+
+\label{bigmodules}
+The above behaviour can be avoided if a file is marked \emph{big} by pressing
+\keys{ALT}+\keys{b} in the fileselector. The filesize will turn red. Now a file
+will not be loaded into the soundcard memory, but played with the internal
+mixing routines. This limits the size of files only to the size of physical
+memory.\footnote{You have to apply a valid \emph{playback-} and \emph{mix-device}
+to use this feature. See section Configuring on page \pageref{cp.ini} for
+details.}
+
+\clearpage
+\section{Reference}
+\label{fsreference}
+\begin{longtable}{r@{ -- }l}
+\keys{a}\dojdots\keys{z} & quickfind \\
+\keys{ALT}+\keys{a} & write module information \texttt{.mdz} for directory \\
+\keys{ALT}+\keys{b} & mark module ``big'' \\
+\keys{ALT}+\keys{c} & configure fileselector \\
+\keys{ALT}+\keys{d} & goto DOS \\
+\keys{ALT}+\keys{i} & change display mode for directory window \\
+\keys{ALT}+\keys{k} & delete file \\
+\keys{ALT}+\keys{m} & move file \\
+\keys{ALT}+\keys{s} & stop scanning module information \\
+\keys{ALT}+\keys{w} & write module information \texttt{.mdz} for selected file \\
+\keys{ALT}+\keys{z} & toggle screen mode \\
+\keys{$\uparrow$}, \keys{$\downarrow$} &  move cursor one entry up/down \\
+\keys{CTRL}+\{\keys{$\uparrow$}, \keys{$\downarrow$}\} &  move module up/down on playlist \\
+\keys{$\rightarrow$}, \keys{Ins} &  add file to playlist \\
+\keys{$\leftarrow$}, \keys{Del} &  remove file from playlist \\
+\keys{CTRL}+\{\keys{$\rightarrow$}, \keys{Ins}\} &  add all files to playlist \\
+\keys{CTRL}+\{\keys{$\leftarrow$}, \keys{Del}\} &  clear playlist \\
+\keys{Pgup}, \keys{Pgdown} &  move cursor one page up/down \\
+\keys{CTRL}+\{\keys{Pgup}, \keys{Pgdown}\} &  move module one page up/down in playlist \\
+\keys{Home}, \keys{End} &  move cursor to top/bottom of the list \\
+\keys{CTRL}+\{\keys{Home}, \keys{End}\} &  move module to top/bottom of playlist \\
+\keys{Enter} & play selected file \\
+             & change to directory/archive/drive \\
+             & edit entry (in module info window) \\
+\keys{CTRL}+\keys{Enter} & edit path window \\
+\keys{Tab} & change between directory and playlist \\
+\keys{ALT}+\keys{Tab} & same as \keys{ALT}+\keys{i} \\
+\keys{SHIFT}+\keys{Tab} & change to module info window \\
+\keys{Esc} & exit fileselector \\
+\end{longtable}
+
+Supported filetypes -- valid options for the \emph{type} entry in the module information window.
+\begin{dojlist}
+\item[669] 669 Composer module  
+\item[AMS] Velvet Studio module  
+\item[BPA] Death Ralley archive  
+\item[CDA] compact disk CD audio track  
+\item[DMF] X Tracker module  
+\item[IT] Impulse Tracker module  
+\item[MDL] Digi Tracker module  
+\item[MID] standard midi file  
+\item[MIDd] standard midi file, channel 16 is a second drum track  
+\item[MOD] amiga ProTracker 1.1b module  
+\item[MODt] amiga ProTracker 1.1b module, effect Fxx is tempo  
+\item[MODd] amiga ProTracker 1.1b module with effect 8xx is panning  
+\item[MODf] pc Fast Tracker II .mod file  
+\item[M15] amiga NoiseTracker module with 15 instruments {\small(plays like ProTracker 1.1b)} 
+\item[M15t] amiga NoiseTracker module with 15 instruments, effect Fxx is tempo {\small(plays like ProTracker 1.1b)} 
+\item[MP3] MPEG audio format level 1-3  
+\item[MTM] Multi Tracker module  
+\item[MXM] Mxmplay module  
+\item[OKT] Oktalyzer module  
+\item[PLS] \cp\ playlist, works also with M3U and PLT playlist files  
+\item[PTM] Poly Tracker module  
+\item[S3M] Sream Tracker 3 module  
+\item[SID] PSID sid file  
+\item[UMX] Unreal module file  
+\item[ULT] Ultra Tracker module  
+\item[WAV] Microsoft RIFF wave file  
+\item[WOW] WOW Tracker module  
+\item[XM] Fast Tracker 2 module  
+\end{dojlist}

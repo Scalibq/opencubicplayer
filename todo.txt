@@ -1,0 +1,75 @@
+Open Cubic Player TODO.TXT
+---------------------------
+This text file contains tasks in the player which still have to do be done.
+Each developer who picks up a task to solve has to set it's handle behind
+the task to indicate that someone is working on this right now. Please
+commit your main task to the overview at the top of this file, so everyone
+knows what you are currently doing.
+
++------------------+--------------------------------------------------------+
+| Name             | currently coding                                       |
++------------------+--------------------------------------------------------+
+| doj              | dies und das, doku                                     |
++------------------+--------------------------------------------------------+
+| kb               |                                                        |
++------------------+--------------------------------------------------------+
+| ryg              | win32-, stk-, and xml-stuff                            |
++------------------+--------------------------------------------------------+
+| tmb              |                                                        |
++------------------+--------------------------------------------------------+
+
+2.6.0  (The Party VIII ???)
+- Videomodeswitchprobleme (IRQ-Routine)
+- SID: Autoerkennung der SID-Version (das schreit verdammt nach einer
+       RFC fuer ein neues, abwaertskompatibles PSID-Format)
+       * d.h. Kontakt mit Michael Schwendt wegen Absprache
+- Wavetablesystem auf hoehere Genauigkeit trimmen und SET-Commands fuer
+  Filter einbauen
+- IT-Player fertigschreiben: MIDI-Parsing und Filtereffekte
+- DMF-Loader komplett neuschreiben (dokus von eliot)
+  * logarithmische voltables fuer playgmd (X-Tracker AWE-Bug)
+    (gibt wohl neuen Filetyp)
+- S3M-Loader fixen (MMID6 kontaktieren deswegen (ich will das nicht))
+- am besten den Rest der Loader auch fixen
+- SID: reSID-Engine benutzen statt sidplay? oder BEIDE?
+- komplette Revision von mix.cpp und allem, was dranhaengt (v.a.
+  GetMixChannel() ALLER Wavetabledevices (AWE!!))
+- Nervattacke auf Madbart/Abyss wegen THX-Playersourcen
+- VQF-Decoder? MP4-Decoder? Komplexitaet? Lizenzprobleme? Identitaetskrise?
+- Rueckwaertspatterns machen trackdisplay kaputt (fixen)
+
+
+Organisatorisches
+- Redhound wegen Newsgroups auf news.scene.org anlabern
+  (sowas wie opencp.support, opencp.users und opencp.developers oder so)
+- Mirrorsites?
+
+
+Von Kebby aufgehalste Probleme fuer Felix und Fabian:
+
+- Win32-Port: Einfach weiter so. Das Ueberlasse ich mal dem guten
+  alten Sourceklauer-Arsch aka tmbinc ;)
+
+- haltet den MPEG-Player verstaendlich, ich will einen Mode furr meine
+  S3Trio einbauen, weil native YUV888 und Hardwarescaling macht einfach
+  Spass ;)
+
+Was meinem kranken Gehirn fuer Doj so einfaellt:
+
+- Generic Support (ja, Du bist jetzt der Doofe) und Zusatzfiles, d.h.
+  im einzelnen
+  * Hintergrundbilder ranschaffen (selbermalen oder ruf auf der Page
+    mal einen Background-Contest oder so auf, als 1. Preis gibts
+    dann ne version fuer den typen mit "dedicated to <xxx>" in der
+    titelleiste ;))))))
+  * das selbe mit neuen Anims (ist dank WAP ja recht bis verdammt einfach)
+
+Zum Thema Memory Leaks:
+
+- ZU JEDEM NEW GEHOERT _MINDESTENS_ EIN DELETE. UND EINS DAVON WIRD IN
+  100% ALLER FAELLE AUFGERUFEN. (schade, das pascal das wohl nie lesen wird)
+- Wenn ihr Klassen habt, so mit Konstruktor und Destruktor, dann Instanzen
+  davon UNBEDINGT dynamisch allokieren, da bei statischer Allokation NICHT
+  der Destruktor aufgerufen wird!!!!!
+- Bei Klassen bitte auch an Copy-Konstruktor und operator=() denken, sonst
+  gibt es schicke bugs (doj)

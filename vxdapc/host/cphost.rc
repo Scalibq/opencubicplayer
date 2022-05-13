@@ -1,0 +1,30 @@
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
+100 DIALOG 134, 72, 200, 89
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Open Cubic Player DirectSound Device"
+FONT 8, "MS Sans Serif"
+{
+  DEFPUSHBUTTON "&Close", IDCANCEL, 140, 71, 56, 14
+  LTEXT "Cubic Player 2.6.0", -1, 10, 11, 63, 8
+  LTEXT "For more information, visit http://www.cubic.org/player", -1, 8, 70, 106, 23
+  ICON 201, -1, 20, 30, 48, 48
+  LTEXT "written by tmbinc", -1, 99, 28, 60, 8
+  LTEXT "this program is distributed under the GPL", -1, 10, 54, 171, 8
+}
+
+
+101 DIALOG 14, 36, 400, 108
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Error Log"
+FONT 8, "MS Sans Serif"
+{
+  DEFPUSHBUTTON "&Close", IDCANCEL, 145, 90, 56, 14
+  PUSHBUTTON "&Save to file...", 101, 5, 90, 56, 14
+  EDITTEXT 102, 5, 6, 390, 81, ES_MULTILINE | ES_READONLY | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+}
+
+200 ICON "main.ico"
+201 ICON "cubic.ico"
+202 ICON "maind.ico"

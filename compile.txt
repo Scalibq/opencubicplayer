@@ -1,0 +1,21 @@
+To compile OCP you need the following software:
+
+- Watcom C++ 11c, please apply the update from http://www.openwatcom.org
+  Sometime in the future the Watcom compiler will become open source and be
+  available for free, but currently you have to get the commercial version.
+  Remember to set your WATCOM, INCLUDE and PATH environment variables.
+
+- DirectX 8 SDK.
+http://msdn.microsoft.com/downloads/default.asp?url=/downloads/sample.asp?url=/msdn-files/027/001/494/msdncompositedoc.xml
+
+  You should unpack this Microsoft stuff and copy the header and libs into 
+  your Watcom directories.
+
+Now you should be able to build everything with a simple "wmake".
+"wmake install" will copy all the files built into a bin\ directory located
+in the source tree.
+
+Please write me again if you succedd (or fail) to compile, so I know
+what problems users have.
+
+doj@cubic.org

@@ -1,0 +1,844 @@
+% OpenCP Module Player
+%
+% Documentation LaTeX source
+%
+% revision history: (please note changes here)
+% -doj990413  Dirk Jagdmann  <doj@cubic.org>
+%   -initial release
+% -doj20010212 Dirk Jagdmann <doj@cubic.org>
+%   -disk writer
+% -doj20010511 Dirk Jagdmann <doj@cubic.org>
+%   -added link to gus patches and other patch sets
+
+\chapter{Player}
+When \cp\ is started with a valid filename the file is loaded and the player
+interface is started. This is the main part of \cp\ and you have various ways
+to display all kinds of music information and data.
+\begin{figure}
+\hfill
+\setlength{\unitlength}{0.8cm}
+\begin{picture}(13.3,10)
+\thicklines
+\put(0,0){\framebox(13.3,10){}}
+\thinlines
+\put(0,0){\makebox(13.3,8){music information / data}}
+\put(0,8){\line(1,0){13.3}}
+\put(0,8){\makebox(13.3,1.5){general information}}
+\put(0,9.5){\line(1,0){13.3}}
+\put(0,9.5){\makebox(13.3,0.5){title bar}}
+\end{picture}
+\hfill\hbox{}
+\caption{\label{playerscreen}screen layout in the player}
+\end{figure}
+
+\section{General}
+\label{playerGeneral}
+\cp\ displays general (status) information in the first 4 rows. Some of these
+entries can be changed by the user, others are static for each module. The
+following list will explain every entry.\footnote{Some special file types modify the
+appearance of the general field, but only static data is affected.}
+\begin{dojlist}
+\item[vol] The bar display the current playback volume. The default value is
+100\% or full volume. To change the volume press \keys{F2} and \keys{F3}. This
+will change the volume by one dot each time you press a key. The keys \keys{+}
+and \keys{-} on the numeric keypad will change the volume smoother.
+\item[srnd] Toggle this option with \keys{F4} to enable a simple surround
+effect.
+\item[pan] If a voice should be played on the right speaker you can rearrange
+the stereo panning with this entry and \keys{F5},\keys{F6}. To get mono sound
+adjust the two \emph{riders} to the middle.
+\item[bal] Just like the device on your stereo this option works. Press
+\keys{F7},\keys{F8} to adjust the stereo balance between full left and full
+right.
+\item[spd] The playback speed can be changed with \keys{F9},\keys{F10}.
+\footnote{By default the speed and pitch options are linked (indicated by a
+small $\leftrightarrow$). To disable linkage press \keys{CTRL}+\keys{F12}.
+Note that this will not work with all supported file types.}
+\item[ptch] The pitch of the file can be altered with \keys{F11},\keys{F12}
+\item[row] Most files of the module type are divided into rows and patterns.
+The first number shows the currently played row. The second number shows the
+total number of rows in the current pattern. All numbers are shown in hexadecimal
+format.
+\item[ord] Modules are divided into several orders consisting of patterns. The
+first number shows the currently played order. The second number shows the
+total number of orders.\footnote{Not all orders have to be played, as modules
+can jump between different orders.} All Numbers are shown in hex.
+\item[tempo] the current tempo of the file.
+\item[bpm] These are not the physical beats per minute, but rather the speed
+at which the file is played (only valid for module types). This option is
+often refered by Trackers as BPM.
+\item[gvol] Some file formats allow a global volume to be set.
+\item[amp] This option lets you adjust an amplification. You can adjust this value with
+\keys{CTRL}+\keys{F2}, \keys{CTRL}+\keys{F3}.\footnote{This is not the same
+as Volume and \keys{F2}, \keys{F3}, because you are able to make the complete
+file louder than 100\% with this option. Note that setting to values above
+100\% might harm sound quality.}
+\item[filter] You can select different types of interpolation by pressing \keys{Backspace}:
+\begin{itemize}
+\item[off] no interpolation
+\item[AOI] \cp\ tries to determine if interpolation is neccessary for each
+note and sample indepentantly. This is the default option and should be enabled.
+\item[FOI] every sample is always interpolated. This option uses more processor
+power as AOI.
+\end{itemize}
+\item[module] shows the filename currently played and the title of the file
+\item[time] time since starting the current file
+\end{dojlist}
+
+\section{Global functions}
+Below the general information is a dark grey line. On the left side of the line
+the current screen mode is shown. In the middle a list of channels. Each file
+type has a maximum number of channels played simultaneously. For example simple
+file formats as \texttt{.WAV} can have one or two channels (responding to a mono
+or stereo sample). An audio CD always has 2 channels (left and right). Module
+file types can have many channels typically ranging from 4 to 32 channels.
+
+The currently selected channel is displayed in light grey. To select another
+channel use \keys{$\leftarrow$},\keys{$\rightarrow$}. You can also use
+\keys{$\uparrow$},\keys{$\downarrow$} which will loop through the channels if
+the left or right end is reached.
+
+Pressing \keys{q} will \emph{quiet} the selected channel. This key is valid in
+every part of the player. To enable the channel press \keys{q} a second time.
+The reverse logic can be accomplished with \keys{s}. This disables all other
+channels than the selected, so only one channel plays solo. Another hit on
+\keys{s} will \emph{unsolo} the channel again, so playing all channels. You
+can use any combination of the above keys. An example: Select channel 1 and
+press \keys{s}. Now you will hear only channel 1. Go with the cursor keys
+to channel 3 and press \keys{q}. As the channel is currently turned of (quiet)
+is it now played again. so you hear channels 1 and 3. Now switch to channel 2
+and press \keys{s}. Now only channel 2 will be played, whiche channel 1 and 3
+are turned off again. By pressing \keys{s} again all channels are enabled.
+
+You can directly \emph{solo} the first 10 channels by pressing keys \keys{1}\dojdots\keys{0}.
+This will act as if you had changed to the appropriate channel and pressed
+\keys{s}. Channels 11-20 are accessed through \keys{ALT}+\keys{1}\dojdots\keys{ALT}+\keys{0}.
+
+To pause the file press \keys{p}.
+
+The current file can be restarted by pressing \keys{CTRL}+\keys{Home}. To
+move a bit forward use \keys{CTRL}+\keys{$\rightarrow$}. If a module is played this
+will skip the current order and start playing the next order. In other file
+types this command skips a certain amount of time, depending on the estimated
+playing time. \keys{CTRL}+\keys{$\leftarrow$} will rewind the music. This is
+not possible for all file type (midi or sid files). When playing modules the
+current order is skipped and the previous order is playing from the beginning.
+To skip a smaller amount of the file use \keys{CTRL}+\keys{$\uparrow$} and
+\keys{CTRL}+\keys{$\downarrow$}. This will skip 8 rows when playing modules.
+If the files support jump or loop command using these functions can lead you
+to patterns not included in the original play order! Be aware that using these
+funtions can lead to somewhat crashed files.\footnote{This does not mean that
+\cp\ itself crashed, but that the order of the music file can be disturbed so
+heavily, that the player is not able to play the correct music anymore.}
+
+The next file in the playlist can be loaded with \keys{Enter}. If no more files
+are left in the playlist the fileselector will be started so you can choose
+the next files. However the current module will continue playing. By pressing
+\keys{Esc} you can switch back to the player again. The fileselector can also
+be invoked with \keys{f}. The current playlist is shown and can be edited. When
+exiting the fileselector with \keys{Esc} you can load the next module in the
+playlist with \keys{Enter}. Leaving the fileselector with \keys{Enter} will
+load the currently selected module and switching back to the player.
+
+By default a module is looped after its end was reached. You can change this
+behaviour by configuring the file selector\footnote{see section
+\ref{fileselectoradvance} for details} or with \keys{CTRL}+\keys{l}. When
+looping is disabled the next module in the playlist will be loaded once a
+module has ended. If no modules are left in the playlist the fileselector is
+started.
+
+A DOS-Shell will be started when typing \keys{d}. Note that \cp\ uses about
+200KB so not all programs might start or execute properly. However it should
+be enough to make simple tasks like copying, deleting etc. When running under
+Windows95 the free amount of memory should be the usual size.
+
+The screen mode can be changed by pressing \keys{z}. This will toggle
+between 25 and 50 rows textmode, while
+\keys{CTRL}+\keys{z} toggle between 30 and 60 row textmode.
+\keys{ALT}+\keys{z} will toggle between 80 and 132 column mode.\footnote{80x25
+and 80x50 textmode are available on every VGA card. All other modes require a
+proper VESA bios (at least version 1.2) and may not be available on all cards.}
+
+The current configuration can be ``saved'' with \keys{ALT}+\keys{F2}. It is
+not stored permanently on hard disk, but only valid until \cp\ is quit. Normally
+the default configuration is loaded every time a new file is loaded. This
+function makes the current configuration the new default configuration. A
+previously saved configuration can be loaded with \keys{ALT}+\keys{F3}. The
+\emph{real} default values are loaded with \keys{ALT}+\keys{F4}. To modify
+the default values permanently you have to change the \texttt{cp.ini} file
+as explained on page \pageref{cp.ini}.
+
+If the \emph{diskwriter} device has been prepared you can manually start the
+harddisk sampling by pressing \keys{ALT}+\keys{s}.\footnote{Does not work
+currently} See chapter \ref{cp.ini} for details on configuring \cp.
+
+An online help is shown by \keys{h}, \keys{?} or \keys{F1}. Use
+\keys{Pgup} and
+\keys{Pgdown} to scroll through this screen.
+
+Users of SoundBlasterAWE, Terratex EWS and Gravis Ultrasound PnP can
+use \keys{CTRL}+\keys{F5} and \keys{CTRL}+\keys{F6} to adjust the
+onboard reverb effect. The SBAWE can also add a chorus effect which is
+controlled via \keys{CTRL}+\keys{F7} and
+\keys{CTRL}+\keys{F8}.
+
+\section{Text mode functions}
+The player has two different operating modes. Text mode and graphics
+mode. In text mode you can enable various functions at once, while in
+graphics mode only a single function can be shown.
+
+Because there can be more than one text mode funtion visible at the
+same time you might have to press the according key more than once to
+get the wanted effect. Each function can be in one of the following
+states:
+\begin{itemize}
+\item invisible - inactive
+\item invisible - active
+\item visible - inactive
+\item visible - active
+\end{itemize}
+When pressing a key the according funtion is made active, but left
+invisible.  By pressing the same key a second time the function will
+be made visible.  An active function can be recognized by their title
+string displayed in bright blue, while inactive functions have their
+title string displayed in dark blue. Keys affecting the funtions are
+only processed for the currently active mode. So it might be necessary
+to change to the appropriate mode by pressing its key once to
+manipulate its behaviour.
+
+The textmode functions divide the screen into fields shown in figure
+\ref{textmodescreen}. 
+\setlength{\unitlength}{0.95cm}
+\begin{figure}[b]
+\begin{minipage}{6cm}
+{\footnotesize \center
+\begin{picture}(6,5)
+\thicklines
+\put(0,0){\framebox(6,5){}}
+\thinlines
+\put(0,0){\makebox(6,1){pattern view}}
+\put(0,1){\line(1,0){6}}
+\put(0,1){\makebox(6,1){spectrum analyzer}}
+\put(0,2){\line(1,0){6}}
+\put(0,2){\makebox(6,1){instruments}}
+\put(0,3){\line(1,0){6}}
+\put(0,3){\makebox(6,0.75){channels}}
+\put(0,3.75){\line(1,0){6}}
+\put(0,3.75){\makebox(6,0.5){peak power levels}}
+\put(0,4.25){\line(1,0){6}}
+\put(0,4.25){\makebox(6,0.75){general information}}
+\end{picture}
+}
+\end{minipage}
+\hfill
+\begin{minipage}{6cm}
+{\footnotesize \center
+\begin{picture}(6,5)
+\thicklines
+\put(0,0){\framebox(6,5){}}
+\thinlines
+\put(0,0){\makebox(4,1){pattern view}}
+\put(0,1){\line(1,0){4}}
+\put(0,1){\makebox(4,1){spectrum analyzer}}
+\put(0,2){\line(1,0){4}}
+\put(0,2){\makebox(4,1){instruments*}}
+\put(0,3){\line(1,0){6}}
+\put(0,3){\makebox(4,0.75){channels*}}
+\put(0,3.75){\line(1,0){6}}
+\put(0,3.75){\makebox(4,0.5){peak power levels*}}
+\put(0,4.25){\line(1,0){6}}
+\put(0,4.25){\makebox(6,0.75){general information}}
+\put(4,0){\line(0,1){4.25}}
+\put(4,0){\makebox(2,3){instruments*}}
+\put(4,3){\makebox(2,0.75){channels*}}
+\put(4,3.75){\makebox(2,0.5){ppls*}}
+\end{picture}
+}
+\end{minipage}
+\caption{\label{textmodescreen}screen arrangements in 80 and 132 column text mode}
+\end{figure}
+In the 132 column mode only one of the instruments* and channels*
+fields is active and used by the appropriate function. If a function
+is not visible the space is used by the other visible functions.
+
+\subsection{Channels}
+The channel function is invoked with \keys{c}. The channels appear in
+two different modes. By default the short mode is enabled. Two
+channels are shown in one row. A grey number shows the channel
+number. Left to it a white number shows the currently played
+instrument / sample on this channel followed by the note. If the note
+starts to play it is shown in cyan for a short while.  The third
+number shows the current volume at which the intrument / sample is
+played. Behind the volume the current effect is shown.\footnote{All
+these informations are only shown when a module or similar type of
+file is played.  The nature of file like \texttt{.WAV} or
+\texttt{.MP3} permits those displays.}  At the rightmost of each entry
+the current (physical) volume splitted among left and right output
+channel is displayed in a bar graph.
+
+The currently selected channel is indicated by a small white $>$ to
+the left side of the channel number. When a channel is muted with
+\keys{s} or \keys{q} it is shown in dark grey. However \cp\ continues
+to play this channel, so that the music sounds correctly when turning
+on this channel again.
+
+When pressing \keys{c} twice the channel function switches to the long
+format.  Each channel now uses a single row as more information is
+beeing displayed.  From left to right this is as follows: channel
+number, instrument / sample name, current note, instrument / sample
+volume, pan position, current, volume.
+\footnote{This layout is only valid for module type files. Other file types
+like \texttt{.SID} have a different layout, but basically showing the
+same information.}
+
+If the textmode is changed to 132 column mode the channel function can
+be displayed in short form at the upper right corner of the free space
+as shwown in figure \ref{textmodescreen}.
+
+If there are more channels than space inside the screen area \cp\ will
+scroll automatically through the channel list when you use the cursor
+keys. This is indicated by white $\uparrow$ and $\downarrow$
+characters.
+
+{\small The channel function has no title string which could indicate
+if it is active or inactive. So you might have to press \keys{c} one
+time more often if the channel function was previously inactive.}
+
+\subsection{Instruments}
+If the current file a module (or midi) the used instruments / samples
+are shown with the instruments function. The instruments are shown
+with \keys{i}. Just like channels instruments come in two formats,
+short and long.
+
+In the short view only the intrument names are shown giving you space
+for two instruments per row in 80 column mode (4 instruments are shown
+in 132 column mode). An instrument / sample that is currently played
+is shown in bright cyan. If the sample is played ont the currently
+selected channel it is shown in bright green. All inactive intruments
+are drawn dark grey. If a sample has been played once a rectangular
+dot is placed left to the intrument number.
+
+When the intruments are switched to long mode various information is
+displayed.  From left to right this is as follows:
+\begin{itemize}
+\item a number from 00h to FFh giving the instrument number
+\item instrument name
+\item sample number (when using multiple samples per instrument)
+\item sample name (only in 132 column mode)
+\item length of the sample in bytes
+\item length of the loop in bytes
+\item bits per sample
+\item the base note. For modules the default is C-4
+\item finetune value
+\item standard volume at which the sample is played
+\item standard pan position
+\item various flags (volume, pan envelopes etc.\ )
+\item fadeout value (only in 132 column mode)
+\end{itemize}
+
+Often a file includes more instruments than can be shown on the
+screen. Use
+\keys{Pgup},\keys{Pgdown} to scroll through the instruments. If the
+instrument function is active \keys{CTRL}+\{\keys{Pgup},
+\keys{Pgdown}\} will scroll for a complete page. When inactive you can
+scroll single lines by using
+\keys{CTRL}+\{\keys{Pgup},\keys{Pgdown}\}. This is very useful if you
+have enabled more than one textmode function.
+
+The instrument flags (the rectangular dots left to the instrument
+number) are cleared with \keys{ALT}+\keys{i}. By pressing \keys{Tab}
+you can toggle between the color mode and pure grey.
+
+\subsection{Pattern view}
+Modules are arranged in patterns. You can view these patterns with the
+pattern view function envoked with \keys{t}. When enabling this
+funtion
+\cp\ tries to display all channels at once using the best display possible. For
+modules using few channels (\texttt{<}8) this default display is
+normally acceptable, but you might want to change it when playing
+modules with many channels.
+
+The pattern is shown in different columns. At the leftmost the row
+number is shown in hex. If the screen mode and pattern view allows the
+row number is shown again at the right side of the screen. Then follow
+some fields for global commands the module might contain. The biggest
+section of the screen use the channel columns, each one displaying on
+single channel indicated by the number on top of the column. Inside
+such a channel column various information can be displayed depending
+on the amount of space available. You can see the format of a channel
+column in the status line of the pattern view. The format of the
+column can be changed by pressing \keys{Tab}. As there are many
+combinations of screen mode, channels and formats I will not go into
+detail here.
+
+The number of channel rows displayed at once can be changed by
+pressing
+\keys{Pgup}, \keys{Pgdown}. Normally the pattern view will follow the music
+as it progresses. With \keys{Space} the pattern view will stop. The
+current play position is now displayed with a white $\rhd$ char. You
+can now browse through the module with
+\keys{Pgup},\keys{Pgdown}. \keys{Space} will enable the follow mode
+again, bringing the pattern view to the current play position.
+
+The pattern view displays the different effects used in modules with
+different colors. Green is used for effects affecting the pitch of the
+sample, while blue command change the volume. Effects drawn in purple
+change the pan position. Red colors indicate the manipulition of the
+timeslice effected with this samples. Other effects are drawn
+white. Please have a look inside the online help \keys{h}, \keys{?} or
+\keys{F1} for a complete reference on the effects shown.
+
+\subsection{Spectrum Analyzer}
+The spectrum analyzer uses the fast fourier transformation to gather
+information on the audio spectrum used in sample data. The analyzer is
+started with
+\keys{a}. This function splits the sound data into many \emph{bands} of pure
+sine waves. This is called the spectrum of the sample.
+
+The status bar of this function shows you the range each bar covers
+and the highest frequency processed (the rightmost bar corresbonds to
+this frequency).  Use \keys{Pgup}, \keys{Pgdown} to change the
+range. \keys{Home} will set the default value of 2756Hz.\footnote{The
+highest possible frequency is half the output frequency (22KHz when
+playing at 44Khz).}
+
+With \keys{ALT}+\keys{a} the mode of the spectrum function can be
+toggled.  Stereo using two analyzers, mono using only one and a single
+mode are available.  In the single mode the currently selected channel
+is used as sound source for the analyzer.
+
+\keys{Tab} changes the color used for the analyzer.
+
+{\small To get a smooth view the default charset of the graphics
+adapter is modified. This is working fine with every graphics card
+under MS-DOS\@. However Windows95 does not allow the manipulition of
+characters, so the spectrum analyzer function is not shown properly
+when running under Windows95 (window-mode only). If you see a
+distorted screen while using the spectrum analyzer function this is
+normal.}
+
+\subsection{peak power levels}
+This function shows the current physical volume of the output channels
+in a bar graph. You can use \keys{v} to make this function visible -
+invisible.  In the 132 column mode the levels can also be shown at the
+right side of the screen.
+
+\subsection{Volume control}
+Since \cp\ 2.5.1 there exists a volume control panel (currently
+SoundBlaster family only). You can browse through the different items
+with \keys{$\uparrow$} and \keys{$\downarrow$}. If you want to change
+a value, try \keys{$\leftarrow$} and \keys{$\rightarrow$}. You can
+also toggle between a short mode, a long mode (only in 132 column
+modes) and invisible mode with \keys{m} (Volume control is disabled in
+80 column modes and enabled in 132 column modes by default).
+
+\subsection{Module message}
+Some file types store messages which can be viewed with
+\keys{SHIFT}+\keys{m}.\footnote{And like Multi Tracker
+\keys{ALT}+\keys{F9} or \keys{CTRL}+\keys{F9} does work aswell.} If
+the message is long use \keys{Pgup}, \keys{Pgdown} to scroll.
+
+\subsection{eXtended mode}
+All four text mode functions can be displayed simultaneously. This
+function enables channel, instrument, spectrum analyzer, pattern view
+and volume control function with a good preset in text mode. \keys{x}
+will enable 132 column mode. \keys{ALT}+\keys{x} will switch to the
+default 80x25 mode with channel and instrument functions
+enabled.\footnote{If your VESA bios does not support 132 columns a
+80x50 mode is used.}
+
+\section{Graphic mode functions}
+The default graphics mode is 640x480x256. Only one graphics mode
+function can be shown at once. The screen therefore splits into the
+general window at the top side showing the usual informatin and the
+function window covering the rest of the screen. {\small When running
+under Windows95 the graphics mode can not be displayed in a window. So
+there may be excessive mode switches if you switch between graphics
+and textmodes, because windows will try to display the textmode screen
+in a window. Use the full screen option of Windows95 by pressing
+\keys{ALT}+\keys{Enter}.}
+
+If you have included a background picture in the \texttt{cp.ini} it
+will be shown in the graphics modes (expect the graphical spectrum
+analyzer).
+
+\subsection{Oscilloscopes}
+The oscilloscopes are started with \keys{o} and come in 4 different
+modes: logical (the channels are sorted with the default panning
+position), physical (channels 1 to n from top to bottom), master
+(the mixed output channel(s)) and single (the currently selected
+channel is shown).
+
+By pressing \keys{Tab} you can enable/disable triggering of the
+scopes. If the output is triggered a wave on the screen always starts
+with the upper halvwave. If triggering is turned off the wave will be
+drawn from the current position.
+
+The scale of the scopes can be altered with \keys{Pgup},
+\keys{Pgdown}.
+
+\subsection{Note dots}
+\keys{n} starts the note dots function. Each channel is displayed on a horizontal row. The current note is represented
+by a dot or bar. Low notes are placed on the left side. High notes
+appear on the right side of the screen. By pressing \keys{Pgup},
+\keys{Pgdown} the scale of the rows can be changed. However the
+default scale fits the usual note scale of modules exactly, so there
+should be no need to change.
+
+By pressing \keys{n} you can alter the output appearance of the
+dots. In the modes \emph{stereo note cones} and \emph{stereo note
+dots} the current pan position is indicated by the left / right half
+of the icon.
+
+\subsection{Graphical Spectrum Analyzer}
+The graphical spectrum function works in two video modes. By pressing
+\keys{g} you will see the standard 640x480 mode. \keys{SHIFT}+\keys{g}
+will start the spectrum in 1024x768 mode. Apart from this difference
+the two video modes are equal.
+
+Pressing \keys{g} more than once toggles between the usual stereo,
+mono and single channel mode for calculating and showing the
+spectrum. \keys{Pgup} and
+\keys{Pgdown} adjust the frequency range. \keys{Home} will set the frequency
+to 2756Hz. To half the resolution (and yet speed up the calculation)
+press
+\keys{ALT}+\keys{g}.
+
+\keys{Tab} change the palette of the graphical spectrum. \keys{SHIFT}+\keys{Tab}
+do the same for the standard spectrum analyzer at the bottom.
+
+{\small If you have difficulties interpreting this function here is a
+short explanation.  The standard spectrum analyzer at the bottom shows
+you the frequency spectrum at the current moment. The higher a single
+bar, the louder the frequency. Now imagine looking at this spectrum
+from top, now every bar becomes a single dot.  The height of the bar
+is now coded into different colors (from black $\leftrightarrow$ low
+to yellow $\leftrightarrow$ high). Now we can draw these point along
+the screen and see the spectrum as is progresses over time. This is
+somewhat a ``3D'' view of the spectrum, with the frequency coded along
+the y-axis, intensity coded in different colors and the time along the
+x-axis.}
+
+\subsection{Phase graphs}
+The last graphical function is started with \keys{b}. You can toggle
+between four modes which correspond exactly to those in the
+oscilloscope mode. This function displays the currently played samples
+in a phase graph. One full wave of the sample is drawn over the
+complete angle of a circle. The louder the sample the greater the
+radius of the circle. A sine sample would respond to a normal circle.
+
+\subsection{W\"urfel mode}
+With \keys{w} the w\"urfel mode is enabled. It's only purpose is to
+display an animation located in the home directory of \cp. The
+\keys{Tab} key will change the play direction.  {\small To save
+diskspace no animations are included in the distribution of \cp.  They
+can be found on the \cp\ homepage (page \pageref{homepage}).}
+Animations can be generated with the wap program from bitmap
+files.\footnote{See appendix
+\ref{wap}.}
+
+\section{Using the diskwriter}
+\label{diskwriter}
+\cp\ can write all sound output directly to hard disk. Data is written in
+standard \texttt{.wav} format. You can use this feature to burn audio
+cds from any sound format supported by \cp.
+
+Although you can write \texttt{.wav} files in every possible sample
+format you should not alter the default of 44100KHz, 16bit,
+stereo. Currently the diskwriter can not be enabled on demand via
+\keys{ALT}+\keys{s}, so you have to alter your \texttt{cp.ini}
+file. It is clever to backup your
+existing ini file with the following command:\\
+\texttt{copy cp.ini cp.nrm}
+
+Now edit \texttt{cp.ini} with a text editor and make the following changes:\\
+\texttt{playerdevices=devpWSS devpGUS devpEWS devpESS devpPAS devpSB devpNone devpDisk devpMPx}\\
+change to \\
+\texttt{playerdevices=devpDisk}\\
+and some rows further down \\
+\texttt{loop=on}\\
+change to \\
+\texttt{loop=off}
+
+Save it and exit your text editor. Now make a copy of the new 
+\texttt{cp.ini} file: \\
+\texttt{copy cp.ini cp.dsk}\\
+When you have finished with diskwriting you can restore the original 
+configuration from the \texttt{cp.nrm} file and if you want to write
+another \texttt{.wav} file use the \texttt{cp.dsk} configuration.
+
+Now simply start \cp and select a module to play. You will hear no output
+and notice that the module is played with maximum speed\footnote{depending
+on your cpu power}. In the directory where you have started \cp (not 
+necessaryly the directory where the module is located) subsequent 
+\texttt{.wav} files named \texttt{CPOUT000.WAV}, \texttt{CPOUT001.WAV} 
+will be created.
+
+\section{Using the Compo mode}
+\label{compomode}
+{\small sorry not written yet...}
+
+\section{MIDI files}
+\label{midi}
+\cp\ is able to play MIDI files. However there is a certain problem. Unlike the
+other file formats MIDI does not store the sample information needed to
+produce a sound output. The midi file only contains which instrument out of a
+set of 127\footnote{a set of drums is defined aswell}
+should play which note at a given time. This is the reason why \texttt{.MID}
+files are much smaller than other file types.
+
+This has of course some disadvantages. To hear a MIDI file you need to have
+some information how to play the used instruments. Back in the old days the
+OPL2 sound chip which was present on the SoundBlaster cards was used to play
+the midi instruments. Most people find the sound capabilites of the OPL series
+rather limited and midi files were no big deal back then.
+
+Things changed when so called wavetable cards became popular. Those card have
+sample data stored onboard in a ROM plus a hardware mixer capable of mixing
+several midi channels. The MPU-401 interface from Roland is the de facto
+standard for accessing those cards, but this feature is not supported by \cp\
+yet.\footnote{however this might change in the near future} A disadvantage is
+that those wavetable cards only have a very limited memory for sample data
+typically 4MB. If you imagine 127 instruments and 64 drums fitting into just
+4MB you can guess what sound quality these cards have. Modern cards have normally
+much more onboard ROM/RAM, but in our opinion even 32MB are far too less for a
+good sound quality.
+
+\cp\ goes a different way. Instead of using the onboard ROM samples, the samples
+needed for a specific \texttt{.MID} file are loaded on demand from the harddisk
+into main memory and then processed by either the hardware mixer (if you have
+such a card and the samples fit into its memory) or by the software mixers.
+This has the advantage that you can easily change a single instrument, if you
+don't like the default sound.
+
+The instruments are stored in so called \emph{GUS-patches}, a file format
+introduced by Gravis with their UltraSound cards. At first you have to get a
+complete patch set. If you own a GUS classic or GUS max you will probably have
+those files already on your harddisk. If not go to our homepage and download
+the default patch set. All instruments are stored in files ending with
+\texttt{.PAT}.
+
+Since \cp\ 2.5.1 a default \texttt{ultrasnd.ini} is included in the
+distribution of the player. As long as you download the patches from our
+server you do not have to worry about this anymore. The only thing you have
+to do is to extract the archive and supply the right path in the \texttt{cp.ini}
+file as described in the next paragraph.
+
+The following text will assume that you have download the gus patches from our
+homepage and want to install them in the default place.\footnote{The files are
+compressed with the archiver \emph{ARJ}. If you do not have this program yet,
+please download it from \htmladdnormallink{http://ultra.glo.be/tsf/en/arj.html}{http://ultra.glo.be/tsf/en/arj.html}.}
+\begin{itemize}
+\item go to drive C: \texttt{C:}
+\item go to the \cp\ home directory: \texttt{CD \symbol{92}OPENCP}
+\item make a directory for the patches: \texttt{MD PATCHES}
+\item go to the new directory: \texttt{CD PATCHES}
+\item extract the archive: \texttt{ARJ E [theRightDirectory]GUSPATCH -v -y}
+\item go to \cp\ home again: \texttt{CD ..}
+\item edit the line in the \texttt{cp.ini} file starting with
+\texttt{ultradir=} to \\ \texttt{ultradir=c:\symbol{92}opencp\symbol{92}patches}
+\end{itemize}
+
+The original GUS patches are found at the following locations:
+\begin{enumerate}
+\item \htmladdnormallink{ftp://ftp.gravis.com/Public/Sound/Patches/}{ftp://ftp.gravis.com/Public/Sound/Patches/}
+\item \htmladdnormallink{ftp://ftp.cubic.org/pub/player/patches}{ftp://ftp.cubic.org/pub/player/patches}
+\end{enumerate}
+
+However I recommend looking at the following patch set:\\
+\htmladdnormallink{http://www.stardate.bc.ca/eawpatches/html/default.htm}{http://www.stardate.bc.ca/eawpatches/html/default.htm}
+
+\section{using small computers}
+\cp\ can run on any computer that supports 32bit protected mode. That is from
+386sx on. However you have to configure a bit to get \cp\ running, because
+those old computers mostly lack MHz and ram.
+
+\subsection{config.sys and autoexec.bat}
+Apart from \texttt{himem.sys} no other drivers are needed to run \cp. Therefore
+you should modify the startup files to provide maximum memory. Especially you
+should disable all disk caches and ram drives. Below is are two sample files
+you could start from.
+
+The \texttt{config.sys} should look like:
+\begin{verbatim}
+device=c:\dos\himem.sys /testmem:off
+\end{verbatim}
+
+The \texttt{autoexec.bat} should look like:
+\begin{verbatim}
+set blaster=a220 i7 d1
+set ultrasnd=220,5,5,7,7
+\end{verbatim}
+
+You can load additional drivers (mouse, cdrom) if you like. Most drivers only use dos memory
+below 1MB and therefore do not \emph{steal} memory above 1MB that \cp\ has to
+use. But please do not load programs such as \texttt{smartdrv} or
+\texttt{ramdrive} as they use XMS/EMS memory, which will then not be available
+anymore.\footnote{A nice documentation about the startup files is \\
+\htmladdnormallink{http://www.cubic.org/source/sourcerer/configuring.htm}{http://www.cubic.org/source/sourcerer/configuring.htm}
+}
+
+The \texttt{set} statement for the sound card installed should be present in
+the \texttt{autotexec.bat} so \cp\ knows what sound cards to search for.
+
+\subsection{virtual memory}
+Newer version of \cp\ need more than 4MB memory. If you have few memory you
+can still use the player if you enable the virtual memory functionality of
+the \texttt{dos4gw.exe} protected mode extender. Just as windows it can swap
+your memory to hard disk and thus provide more memory to applications than
+physical memory is present.
+
+To enable use of virtual memory simply place the following line in your
+\texttt{autoexec.bat} or type it at the command line: \\
+\texttt{set dos4gvm=1}
+
+There are many options to control the protected mode extender. But the
+defaults will usually do. A text file describing all options of
+\texttt{dos4gw} is located at\\
+\htmladdnormallink{http://www.cubic.org/source/archive/coding/pmode/misc/dos4gw.txt}{http://www.cubic.org/source/archive/coding/pmode/misc/dos4gw.txt}
+
+\subsection{Quality Mixer}
+If your computer is too slow to play with proper speed remember that the new
+Quality Mixer is the default device used by \cp\ when dealing with software
+mixing. If you enable the Normal Mixer you will gain a good speed up of your
+system.
+
+Look in the \texttt{[sound]} section of your \texttt{cp.ini} file for the
+following line: \\
+\texttt{wavetabledevices=devwMixQ devwIW (...) devwMix devwNone} \\
+The leftmost device is used as default. So change the line to the following
+to enable the Normal Mixer: \\
+\texttt{wavetabledevices=devwMix devwIW (...) devwMixQ devwNone}
+
+If you don't understand all this right now, read chapter \ref{cp.ini} on how
+to configure \cp.
+
+\subsection{Interpolation}
+If the player still runs to slow you can disable the use of interpolation
+with software mixing. Look for the following line in the \texttt{[sound]}
+section of the configuration file: \\
+\texttt{filter=1} \\
+and change it to: \\
+\texttt{filter=0}
+
+Now the use of interpolation is disabled. You can enable the filters again
+in the player with \keys{backspace}.
+
+\subsection{still to slow?}
+If you applied the above 4 tips and \cp\ is still running too slow, there's
+hardly anything left to tune. Remember that graphic modes are generally slower
+than text modes. And in text mode the analyzer uses most ressources. If you
+only display channels, instruments and track list there's almost no cpu
+consumption by visuals.
+
+If the player is still too slow your last chance is to lower the mixing /
+playing rate of the player. Locate the following line in the \texttt{[sound]}
+section of \texttt{cp.ini}: \\
+\texttt{mixrate=44100} \\
+Use the table \ref{mixingrate}as a guideline to set this value.
+
+\begin{figure}[htb]
+\caption{\label{mixingrate}command mixing rates}
+\begin{tabular}{|r|l|}
+\hline 
+44100 & CD Quality \\ \hline
+33000 & very close to CD \\ \hline
+22050 & Radio Quality \\ \hline
+11025 & Telefon Quality \\ \hline
+8000  & \texttt{.au} Quality \\ \hline
+\end{tabular}
+\end{figure}
+
+While applying those patches please remember that modules with more channels
+will \emph{always} need more cpu power than those with few. If your Impulse
+Tracker modules (\texttt{.it}) always click and pop while old Amiga modules
+(\texttt{.mod}) play fine that's normal, because the modern trackers allow
+more than 4 channels.
+
+If all this did not help you, there's the last chance of writing better / faster
+code. The source code is available at
+\htmladdnormallink{ftp.cubic.org/pub/player/ocpsource.tar.gz}{ftp://ftp.cubic.org/pub/player/ocpsource.tar.gz}
+which is a daily updated archive of the complete sources. Please resubmit any
+changes (but only those that work) to the authors.
+
+\clearpage
+\section{Key Reference}
+\begin{longtable}{r@{ -- }l}
+\keys{ESC} & quit the player \\
+\keys{F1} & help \\
+\keys{F2}, \keys{F3} & volume up/down \\
+\keys{CTRL}+\{\keys{F2}, \keys{F3}\} & change amplification \\
+\keys{ALT}+\keys{F2} & ``save'' current configuration \\
+\keys{ALT}+\keys{F3} & load previously saved configuration \\
+\keys{F4} & surround on/off \\
+\keys{ALT}+\keys{F4} & load default configuration \\
+\keys{F5}, \keys{F6} & change panning \\
+\keys{CTRL}+\{\keys{F5}, \keys{F6}\} & adjust reverb \\
+\keys{F7}, \keys{F8} & change balance \\
+\keys{CTRL}+\{\keys{F7}, \keys{F8}\} & adjust chorus \\
+\keys{F9}, \keys{F10} & change speed \\
+\keys{ALT}+\keys{F9} & song message {\small(not implemented)} \\
+\keys{F11}, \keys{F12} & change pitch \\
+\keys{F11} & toggle between 6581 and 8580 \small{(sidplayer only)} \\
+\keys{F12} & toggle between PAL and NTSC \small{(sidplayer only)} \\ 
+\keys{CTRL}+\keys{F12} & (un)lock speed and pitch \\
+\keys{1}\dojdots\keys{0} & solo channel 1{\dojdots}10 \\
+\keys{ALT}+\keys{1}\dojdots\keys{0} & solo channel 11{\dojdots}20 \\
+\keys{CTRL}+\keys{1}\dojdots\keys{0} & solo channel 21{\dojdots}30 \\
+
+\keys{a} & textmode spectrum analyzer \\
+\keys{ALT}+\keys{a} & toggle analyzer mode \\
+\keys{b} & phase graphs \\
+\keys{c} & channel mode \\
+\keys{d} & goto DOS \\
+\keys{e} & editor {\small(not implemented yet)} \\
+\keys{f} & goto fileselector \\
+\keys{g} & graphic spectrum analyzer \\
+\keys{SHIFT}+\keys{g} & graphic spectrum analyzer in 1024x768 \\
+\keys{ALT}+\keys{g} & toggle fast/fine algorithm \\
+\keys{h} & help \\
+\keys{i} & instrument mode \\
+\keys{CTRL}+\keys{i} & instrument mode colors on/off \\
+\keys{ALT}+\keys{i} & remove \emph{played} dots \\
+\keys{CTRL}+\keys{j} & same as \keys{Enter} \\
+\keys{CTRL}+\keys{l} & looping of song on/off \\
+\keys{m} & song message \\
+\keys{CTRL}+\keys{m} & same as \keys{Enter} \\
+\keys{n} & note dots \\
+\keys{o} & oscilloscopes mode \\
+\keys{ALT}+\keys{o} & behaves like \keys{Tab} in this mode \\
+\keys{p} & pause \\
+\keys{ALT}+\keys{p} & pause screen \\
+\keys{q} & quiet current channel \\
+\keys{s} & solo current channel \\
+\keys{ALT}+\keys{s} & start the \emph{diskwriter} \\
+\keys{t} & track/pattern mode \\
+\keys{CTRL}+\keys{\"u} & same as \keys{ESC} \\
+\keys{v} & peak power level mode \\
+\keys{w} & w\"urfel mode \\
+\keys{x} & eXtended mode \\
+\keys{ALT}+\keys{x} & normal mode \\
+\keys{z} & toggle between 25/50 or 30/60 rows \\
+\keys{CTRL}+\keys{z} & change between 25/50 and 30/60 rows \\
+\keys{ALT}+\keys{z} & change between 80 and 132 column mode \\
+
+\keys{Enter} & play next song in playlist \\
+\keys{Space} & stop pattern mode flow \\
+\keys{Pause} & pause screen output \\
+\keys{Backspace} & toggle filter \\
+\keys{Tab} & change option of the activated mode \\
+\keys{'} & link view \\
+\keys{,}, \keys{.} & fine panning \\
+\keys{+}, \keys{-} & fine volume \\
+\keys{*}, \keys{sdfg} & fine balance \\
+\keys{$\rightarrow$}, \keys{$\leftarrow$}, \keys{$\uparrow$}, \keys{$\downarrow$} & change current channel \\
+\keys{CTRL}+\keys{$\rightarrow$} & skip the current pattern \\
+\keys{CTRL}+\keys{$\leftarrow$} & restart current pattern / goto previous pattern \\
+\keys{CTRL}+\keys{$\downarrow$} & skip 8 rows \\
+\keys{CTRL}+\keys{$\uparrow$} & skip -8 rows \\
+\keys{Ins} & goto fileselector \\
+\keys{Pgup}, \keys{Pgdown} & scroll in current window \\
+\keys{CTRL}+\{\keys{Pgup}, \keys{Pgdown}\} & scroll in instruments window (eXtended mode) \\
+\keys{Home}, \keys{End} & goto top/bottom of current window \\
+\keys{CTRL}+\keys{Home} & restart song \\
+\end{longtable}

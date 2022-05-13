@@ -1,0 +1,92 @@
+% OpenCP Module Player
+%
+% Documentation LaTeX source
+%
+% revision history: (please note changes here)
+% -doj990413  Dirk Jagdmann  <doj@cubic.org>
+%   -initial release
+% -doj990421  Dirk Jagdmann  <doj@cubic.org>
+%   -added subsection about problems with wmake
+
+\chapter{Compiling \cp}
+This chapter tells you how to compile the \cp suite on the various
+architectures.
+
+The reference compiler used is Watcom C++ 11.0 from Sybase for the C
+code and the TASM assembler from Borland/Inprise for assembler
+codes. \cp is made using the \texttt{wmake} program from the Watcom
+Compiler tools. If you have those programs you should have no problems
+building \cp.
+
+Compiling is easy once you have installed your tools in the right
+place and they are reachable via the \texttt{path} statement. Unpack
+the source distribution into a seperate directory and ''make'' the
+program by typing
+\begin{verbatim}
+wmake
+\end{verbatim}
+
+The \texttt{wmake} utility accepts some parameters. Only one of the
+following may be supplied at a time.
+\begin{dojlist}
+\item[all] compile \cp (this is like supplying no switch)
+\item[install] compile the program and the copy program into the \texttt{\symbol{92}bin}
+directory.
+\item[clean] delete all compiled \texttt{.obj} files
+\item[distclean] delete all files that have been ''made'' once. This is like
+unpacking the source distribution again.
+\end{dojlist}
+
+\section{Compiler switches}
+These switches are enabled with the \texttt{/d} switch on the command
+line.  In pratice you would edit the \texttt{copt} variable in the
+\texttt{makefile} to include the desired switches.
+
+\begin{small}
+Search for the following passage in the \texttt{makefile}:
+\begin{verbatim}
+!ifeq buildtarget DOS32
+!ifeq defaultlibrarysfordlls NO
+copt = /w$(warnlevel) $(optsw) /zp1 /5r /s /dCPDOS ...
+!else
+copt = /w$(warnlevel) $(optsw) /zp1 /5r /s /dCPDOS ...
+!endif
+!else ifeq buildtarget WIN32
+copt = /w$(warnlevel) $(optsw) /zp1 /5r /s /dCPWIN ...
+!else
+error "no or illegal target."
+!endif
+\end{verbatim}
+
+You can see that for the first two definitions of \texttt{copts} the
+switch \emph{CPDOS} is turned on. If you want to enable any of the
+switches listed below simply add them to those three lines starting
+with \texttt{copt =} preceded by \texttt{/d}.
+\end{small}
+
+If you alter any compiler switches you should recompile everything. Do
+this by typing:
+\begin{verbatim}
+wmake distclean
+wmake
+\end{verbatim}
+
+\begin{dojlist}
+\item[RASTER] enable a fake raster bar every time the mixer starts. You can
+then see how much cpu time the mixing routines use.
+\end{dojlist}
+
+\section{wmake}
+The compiling process is controlled via the makefile which is parsed
+by \texttt{wmake}. If you have not enough dos memory \texttt{wmake}
+can complain about various errors and refuse to work. Unfortunately
+\texttt{wmake} does not tell you that there is not enough memory, but
+that it can not build certain targets.
+
+If you experience problems with \texttt{wmake} please make sure you
+have enough dos memory available. You should supply at least
+580KB. You can simply check how much memory is available by using
+\texttt{mem /c /p}. This command will tell you the memory usage of
+each single loaded driver and programm. If you find out that there is
+not enough dos memory available you can free memory by unloading some
+cd-rom drivers, mouse drivers or smartdrv etc.

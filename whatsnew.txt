@@ -1,0 +1,550 @@
+OpenCP 2.6.0pre6
+  - and now the DirectX driver works :-)
+
+OpenCP 2.6.0pre5
+  - fixed DirectX driver for DirectX7 or later
+
+OpenCP 2.6.0pre4
+  - For all newskool-, non-SB-, non-GUS, non-EWS-, non-WSS-people out there
+    using Win9x:
+      finally, you can use *every* soundcard supported by windows if you
+      start the CP in a dos-box, using the devpVXD.
+      (it's like the VSOUND-driver for the IT)
+    devpVXD bringing you the following advantages:
+    + no more incompatible soundcard. almost every soundcard should work,
+      assuming that there exists a direct-sound-driver.
+    + no more soundcard-blocking. you can play other (DirectSound-)sources,
+      they will be mixed (by windows or by your soundcard, if it's capable
+      of doing this.)
+    + a bit better background playing, even in "fullscreen"-background
+    keep in mind that devpVXD is a DEVP, not a DEVW.
+    read the FAQ for more information.
+  - completely new mixer device, making massive use of the CPU's Floating
+    Point Unit and bringing you the following advantages:
+    + 16777216x linear or 256x cubic spline oversampling (or none)
+    + a theoretical 3000dB of Signal/Noise ratio (can your sound card
+      handle this?)
+    + sample-exact volume ramping (optional)
+    + special anti-click mechanism which does NOT soften up the samples
+      (also optional if you REALLY want your .ITs being messed up like
+       in the tracker)
+    + native postprocessor plug-in interface for maximum quality plug-ins
+    + about THREE times faster than the Quality Mixer on Pentium and
+      above machines (and far better sound quality)
+    Of course, there are also some disadvantages:
+    - on 386/486 and equivalent machines (K5, Cx6x86) better forget realtime
+      performance, but you can still use it for diskwriting
+    - the mixer sucks a lot of memory (stores all samples in 32bit
+      format), so be prepared for having about four times the free mem the
+      size of the tune you want to play is
+  - configurable software reverb/chorus plugin for the FPU mixer...
+    consider this the replacement for the good ole Echo Editor ;)
+    (use ctrl-f5/f6 to control the reverb and ctrl-f7/f8 to control the
+     chorus)
+  - software reverb (not as configurable, tho) for the normal and
+    Qualiy mixers
+  - updated arcUMX.
+  - MDZ-scan in archives (.ZIP right now) is back.
+  - upgraded to new ampg. (and new binfile, but that's unimportant for the
+    masses).
+    should solve some problems regarding skipping.
+  - WMA support. not yet fully working (not really seek, not all ASFs.)
+  - new compiler switch /dRASTER enables raster lines showing the cpu
+    usage of the mixing routines
+  - Vesa 2.0 LFB support, try it or disable it (section [screen], uselfb=NO)
+    (spectrum analyser now ~50% faster...)
+  - more debug-output on crash (this is no improvement for cubic player
+    *never* crashes!)
+  - if called with a file as command line parameter, the player will
+    now exit as soon playing ended (assumed looping is off)
+  - number keys enable/disable channels again instead of soloing them
+  - IT:  * instrument names are now shown correctly (thanks to Phoenix
+           for telling me why)
+  - XM:  * another nasty player bug fixed which you would never find anyway,
+           it's just TOO special ;)
+         * note retrig/multi retrig fixed
+
+
+OpenCP 2.5.1
+  - included new hypertext help system by Fabian Giesen (Ryg/Chrome Design)
+  - MID: everything's much easier now. The original Gravis ULTRASND.INI
+         is included in the program and all non-GUS-owners can now simply
+         make a MIDI subdir in opencp's dir and copy the patches into it.
+         (This should solve a LOT of problems for you people out there)
+  - MOD: * samples of some modules won't get messed up anymore
+  - XM:  * the samples of modules saved with ModSuck, ehrm, ModPlug Tracker
+           will now hopefully have correct loops (MP doesnt save
+           'em correctly)
+         * Speaking of ModPlug, XMs will now be played with up to 256 chans
+         * also, several severe replay bugs fixed which were errationally
+           introduced in 2.5.0 (oops ;)
+         * Envelope handling fixed (a BIG thank to Psychad for this)
+  - IT:  * now plays modules having a "+++" in the first order(s)
+         * note retrig fixed
+         * vibratos hopefully fixed
+         * implemented carry envelopes (new in IT2.14 patch 4)
+         * underground feature added by removing overground feature
+  - MP3: * now recognizes/plays MP3s starting with the ID3 tag or other data
+           (if it still doesn't (because of too long trader messys at the
+            beginning of the file) simply try forcing the file type to MPx)
+         * Cubic (!! ;) Spline interpolation when pitch is changed (enjoy)
+  - WAV: * also implemented Cubic Spline interpolation (16bit waves only)
+  - Interface: * doesn't crash/show garbage anymore when switching back
+                 from WÅrfel Mode
+               * new, faster analyser FFT code by Doj/Cubic
+               * new background picture loader (by Doj):
+                 -> GIF background pictures are supported
+                 -> pictures will now change randomly when modes
+                    are switched
+               * new feature:
+                 -> volume control ('m'), works only with sb atm,
+                    for songmessage type 'M' (in uppercase ;)
+  - devwiw: * removed Step C panning again, the old code really seemed
+              to work better (i need DOCS on this!)
+            * completely rewritten memory handling, it was pure luck if
+              the old one worked at all.
+  - devpdisk/devpmpx: MP3 to WAV and various other things should now work
+                      (a bloody hack, but who does care)
+  - Again a slight speed increase of quality mixer
+  - general stability improved again
+  - many memory leaks found and eliminated
+  - removed CPLAUNCH.EXE again, making the archive somewhat bigger and
+    loading somewhat slower, but the whole thing is a LOT more stable now
+  - various minor but important fixes/modifications in some dlls
+  - source: * improved makefile, doesnt link the default libs into the dlls
+              anymore
+            * now compiles correctly under Watcom 10.6
+            * pre-alpha Win32 version for experimental purposes
+
+
+
+OpenCP 2.5.0
+  - FIRST real public final release thingy
+  - nice HTML documentation by Doj/Cubic now available
+  - major raise in the version number... hey, when EMagic can do this
+    with Logic Audio, why shouldn't I? ;)
+  - InterWave: * added correct panning for InterWave Step C or higher
+               * fixed timing a bit
+               * effects can now be turned off ;)
+  - fileselector: choosing devices and soundcard inputs now works again ...
+                  ... files submitted via the command line automatically
+                  get played now again ...
+                  ... and also, console output is no more written onto
+                  the interface screen
+                  (honestly, was I DRUNK when implementing that playlist
+                   shit? ;)
+  - included new ESS688 player device by Oleg Prokhorov (thanks!)
+  - added "palette" setting to IW.INI to let you design your own ugly
+    color scheme (tho, this is just a simple remapping, you can't change
+    every single color)
+  - bpm display is now finally DECIMAL :)
+  - XM: notes with instrument number set some rows before will now
+        play correctly
+  - Mixer: nasty volume calculation bug causing hard-left panned samples
+           to be phase-inverted removed (char? short? long? oh come on,
+           what's the fuckin' difference? :)
+  - IT: Pattern loader fixed (did crash/suck on some ITs)
+
+
+
+OpenCP 2.0q_pre
+  - fileselector: maybe there are no more LFN lookup bugs when using
+                  DOS 6.x or certain 4DOS versions (feedback req'd!!!)
+  - SID: now reads SMS $xx20 song info as song title when the file is
+         in RAW format. Also characterizes SIDPlay infofiles as such
+         in fileselector
+  - new archive formats: LHA and ACE (thanks to tmbinc for this)
+  - IT: doesn't confuse Kxx and Lxx effects anymore (oopsie :)
+  - XM: made vibrato effect (4xx) somewhat weaker (never believed that
+        they were to strong - until i found it out myself with my own
+        MC6 entry :)
+  - new WöRFEL MODE ][ (finally 320x200 ;)
+  - included tool "WÅrfel Animator Professional" by Felix Domke (tmbinc)
+    to generate your OWN WÅrfel Mode Animations
+  - IT: portamentos "fixed" again (wonder which modules it NOW plays wrong)
+  - fileselector: now shows some infos on various internal data files
+  - restructured file selector a bit. the results:
+    * .M3U AND .PLS PLAY LIST SUPPORT! YEAH! you can now simply select
+      any .m3u or .pls play list from the file selector and all files
+      it containeth will be loadeth! ;)
+      (Beware, if your playlists contain long file names, they will of
+       course only be loaded when you're running win95, i didn't include
+       a "guess-the-right-filename" routine ;)
+    * also reads MikIT .PLT play lists (thanks to Lemm for this)
+    * In fileselector, you can now save a WinAmp-compatible .PLS play
+      list with Alt-P
+    * As a little side effect the actual playing module is now continued
+      while eg. un-zipping the next (decreasing the pause between two
+      modules a bit, but i may remove this again, as it MAY cause problems
+      in win95 background between two modules. well, as always, i need
+      feedback ;)
+  - LAST "eval" release before the REAL one - Houston, the Eagle is just
+    about, uhm, like, landing ;))
+
+
+
+OpenCP 2.0p_31337:
+  - increased the Quality Mixer's speed AND sound quality - now does
+    jeff93.it fine on my P133 and those volume problems finally belong
+    to the past
+  - MP3: changed win95 bg playing scheme a bit - should now produce less
+         (or maybe no?) clicks on some machines when running in foreground
+  - MOD: the player now (hopefully) plays exactly like PT1.1B does -
+         so DON'T blame me if OpenCP now plays your FT2-made MODs wrong.
+         (if anyone could tell me how to recognize MODs saved by FT2,
+          just contact me)
+  - Therefore, new filetype added: MODf for FastTracker-made MODs
+  - MOD: modt and m15t file types work again
+  - XM: "set finetune" (E5x) command implemented (was ignored before)
+  - CDA: re-enabled (was a typo in one of the sources, sorry ;)
+  - new module type: MXM (from pascal's Tiny GUS Player) (EXPERIMENTAL!)
+    * this format is size optimized, so don't expect any module or instrument
+      names therein, it's just pure music ;)
+    * in some converted .XMs, the loops seem incorrect, but i don't know
+      if it's the fault of opencp or xm2mxm.exe
+  - SID: RAW sidfile support, now supports raw C64 data files which follow
+         the inofficial SMS ("Scene Music Standard") way of putting two
+         JMPs to the Init and Play routine in front of the file
+  - hopefully vastly increased stability when using wave table cards. At
+    least with my IW, OpenCP, uhm, almost never crashes anymore :) (feedback
+    on this required!!!)
+
+OpenCP 2.0n:
+Much time has passed. TOO much time. 1.5 years, to be precise. CP's re-
+putation was lost. Noone remembered it anymore. Only one guy decided
+to annoy Pascal till he gave up and sent out the source - under the
+constraint to release it GPL'ed. So, about 4 months of heavy source
+reading, bugfixing, cursing, rebooting et cetera passed again till this
+version saw the light of the world.
+Too much has changed since v2.0a++ then, so here are only a few things:
+  - Bugfixes, bugfixes, bugfixes, bugfixes and of course bugfixes
+  - Terratec EWS64L/XL Codec driver (Thanks to TT again for the card)
+  - decent IT player (bugfixed/partially rewritten version of the one
+    in the 2.0a++ service packs)
+  - Included Michael Schwendt's SIDPlay and rewrote filter handling -
+    therefore also 8580 filters are now supported
+
+                               --- AND NOW: ---
+                   --- Cubic Player Trek - The Old Series ---
+
+v2.0a++  29.4.97  (Still lacking good .IT support! :( )
+          2.5.97  enhanced version
+-----------------------------------------------------------
+ -mpeg 2 audio layer 1/2/3 playback (enhanced only)
+ -PTM Nxx command support. (enhanced only)
+ -AMS loader now included. (simply forgot it (: ) (enhanced only)
+ -mpeg 1 audio layer 1/2/3 playback.
+   -preloads the file
+   -quick hack of the wav player
+   -maplay's fdct routines used
+ -audio mpeg layer 1/2 recording (devpMPx).
+   -works like diskwriter device.
+   -faaaaast
+ -new mode: phase graphs: <B>
+ -ESS AudioDrive 688 support (thanks to Ilya Naumov for sources)
+ -some fixes
+
+
+v2.0a  28.12.96  (The Party 6 release)
+-----------------------------------------------------------
+ -2 years of cp!!!
+ -sdk available later at tp6 (though not yet complete)
+ -cplaunch.exe is a dos4gw.exe replacement using pmode/w 1.32
+   to use dos4gw make sure cplaunch.exe cannot be found (ie. delete it!)
+ -new xm player. plays more accurately, but display not too good.
+   (you can modify cp.ini to use the old player)
+   (thanks to Tammo Hinrichs and Hungarian guys for testing
+    and finding the (hopefully) last bugs)
+   xm player also used as a new mod player.
+ -Move files in fileselector: ALT-M (also to, from and between arcs)
+ -better crash exit (this is no improvement for cubic player *never* crashes!)
+ -OS4GW.EXE bug fixed (_searchenv is buggy in wc 10.6 16-bit dos libaray))
+ -amplification can be set up to 800% due to murder threats from the
+   Hungarian scene!
+ -AAARGH!!!
+ -textmodes fixed
+ -instruments in MDL fixed (hiho FK)
+ -MTM fixed (!= != == !!!)
+ -AMS fixed
+ -volumes fixed
+ -some ini settings fixed
+
+
+v2.-1  03.11.96  (Wired '96 PRE-release)
+-----------------------------------------------------------
+ -nicer endscreen
+ -some minor bigfixes & improvements
+ -new internal system with "additional plugins" (SDK will be released soon)
+ -"wuerfel" & some non-important but nice features are temp. removed
+ -see the cp.ini for new config-words, or wait for the final documentation
+ -this version is for profesionals _ONLY_ don't annoy us with questions !
+ -alpha version of a .IT loader
+ -new GUS PnP Driver (by Tammo Hinrichs)
+ -MMCMP TSR support
+ -AMS & MTM temp. removed, they are comming back _VERY_ soon !
+ -minor cosmetical bug with the text-mode-windows
+
+v2.-2  XX.XX.XX  FAKE
+----------------------------------
+
+
+v1.7   31.3.96   mekka release
+-------------------------------
+ -WAV player... :)  (not yet on std. gus)
+ -stereo and 16 bit bug removed
+ -pattern lock (alt-l) (hiho alpha...)
+ -samples >512k cause no more problems with the mixer
+ -background TGA colors now shifted automatically
+ -pattern loop to order 0, row 0 fixed
+ -position jump & pattern break protracker compatibility improved ((r)ok?)
+ -delete the quality mixer from your cp directory to avoid conflicts!!!
+
+
+Quality Mixer v1.666b
+----------------------
+ -improved mixer
+ -volume slides
+ -quadratic interpolation
+
+
+v1.666   29.2.96    (the in-between version for the in-between day!)
+---------------------------------------------------------------------
+
+ -soundsystem completely restructured
+ -memory consumption and loading time reduced due to overlay system
+ -windows style CP.INI file / commandline parameters reduced.
+ -module type autodetect
+ -compo mode: all texts are removed and fileselector comment shown as name
+ -scan any given file extension (=> 001, 002, 003, 004 ??? :) )
+ -use your own background piccies (will you be able to convert them??! >) )
+ -multiple devices
+ -tag big modules to play them on a different device (alt-b in fileselector)
+ -devices can be changed at runtime (=> @:\DEVICES\DEVxyyyy)
+ -inputs of all devices can be sampled (=> @:\DEVxyyyy.MIC/LIN)
+ -S3M compatibility improved
+ -WSS sampler added
+ -WSS init should now work. tell me if not, since i'm only guessing! ;)
+ -no click after end of module in no-loop mode
+ -scanning ZIPs with password fixed
+ -RAR support. RAR 2.0 required for extracting
+   (when will they learn to support command line the right way?!!!!!)
+ -multiple patloops/globalvolslides fixed (thanks go to Eclipse)
+ -intensity adjust for analysers. (=> ctrl-pgup/dn)
+ -mono textmode analyser
+ -fine frequency adjust in analysers.
+   (no, this is not a feature, only a side effect... :] )
+ -MDL support (format version 1 only, convert old ones with 2MDL)
+ -mixer can now resample for screen output. (speed vs. accuracy)
+ -note delay command hopefully improved
+ -Super High Quality Mixer and IT loader coming soon. (as a driver)
+
+
+v1.6   3.11.95  (Wired '95 release)
+------------------------------------
+
+ -Sound Blaster AWE support (-cc5)
+   -AWE port is 6x0, not 2x0.
+   -reverb & chorus:
+     -does not modify effects engine parameters
+     -some midis use reverb & chorus
+     -ctrl-f5 / ctrl-f6 to slide master reverb down / up
+     -ctrl-f7 / ctrl-f8 to slide master chorus down / up
+     -ctrl-f4 to toggle between srnd/pan/bal and echo/rev/chr
+     -command line switches: -vrXXX for reverb/-vcXXX for chorus (-100..100)
+   -IMM available => load up to 112MB of samples to your AWE... >]
+   -plays up to 32 channels
+   -EMU8000 limitations:
+     -176.4kHz max. sample replay rate (this may seem to be no problem,
+       but consider a 44.1kHz sample played two ocataves above base).
+       Some high notes are not played, especially with midi.
+     -no 8 bit samples => half amount of memory when using only 8 bit samples
+     -no pingpong loops => converted to forward loops => less memory
+     -30 simultaneous notes max.
+     -no reverse playback direction
+ -Disk Writer device (-cc40)
+ -Sample Mode: analyse the CD, line or microphone input of your soundcard.
+   -play a track from the root of your cd drive
+   -play @:LINE.INP or @:MIC.INP to analyse line or microphone.
+   -if your cd drive is connected to the line input use the switch -cn
+   -available modes: a,x,g,shift-g,o
+     (the beloved ->wÅrfel mode<- does not yet work!)
+   -only on SB 1.x/2.x/pro/16 & GUS at the moment
+ -the "Windows-95-one-file-only-bug" hopefully removed now
+   -this may also include a similar bug with dos.
+   -thanks to Michael Erdmann for helping me finding this $&&!!%-[] bug.
+ -pattern re/preview in track view
+ -gus can use system timer now: -ct  (use this switch in combination with
+   -cg if the gus plays only the first few notes)
+ -new oscilloscope mode: master channel
+ -8x finer speed/pitch control. ENOUGH, GUYS?!!? press ctrl-f11 to toggle.
+ -Audio-only CDs should now work with every computer
+ -XM fadeout bug fixed
+ -AMS v2.2 support and generally improved
+ -runtime stability improved
+ -some smaller bugfixes & internal changes
+ -midi titles in fileselector (thanks go to R0M/vacuum for info).
+ -nice little helpful tool... you'll notice it if you should need it. :)
+
+
+v1.5-TP4  The Party 4 CD-ROM   31.7.95
+---------------------------------------
+ -cd audio support enabled  (just crap... wasn't it?)
+  (tracks are in root of cd drive)
+ -AMS support... (v2.1 only)
+   (I only had one module to test, so please do not hit me!)
+ -some smaller bugfixes
+
+
+v1.4         9.7.95
+--------------------
+ -the long promised ultra-cool fileselector ][ implemented:
+   -module information cache
+   -MDZ files (see MDZFILE.NFO)
+   -composer, comment, style, playtime, type, date
+   -type depending colored modules (what???)
+   -132x60 mode and others
+   -online help
+   -setup (session only for the moment :( )
+   -faster
+   -scan in archives
+ -bug that crashes some systems NOT YET found... sorry!
+ -Pro Audio Spectrum series support (thanks go to Alexander Gerlach)
+ -Double GUS support (see DOC 3.6)
+ -freeze option: alt-p => no screen output, idle, for multitaskers.
+ -PTM support (thanks to Scholar / $een / Holofix for one important
+    piece of information! Der Rest war ja wohl ne Lachnummer!)
+ -FFI officially renamed to Fast-Fake-Interpolation... =)  (alt-backspace)
+ -new: 48-bit-Adaptive-Oversampling-Interpolation  (backspace)
+   and 64-bit-Full-Oversampling-Interpolation  (2*backspace)
+   (FOI always intepolates, AOI only when really needed, but nearly no
+    difference). intepolation sometimes pops a bit... :(
+ -gus clicks reduced... (hiho iceman!)
+ -gus volumes were a bit wrong... amplify can now be turned up to 200%
+ -textmode analyser colored  (tab to change)
+ -notedots colors improved
+ -GUS Intelligent Memory Multiplier's IQ raised :)
+ -chorus added to echos (thanks to Shadow Dancer)
+ -vesa bugfix for gsa fadeout... (thanks to Michael Erdmann)
+ -pattern jump/break fixed... (thanks to Christophe Yvon)
+ -WSS port now used correctly: (thanks to Sandro Richi)
+   use e.g. -cc20,p530,d1 for standard WSS
+ -smaller changes/bugfixes: SB, WSS, DMF, S3M, OKT, XM/volcol
+
+
+v1.0       29.5.95
+-------------------
+ -authors' addresses have changed, see cp.doc
+ -Intelligent Memory Multiplier. Enables you to upload up to 8 megs of
+   sampledata to your GUS, CP will try to keep the sound quality as high
+   as possible. (not just dull doubling... ;)
+ -Windows Sound System / GUS MAX CODEC support (-cc20 / -cc21)
+   -GUS daughterboard is WSS. (not tested)
+   -makes echos, surround and very very big mods possible on a GUS with a
+    daughterboard or a GUS MAX, though the normal GUS mode usually sounds much
+    better. backspace should improve the quality)
+   -detect only works with GUS daughterboard or GUS MAX.
+    normal WSS owners will have to set the port and dma manually.
+     (how to detect a WSS?)
+ -Advanced Note Dots => N
+ -FFT for no coprocessor systems added (-cf for copro owners)
+ -common spectrum analyser added in Graphic Spectrum Analyser mode.
+   (YEHS!, shift tab to change palette)
+ -big graphic spectrum analyser added: 1024*768, (SHIFT-G)
+   Pentium recommended for fast mode and Hexium recommended for fine mode.
+   Resolution could possibly not increase that much on soft-mixer devices.
+ -OKT support (thanks to Sheer/Patraa for OKTs)
+ -new pics, new anis, anis need less mem now.
+ -analysers for no-coprocessor systems added
+ -did you notice, that all 16 bit samples were converted down to 8 bits? ;)
+  the GUS driver now supports 16 bit samples...
+ -card handles changed:
+   0: Quiet
+   1: SoundBlaster 1.x
+   2: SoundBlaster 2.x
+   3: SoundBlaster Pro
+   4: SoundBlaster 16 / AWE32
+   10: Gravis UltraSound
+   20: Windows Sound System
+   21: GUS MAX CODEC
+ -GUS and serial communication improved (worked with my non-fifo at 19.2k)
+ -Slow computer owners may use -cqXXXXX to set the desired mixing rate at 32
+   channels, rates at a different number of channels will be interpolated,
+   but they will not go beyond the -crXXXXX rate.
+   (SiPiYou: Ok?)
+ -scopes/gsa modes changed to 640x480, since problems occurred with
+   some adaptors
+ -ms-dos seems to mess around with the fonts when using code pages,
+   which made the graphics mode's text writing routine crash.
+ -echo editor added. => E
+   does not work with the UltraSound driver, of course!
+ -new: file zapper in the fileselector => ctrl-k
+   wait for the new fileselector for a better one. this one was just
+   included due to many urgent requests, and not much work was put in it,
+   so please do not complain!
+ -DMF files sound much better now!
+    (yes, they really sound better with more effects... |^} )
+   Not all effects are implemented yet, so keep complaining!
+    (I don't think all of them will ever be implemented...
+   And finally more (all?) DMFs will be loaded!
+    (how should I know, that I cannot rely on the information in the DMF?)
+    All RR Chapter 6 DMFs will be played.
+ -the single-channel-scope-and-low-relative-pitch-bug removed.
+ -use -md to make midi channel 16 a drum channel.
+   (thanks go to Martin Moeller for this info)
+ -the panic.s3m-much-too-high-pitch-in-pattern-5-bug removed.
+   (wow, I finally found a solution... ;)
+ -loader bugfixes (XM, S3M, DMF, 669)
+ -player bugfixes (S3M, DMF)
+ -load old mods now stays on. (kick me for 0.96!)
+ -loop modules & midi works
+ -walking forward in midi files works
+ -esc esc 2 escape
+ -save/restore setting moved to alt-f2/f3
+ -alt-fX mode keys removed
+the next point is only true for Novell EMM386.EXE users:
+ -IRQs >= 8 do work now...
+   If such an IRQ did occur in real mode, DOS4G did not pass it up
+   to protected mode... The bugfix needs an additional interrupt. (0x60)
+   You can change the interrupt or turn the bugfix off (in case you are the
+   lucky owner of a new DOS4GW.EXE) by the switch -caXX (0:off)
+
+
+v0.96      2.3.95 
+------------------
+ -ZIP support (use this, if you can!)  (-> SET TEMP=tempdir)
+ -ARJ support (not quite sure about it)
+ -DMF support (wellwell... not too proud of it :] 
+               but who cares in the times of FastTracker II >) )
+ -669 support
+ -WOW support 
+ -ULT support (don't know about the effects...)
+ -old MODs without a signature will only be played if you set a certain switch
+ -fileselector: path can be entered manually now     (ctrl-return)
+ -XM keyoff effect was misplaced i.e. put before the note instead of after...
+
+
+v0.95      2.2.95
+------------------
+ -gus support                                   (-cc5)
+    DOES NOT WORK WITH IRQs FROM 8 TO 15!!!
+    This seems to be a problem with DOS4GW 1.95...
+    If anyone knows how to avoid the loss of interrupts with DOS4GW,
+    please send me a message!
+ -example echo/reverb batches added...          Cathedral
+ -132 column modes and 30/60 rows modes         <x> or <alt/ctrl-z> (VESA)
+ -32-bit-fast-fourier-interpolation added       <backspace>
+ -midi scopes                                   <o>
+ -midi drum channel
+ -the FIDO-net adress is now right... ;)
+ -vesa support. graphic output should now work correctly
+ -text mode analyser's font now set correctly. (hope so..)
+ -many loader bugfixes.
+ -cooperative command line help
+ -OS/2 v3 & sb support (probably also gus, but untested!)
+ -CAUTION: CP may cause OS/2 to do random writes at the hard disk!
+           Does anyone have more info about this?
+
+
+v0.9a     27.12.94      (party '94 pre-release)
+------------------------------------------------
+ -first released version

@@ -1,0 +1,5 @@
+'W?open$:asfreader$n(rn$binfile$$)i'
+'W?rawclose$:asfreader$n()i'
+'W?rawioctl$:asfreader$n(ipnvi)i'
+'W?rawread$:asfreader$n(pnvi)i'
+'W?rawseek$:asfreader$n(i)i'

@@ -1,0 +1,587 @@
+% OpenCP Module Player
+%
+% Documentation LaTeX source
+%
+% revision history: (please note changes here)
+% -doj990413  Dirk Jagdmann  <doj@cubic.org>
+%   -initial release
+
+\chapter{Writing plugins}
+Picture \ref{diagramm} is a schematic of the modules \cp\ is built
+from. It shows which parts of the player interact with each other.
+
+\setlength{\unitlength}{0.93cm}
+\begin{figure}
+\caption {\label{diagramm}block diagram of \cp}
+\begin{picture}(13,16)
+\put(0,0){\framebox(13,14.5){}} % äußerer Rahmen
+
+\put(0.5,0){\makebox(12,1)[l]{\texttt{\textbf{\large cp.exe}}\quad runtime, clib, system, linker, configuration, binfiles}}
+
+\put(3.5,2.5){\framebox(3,2.5){}} % cpiface outer box
+\put(3.6,2.6){\framebox(2.8,2.3){cpiface}} % cpiface inner box
+\put(3.25,3.75){\vector(1,0){0.25}} % cpiface left arrow 1
+\put(3.25,3.75){\vector(-1,0){0.25}} % cpiface left arrow 2
+\put(6.5,3.75){\vector(1,0){0.5}} % cpiface right arrow
+\put(5,7){\vector(0,-1){2}} % cpiface up arrow
+\put(1.5,7){\line(1,0){10}} % cpiface up x-line
+
+\put(0.5,2.5){\framebox(2.5,2.5){file selector}} % fileselector
+\put(1.75,2.25){\vector(0,1){0.25}} % fileselector bottom lower arrow
+\put(1.75,2.25){\vector(0,-1){0.25}} % fileselector bottom upper arrow
+\put(0.5,1){\framebox(2.5,1){archivers}} 
+\put(0.5,5.5){\framebox(2.5,1){file types}} % filetypes
+\put(1.75,5.5){\vector(0,-1){0.5}} % file types arrrow
+
+\put(7,2.5){\framebox(2.5,3){}} % graphic modes box
+\put(7.25,5.15){scopes}
+\put(7.25,4.65){note dots}
+\put(7.25,4.15){phase graphs}
+\put(7.25,3.65){gfx analyzer}
+\put(7.25,3.15){wurfel mode}
+\put(7,3){\line(1,0){2.5}}
+\put(7.25,2.65){text modes}
+\put(9.5,2.75){\vector(1,0){0.5}} % graphic modes arrow
+
+\put(10,2.5){\framebox(2.5,2.5){}} % text modes box
+\put(10.25,4.65){main volume}
+\put(10.25,4.15){channels}
+\put(10.25,3.65){instruments}
+\put(10.25,3.15){track display}
+\put(10.25,2.65){text anaylzer}
+
+\put(3.5,1){\framebox(9,1){ % prelinked dlls box
+prelinked dlls
+\begin{minipage}{6cm}
+{\small dos4gfix, hardware, mmcmphlp, poutput, inflate, chasm, devicebase, sets}
+\end{minipage}
+}} 
+\put(3.5,1.5){\vector(-1,0){0.5}} % dlls left arrow
+\put(5,2){\vector(0,1){0.5}} % dlls up arrow (left one)
+\put(8.25,2){\vector(0,1){0.5}} % dlls up arrow (middle one)
+\put(11.25,2){\vector(0,1){0.5}} % dlls up arrow (right one)
+
+\put(0.5,10){\framebox(2,2){}} % playinp box
+\put(0.5,10){\makebox(2,1){playcda}}
+\put(0.5,11){\line(1,0){2}}
+\put(0.5,11){\makebox(2,1){playinp}}
+\put(1.5,10){\line(0,-1){3}} % playinp lower line
+
+\put(3,8){\framebox(2,4){}} % playgmd box
+\put(3,8){\makebox(2,1){playgmi}}
+\put(3,9){\line(1,0){2}}
+\put(3,9){\makebox(2,1){playxm}}
+\put(3,10){\line(1,0){2}}
+\put(3,10){\makebox(2,1){playit}}
+\put(3,11){\line(1,0){2}}
+\put(3,11){\makebox(2,1){playgmd}}
+\put(4,7){\vector(0,1){1}} % playgmd lower arrow
+
+\put(10.5,10){\framebox(2,2){}} % playwav box
+\put(10.5,10){\makebox(2,1){playwav}}
+\put(10.5,11){\line(1,0){2}}
+\put(10.5,11){\makebox(2,1){plaympx}}
+\put(11.5,7){\vector(0,1){3}} % playwav lower arrow
+
+\put(0.5,13){\framebox(2,1){devs}} % devs box
+\put(1.5,13){\vector(0,-1){1}} % devs lower arrow
+
+\put(3,13){\framebox(2,1){devw}} % devw box
+\put(4,12){\vector(0,1){1}} % devw lower arrow
+\put(5,13.5){\vector(1,0){0.5}} % devw right arrow
+\put(4,14){\line(0,1){0.25}} % devw upper line
+\put(4,14.25){\vector(1,0){7.5}} % devw upper arrow
+
+\put(5.5,13){\framebox(2,1){mixer}} % mixer box
+\put(7.5,13.5){\vector(1,0){0.5}} % mixer right line
+
+\put(8,13){\framebox(2,1){postprocs}} % postprocs box
+\put(10,13.5){\vector(1,0){0.5}} % postprocs right arrow
+
+\put(10.5,13){\framebox(2,1){devp}} % devp box
+\put(11.5,12){\vector(0,1){1}} % devp lower arrow
+\put(11.5,14){\vector(0,1){1}} % devp upper arrow
+
+\put(5.5,15){\framebox(2.5,1){\texttt{cp.ini}}} % cp.ini
+\put(6.75,15){\vector(0,-1){0.5}} % cp.ini arrow
+
+\put(11.5,15.5){\oval(2.5,1)} % sound output oval
+\put(11.5,15.5){\makebox(0,0){Sound Output}}
+
+\put(1.5,15.5){\oval(2.25,1)} % sound input oval
+\put(1.5,15.5){\makebox(0,0){Sound Input}}
+\put(1.5,15){\vector(0,-1){1}}
+
+\end{picture}
+\end{figure}
+
+The capabilities of \cp\ can be extended by plugins. The type of
+plugin is not limited, so new graphics modes, file types and even
+enhanced players may be added by the user. As development for \cp\ is
+done using Wacom C++ 11.0 it is recommended to use this compiler for
+developing plugins aswell. We have not tested the plugin interface
+with other compilers.\footnote{This might change in the future.}
+
+The following section was written by Felix Domke for the 12th issue of
+the hugi diskmag.
+
+\section{Device Development}
+\subsection{Introduction to FDOs, DLLs and the CP in general}
+Of course, no player can play all formats without errors, support all
+soundcards or open all archive formats. While you would have to wait
+for a new version of ``normal'' players, you can do something against
+it for \cp\ by yourself.
+
+From the technical point of view this is possible since CP
+1.666. Here, the so-called \.FDOs were introduced, ``flatmode dynamic
+link objects''. All in all these are nothing different than DLLs
+which everyone knows from Windows, OS/2 or also Unix. FDOs contain
+e\.g\. drivers for soundcards. If a new soundcard was to be
+supported, not a new Cubic Player would have to be released but only
+a new FDO.
+
+With an entry in \texttt{cp.ini}, you can embedd such a driver.
+
+In Cubic Player 2, these FDOs were replaced by DLLs, i\.e in general
+only a different format (however, I am not sure whether FDO also
+supported imports.)
+
+The format FDO had been invented by pascal, which means that it was
+not supported by any linker. A different thing is the case with the
+DLLs of CP2.  They are simply normal LE-DLLs. Everybody who has done
+a little more with Watcom C and DOS4G or PMode/W should know the
+LE-format: It is used there by default.
+
+In general, there is no great difference between LE-DLLs and
+LE-EXEs. LE-EXEs, however, usually contain no imports or exports (the
+right professional-version of DOS4GW, DOS4G, supports DLLs).
+
+To reach that the player also works with the normal DOS4GW or even
+PMode/W, \cp\ contains a DLL-loader which loads these DLLs and links
+them to the main program.  The main program merely consists only of
+this DLL-loader (later more about this).
+
+Everyone who has Watcom C can create LE-DLLs.  Of course it's also
+possible with other linkers and compilers, but you ought to use
+Watcom.
+
+\subsection{How to create DLLs}
+If you have already created DLLs once or more, you can probably
+ignore this chapter.
+
+Otherwise, it isn't so hard either. Everyone of you has probably made
+a program with more than one object file.  The various object files
+were linked to a single large EXE in the end.
+
+With DLLs, you usually don't have to change \emph{a single line} of code.
+
+You link one or more object files to a DLL. If other DLLs access to
+symbols\footnote{in this case, symbols are variables and functions}
+in a DLL, these symbols have to be \emph{exported} from the DLL which
+contains them and \emph{imported} in the DLL which uses these
+symbols.
+
+The linker does that by itself. You just have to tell it where what
+symbols can be found.
+
+For this purpose, \emph{import libraries} exist. They are similar to
+normal libraries apart from the fact that they don't contain normal
+code but just links to the DLL.  You handle these import libraries
+like normal libraries (and object files), you just link them to the
+rest. When the linker needs some function which is described in the
+library it creates an import (i\.e a relocation/fixup entry) the
+target is the corresponding DLL and the corresponding symbol name).
+
+You have to export by EXPs, which are files that contain a list with
+the to-be-extracted symbols.  On linking you pass them to the linker
+which then creates exports.\footnote{An export is just an entry in
+the entry-table but with a name.}
+
+EXPs just look like the following to export the function
+\texttt{printf} and the variable \texttt{i}.
+
+\begin{verbatim}
+'printf_'
+'_i'
+\end{verbatim}
+
+You create import libraries by
+\texttt{WLIB x.LIB +x.DLL}
+presumed that \texttt{x.DLL} contains exports.
+
+The main EXE is actually just such a DLL apart from the fact that it
+doesn't contain any imports but an entry-point to \texttt{main\_}.
+
+\subsection{the Internals}
+All  DLLs of \cp\ are in \texttt{cp.pak}, which is a Quake-compatible
+\texttt{.pak} file. You can  unpack it with normal Quake tools.
+
+I roughly describe the most important DLLs which are in this
+\texttt{.pak} file:
+
+\begin{dojlist}
+\item[\texttt{arc*.dll}] archive-reader (e.g. ARCZIP.DLL for .ZIP-files)
+\item[\texttt{cpiface.dll}] the interface (the screens with trackview and so on)
+\item[\texttt{devi.dll}] auxilary  routine  for  the  devices  system  that  reads from\\
+   \texttt{cp.ini} (*) what devices are to be loaded and loads them
+\item[\texttt{devp*.dll}] player-devices, play samples
+\item[\texttt{devs*.dll}] sampler-devices,  are  more or less  able  to sample (e.g. for displaying the FFTs of Audio CDs)
+\item[\texttt{devw*.dll}] wavetable-devices,  play more samples at the same time, either directly  on the hardware (GUS, SB32...)  or mix them and play them on DEVPs (DEVWMIX, DEVWMIXQ)
+\item[\texttt{fstypes.dll}] module-detection,  song-infos  for  various module-formats are evaluated here
+\item[\texttt{hardware.dll}] routines  for  bending and using IRQs,  the  timer and DMAs so that not every device driver needs its own functions
+\item[\texttt{load*.dll}]  module-loaders, load various formats
+\item[\texttt{pfilesel.dll}] the file selector
+\item[\texttt{play*.dll}] plays modules on various devices
+\item[\texttt{(*)}] Since version 2.0 many things are not directly retrieved from \texttt{cp.ini} but from an exported \texttt{\_dllinfo}. Read more about this later.
+\end{dojlist}
+
+A simplified overview about \cp:
+
+\texttt{cp.exe} loads important DLLs, starts DEVI  to  get  the desired 
+devices, and starts the file selector. This program part asks the user
+which module he wants, seeks the corresponding LOADer, loads the
+module, seeks the corresponding PLAYer, and passes the module to it.
+The player seeks the corresponding devices and passes the data that
+should be played to them.
+
+At the same time the player passes data to the interface, which was
+initialized some time before. The interface displays these data and
+evaluates inputs from the user.
+
+\subsection{Our first Cubic-DLL}
+To create a DLL, you first have to create an environment where you can
+do this best. The easiest method is to install the source of \cp\ and
+put one's DLL into the makefile. However, since the directory gets
+messy soon, I recommend developing one's DLLs elsewhere.  At first you
+should get all \texttt{.lib} and \texttt{.h} of \cp\ by compiling the
+player once.\footnote{Soon there is said to come an archive with all
+\texttt{.lib} and \texttt{.h} for those people
+who just want to develop something new.}
+
+Let's start it all over from the beginning step by step.  As an
+example, we want to write an ACE-reader which displays the
+descriptions before the final decompressing.
+
+First depack the environment, set the paths correctly and copy the
+\emph{TEMPLATE} from the \texttt{indev} directory to \texttt{indef\symbol{92}arcace}.
+
+There you have to change the makefile, namely in this way:
+\begin{verbatim}
+dest = arcACE.dll
+ ...
+arcace_desc = 'OpenCP .ACE Archive Reader (c) 1998 Felix Domke'
+arcace_objs = arcace.obj
+arcace_libs = cp.lib pfilesel.lib
+arcace_ver = 0.0
+
+arcace.dll: $(dlldeps) arcace.exp $(arcace_objs)
+            $(libdir)$(arcace_libs)
+            $(makedll)
+            copy arcace.dll \opencp\bin
+\end{verbatim}
+%$ this line is too fool the sucking xemacs syntax highlightning
+
+You have to enter all destinations for \texttt{dest}, i\.e all DLLs
+which shall be created in the end.
+
+\texttt{arcace\_desc} is the description which will be printed. 
+
+\texttt{arcace\_objs} are the object-files which shall be linked to the DLL.
+
+Since there is an implicit-rule which says that WPP386 gets executed
+for CPPs for which OBJs with the same name are demanded, there also
+has to be an \texttt{arcace.cpp} with our code.
+
+\texttt{arcace\_libs} are  the  (import) libraries  from  which  the  imports  
+shall be searched.  Standard functions like \texttt{sprintf\_} etc.\ are
+exported in \texttt{cp.lib}.  PFILESEL.LIB contains some functions we
+will need later.
+
+\texttt{arcace\_ver} is the version which gets displayed in the linkview of 
+\cp. You compute it in a rather strange way. How exactly, I myself haven't
+understood, but usually you should convert the version from hex to
+decimal (e\.g\. 0x024000 for 2.5.0) and then divide by 100. But
+someone must have erred.
+
+The \texttt{copy} at the end copies the DLL right into the CP directory.
+
+In general in an archive-read, two functions are passed, one to read
+the file names from the archive and ``tell'' them to the file selector
+via callback and another to call the unpacker to unpack a file from
+the archive.
+
+To be concrete, it looks like the following:
+
+An \texttt{adbregstruct} gets exported which looks like this:
+\begin{verbatim}
+struct adbregstruct
+{
+  const char *ext;
+  int (*Scan)(const char *path);
+  int (*Call)(int act,
+              const char *apath,
+              const char *file,
+              const char *dpath
+             );
+  adbregstruct *next;
+};
+\end{verbatim}
+
+\texttt{ext} is the extension, in our case \texttt{.ace}.
+
+\texttt{Scan} is a function which gets called  with the archive as parameter 
+and tells it to the file selector by calling \texttt{adbAdd()}.
+
+\texttt{Call} will get executed then to unpack a file from the archive.
+
+We leave out \texttt{next} because it will be set at runtime anyway.
+
+Now let's export such a struct:
+\begin{verbatim}
+extern "C"
+{
+adbregstruct adbACEReg = {".ACE", adbACEScan, adbACECall};
+char *dllinfo = "arcs _adbACEReg";
+};
+\end{verbatim}
+
+\texttt{dllinfo} makes an entry in \texttt{cp.ini} superfluous. It provides 
+that CP takes notice of our archive-reader.
+
+However, something like \texttt{link=... arcace.dll} has to be in
+\texttt{cp.ini}.
+
+Our \texttt{adbACEScan()} looks like the following\footnote{The
+function has been \emph{heavily} simplified and can't be run in
+\emph{this} form, but all things concerning \cp\ archives are in it.
+Only the ACE-specifical things, most of all the thing with the
+SOLID-archives, are missing.}:
+\begin{verbatim}
+static int adbACEScan(const char *path)
+/*
+  "path" is the filename of the archive.
+  If everything works, 1 will be returned, otherwise 0.
+*/
+{
+ [...]
+ sbinfile archive;
+/*
+  "binfile" is the Library which is used in CP for (almost) all
+  file accesses. I think it is EXTREMELY practical. It is
+  actually quite self-explanatory. "sbinfile" is a normal file
+  on disk.
+*/
+ if(!archive.open(path, sbinfile::openro))
+  return(1);
+/*
+  When we can't open the archive, we can exit at once :)
+*/
+
+ unsigned short arcref;
+
+ char arcname[12];
+ char ext[_MAX_EXT];
+ char name[_MAX_FNAME];
+ _splitpath(path, 0, 0, name, ext);
+ fsConvFileName12(arcname, name, ext);
+ arcentry a;
+ memcpy(a.name, arcname, 12);
+ a.size=archive.length();
+ a.flags=ADB_ARC;
+ if (!adbAdd(a))
+ {
+  archive.close();
+  return 0;
+ }
+/*
+  Here, the archive itself gets added to the file listing,
+  namely by adbAdd(arcentry &).
+  The struct which adbAdd expects looks like:
+
+  struct arcentry
+  {
+   unsigned short flags;
+   unsigned short parent;
+   char name[12];
+   unsigned long size;
+  };
+
+  "flags" is e.g. ADB_ARC for archives.
+  "parent" is not so important at the moment.
+  "name" is the file name in 8.3-format (fsConvFileName12
+         converts it pretty nicely :)
+         (e.g. from "x.y" to "X       .Y  ")
+  "size" is simply the length which will be displayed.
+*/
+  arcref=adbFind(arcname);
+/*
+  Aferwards we keep the "ref" in our mind so that we can enter
+  it as "parent" afterwards. parent is the source-archive so
+  that the files there will be unpacked from the right archive
+  afterwards... (The file selector creates a list of all files
+  in the directory and the files in the archives. For the last
+  thing, it calls the archive-reader. If the user presses with
+  "Enter" on a file afterwards, the file selector has to know
+  what ARCer it has to call and most of all from which archive
+  the files come. Therefore the parent has to be set.
+*/
+ [...]
+
+/*
+  Now let's deal with the ACE itself. The ACE format is very
+  similar to the RAR one, a detailed
+  @REF="format description":"coace.txt"
+
+  In any case the function "ReadNextHeader" reads the header on
+  the current position and skips additional bytes if they appear
+  (i.e with files the packed data). In this way header comes
+  after header, at least it appears. (In reality ReadNextHeader
+  SEEKs at the beginning, not at the end, but that's not
+  important now, don't get confused by that :)
+*/
+
+ arcentry a;
+ while(ReadNextHeader(archive))
+ {
+/*
+   Here, the header gets read.
+*/
+  char ext[_MAX_EXT];
+  char name[_MAX_FNAME];
+  [...]
+  if(aheader->type==1)
+  {
+/*
+  ...if the type is 1 (file), the file name will be read...
+*/
+   [...]
+   char filename[_MAX_PATH];
+   memcpy(filename, afheader->filename, afheader->filenamesize);
+   filename[afheader->filenamesize]=0;
+   strupr(filename);
+   _splitpath(filename, 0, 0, name, ext);
+/*
+   ...splitted into "name" and "ext"...
+*/
+   if(fsIsModule(ext))
+/*
+   ...and if "ext" is a module-extension (see CP.INI), then...
+*/
+   {
+    a.size=afheader->unpsize;
+    a.parent=arcref;
+    a.flags=0;
+    fsConvFileName12(a.name, name, ext);
+/*
+   ... this file will be added to the file list by adbAdd.
+*/
+    if(!adbAdd(a))
+    {
+     archive.close();
+/*
+   If the whole thing doesn't work, well, then it doesn't work.
+*/
+     [...]
+     return 0;
+    } else
+    {
+/*
+   Otherwise, if wished,
+*/
+     if(fsScanInArc&&[...])
+     {
+/*
+some blocks get be depacked (by the UNACE-routines in UAC_DCPR.*)
+*/
+      dcpr_init_file();
+      int rd=dcpr_adds_blk(buf_wr, size_wrb);
+      unsigned short fileref;
+      fileref=mdbGetModuleReference(a.name, a.size);
+/*
+   ...a reference for the just ADDed file will be retrieved...
+*/
+      if((fileref!=0xFFFF)&&(!mdbInfoRead(fileref)))
+      {
+       moduleinfostruct ms;
+       if(mdbGetModuleInfo(ms, fileref))
+       {
+        mdbReadMemInfo(ms, (unsigned char*)buf_wr, rd);
+/*
+  ...and then we e.g. look for the song name etc. by
+  "mdbReadMemInfo". Just for explanation, again:
+
+  "buf_wr" contains about the first unpacked 2-4kb of the actual
+  file. Now "mdbReadMemInfo" tries to get to the infos in it
+  with various, format-specific routines.
+*/
+        mdbWriteModuleInfo(fileref, ms);
+/*
+  These will also be set then.
+
+  Another thing about the "mdbInfoRead" and "mdbGetModuleInfo":
+  At first you have to read what is already known about the
+  file, then actualize it and write it back.
+*/
+       }
+      }
+     }
+    }
+   }
+   [...]
+  }
+ }
+ [...]
+ archive.close();
+ return(1);
+}
+\end{verbatim}
+
+Now let's come to \texttt{adbACECall}. This function is quite easy.
+Depending on \texttt{act}, it has to pack, unpack, move etc. the file
+\emph{file} from the archive \emph{apath} to \emph{dpath}.  To  make  it  
+easier, only  one  \texttt{act=="adbCallGet"} is  supported, i\.e unpacking.
+
+\begin{verbatim}
+static int adbACECall(int act,
+                      const char *apath,
+                      const char *file,
+                      const char *dpath)
+{
+ switch (act)
+ {
+  case adbCallGet:
+  {
+   return !adbCallArc(cfGetProfileString("arcACE", "get",
+                                         "ace e %a %n %d"),
+                      apath, file, dpath);
+/*
+   "adbCallArc" is a nice function: it replaces something like
+   %a, %n and %d with the passed arguments. The first argument
+   has to be inserted for %a, the second for %n and the third
+   for %d. Beforehand, "cfGetProfileString" gets from CP.INI
+   whether the user wants to use another packer (XACE etc.) and
+   that in the section "arcACE" and the key "get=".
+   If the key hasn't been found, "ace e %a %n %d" will be taken
+   by default, which, by the way, should be correct almost every
+   time. :)
+*/
+  }
+  case adbCallPut:
+   // not implemented
+   break;
+  case adbCallDelete:
+   // not implemented
+   break;
+  case adbCallMoveTo:
+   // not implemented
+   break;
+  case adbCallMoveFrom:
+   // not implemented
+   break;
+  }
+  return 0;
+}
+\end{verbatim}
+
+Now a simple \texttt{wmake} compiles the whole thing presumed that a
+working \texttt{makefile} is available.

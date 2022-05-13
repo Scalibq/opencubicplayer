@@ -1,0 +1,100 @@
+% OpenCP Module Player
+%
+% Documentation LaTeX source
+%
+% revision history: (please note changes here)
+% -doj990413  Dirk Jagdmann  <doj@cubic.org>
+%   -initial release
+% -doj20010724 Dirk Jagdmann <doj@cubic.org>
+%   -added windows cphost.exe
+
+\chapter{Installation and files}
+\cp\ needs no special install procedure. Simply copy all files you found inside
+the archive into one directory. If you like you can add this directory to your
+path statement. Example:
+\begin{quote}
+Install \cp\ into \texttt{C:\symbol{92}OPENCP} by typing:
+\begin{enumerate}
+\item \texttt{C:}
+\item \texttt{CD \symbol{92}}
+\item \texttt{MD OPENCP}
+\item \texttt{CD OPENCP}
+\item \texttt{PKUNZIP -D C:[theRightDirectory]OPENCP}
+\end{enumerate}
+Then you can modify your \texttt{autoexec.bat} and add the new directory to
+the path statement. The new path might look like \\
+\texttt{path c:\symbol{92}windows;c:\symbol{92}windows\symbol{92}command;c:\symbol{92}opencp}.
+\end{quote}
+
+The following files are (at least) required to start \cp\ 
+\begin{dojlist}
+\item[cp.exe] the startup file used to start the \cp\ runtime system 
+\item[cp.ini] the initializition file read by cp.exe to configure itself 
+\item[cp.pak] the DLL library where all modules are stored 
+\end{dojlist}
+
+As \cp\ is a 32bit program it normally needs the DOS4GW extender to use
+protected mode. If the file \texttt{dos4gw.exe} could not be found in the
+current directory and the path, you get an error message.
+
+When \cp\ loads a module the information stored inside the file is read and
+stored in a special file (the \emph{module information cache}). Actually the
+cache splits up into three files: 
+\begin{dojlist}
+\item[cparcs.dat] Information about archives and files stored inside 
+\item[cpmdztag.dat] Paths to \texttt{.MDZ}-files (see appendix \ref{mdz})
+\item[cpmodnfo.dat] Informations about various modules 
+\end{dojlist}
+If you delete these files all file information gathered is permanently lost.
+
+The \texttt{doc} directory contains documentation files in various formats
+and release notes etc. You can safely delete this directory if you are running
+out of disk space.
+
+\section{\cp\ and Windows}
+\cp\ will run happily in a DOS-Box of Windows 9.x-ME. You can use the
+native drivers of \cp, but this is not recommended with windows.
+If you have a sound card supported by windows and installed a DirectX 5 or later
+you can use the windows drivers with \cp. This way \cp\ will work with
+every sound card supported by windows, which includes modern pci devices.
+
+\begin{quote}
+Installation is totally simple:
+\begin{enumerate}
+\item copy the \texttt{vxdapc.vxd} driver and the \texttt{vocp.dll} library into your texttt{windows\symbol{92}system} directory
+\item run the \texttt{cphost.exe} program before starting \cp\
+\end{enumerate}
+\end{quote}
+
+\texttt{cphost.exe} will place an icon in your icon tray to indicate proper operation. If you use \cp\ regularily you can start \texttt{cphost.exe} with your autostart group.\footnote{Either move it into the autostart folder, or place a link in there.}
+
+If a yellow exclamation sign is added to the icon (in your icon tray), something failed. Please contact us for a bug report together with system information, the log from \texttt{cphost.exe} etc.
+
+All this however only applies to Windows 9.x-ME. \cp\ does not run
+with Windows NT, 2K or XP. If you have problems please see our section
+about the vapc driver in the FAQ.\footnote{page \pageref{faqvapc}}
+
+\section{Notes for german users}
+Auf der deutschen Tastatur weichen die Tastenbezeichnungen bei den Sonderzeichen
+von denen der englischen Tastatur ab. In dieser Anleitung wurden dabei immer die
+englischen Bezeichnungen verwendet. Mit der folgenden Tabelle sollten aber alle
+Unklarheiten beseitigt sein.\footnote{Verwechseln Sie nicht die
+\keys{$\longleftarrow$}\ (Backspace) mit der \keys{$\leftarrow$}-Taste! Die
+\keys{$\longleftarrow$}-Taste liegt normalerweise \"uber der
+\keys{$\hookleftarrow$}-Taste (Enter/Return).}
+
+\begin{tabular}{r@{ -- }l}
+english & deutsch \\ \hline
+\keys{SHIFT} & \keys{$\Uparrow$} \\
+\keys{CTRL} & \keys{STRG} \\
+\keys{Ins} & \keys{Einfg} \\
+\keys{Del} & \keys{Entf} \\
+\keys{Home} & \keys{Pos1} \\
+\keys{End} & \keys{Ende} \\
+\keys{Pgup} & \keys{Bild$\uparrow$} \\
+\keys{Pgdown} & \keys{Bild$\downarrow$} \\
+\keys{Backspace} & \keys{$\longleftarrow$} \\
+\keys{Enter} & \keys{$\hookleftarrow$} \\
+\keys{Space} & \keys{Leertaste} \\
+\keys{Tab} & \keys{$|\leftarrow$}
+\end{tabular}

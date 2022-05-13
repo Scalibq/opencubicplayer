@@ -1,0 +1,92 @@
+BUGS STILL TO BE SOLVED:
+-------------------------
+if you think you removed a bug, please mail to the reporter of the bug. If
+he the author thinks the bug is removed he has to remove his bug report from
+this list.
+
+bugs found by doj@cubic.org
+----------------------------
+- gus playback haengt nach 1s-1min unter win98. Der player scheint weiterzu-
+  laufen und reagiert auch auf tasten etc.
+- im fileselector kann man den mod-type im info fenster unten nicht mehr
+  manuell angeben. Das ist doof, wenn man z.B. klisje.mod hoehren moechte.
+- nach dem update auf den float mixer gibts im "O" modus nur noch stille.
+    (tmb: jaja, das war der fehlende displaymixer. ist jetzt drin.
+          funktioniert's nun?)
+
+- CD-Audio Visualisierung geht bei neuen (schnellen) Rechnern nicht? Oder ist
+  dies nur ein SoundKarten Problem?
+
+bugs found by kb@nwn.de
+------------------------
+- note dots gehen bei ITs mit Amiga-Freqtable nicht. Dies liegt einfach
+  daran, dasz ich penetrant zu doof bin, die frequenzen umzurechnen - und
+  jeder versuch, die aequivalente Routine aus dem XM-Player zu kopieren,
+  schlug auch fehl. Hilfe. (itplayerclass::getDotsData())
+- Auf meiner Grafikkarte dauern Videomodeswitches manchmal STUNDEN, waehrend
+  der Player laeuft (unter Win musz ich meistens ins Fenster zurueckschalten,
+  dann gehts sofort, unter Dos heiszt es halt warten).
+- nach ca. 6 minuten, manchmal weniger, manchmal mehr, sagt es (symbolisch)
+  "klick" und die Synchronisation der Patternanzeige ist fuern Arsch. Keine
+  Ahnung warum, ein Ueberlauf oder so findet da jedenfalls nicht statt afaik.
+- ich hab mal spaszeshalber ne wertebereichsueberpruefung bei mcpSetMaster<bla>
+  in devwmix gekloppt (also wenn der wert ausserhalb des zulasssigen
+  Bereichs liegt, wird er stumpf ignoriert). Das hat das Problem so halb
+  gelosst - weil er jetzt keine Lautstaerkenfehler mehr hat, aber dafuer
+  einfach crasht. Seltsame Welt. Ich glaub, ich sollte mal nen diff von
+  2.5.0 zur jetzigen Version machen und nachsehen, WELCHE Aenderung diesen
+  Effekt hervorgerufen haben koennte (auch wenn das VIEL Lesestoff gibt)
+    (KB, siehe anmerkung zu DOJs bug, der SOLLTE behoben sein. wenn's nochmal
+     auftritt, dann wohl doch nicht - fd)
+
+
+bugs found by tmb@gmx.net
+-------------------------
+- Der WMA-Player laeuft nur unter Windows, pmodew, dosemu, aber nicht mit
+  dos4gw und plaindos.
+  scheint also am dpmi-host zu liegen, und da es einfach einen crash
+  gibt (freeze), kann man da auch nicht viel debuggen
+  es liegt am decoder, der alleine stuerzt auch schon ab, ohne den
+  cp aussenrum, und ohne jegliche hardwarezugriffe.
+  inzwischen laeuft der WMA-player GARNICHTMEHR. toll, nicht?
+  (woran auch immer das liegt.)
+- SCP-BACK.DMF:  page fault bei gmdldmf.cpp.212+0x0
+
+
+some new bugs found in CP 2.6.0pl4 by dw
+----------------------------------------
+- Mit LAME erstellte Mp3-Files werden mit haesslichen "Ausreissern" abgespielt.
+  Diesen Bug gibts seit dem die CubicSplineInterpolation implementiert wurde.
+  Der Fehler verschwindet, wenn man das File ohne "short blocks"
+  (LAME.EXE --noshort) codiert. Im CP 2.5.0 gibt es diesen Fehler nicht.
+- Panning bei WAVs funktioniert nicht
+- Prozentanzeige beim Vorspulen von sehr grossen Files futsch:
+  Ein (von mir aus einem MIDI erstellter) 65MB mp3 Soundtrack
+  kann nur bis zu 21 Prozent vorgespult werden. Dann startet CP bei 1 Prozent.
+  Selbstverstaendlich tritt der Fehler auch bei grossen WAVs auf.
+- Stereo note cons (u. dots) (mehrmals Taste "n") haben zuviel Linksanteil.
+  Auch bei Mono erscheinen sie asymmetrisch. Dieser Fehler ist uralt!
+- devpVXD: Die Musik "ruckelt" im Fileselektor (auch bei 600MHz).
+  (Liegt wohl am falschen Betriebssystem,aber es laesst sich sicher was machen)
+  Das passiert mit allen Mod-Formaten aber niemals mit MP3s.
+  Ausserdem gehen Viedomodeswitches ziemlich langsam (nur devpVXD).
+- Scopes (Taste "o"): ganz falsche Darstellung (Amplitude)
+  bei Verwendung des FPU-Mixers
+- MPx-Writer geht nicht (Filesize immer 0). Schlage vor ihn zu entfernen,
+  und externe Encoder zu unterstuetzen. Wer will denn heute noch mp2? :)
+- THEEND.MOD wird richtig angezeigt (Tasten "t","n"), aber falsch abgespielt.
+  Irgendwie wird das meiste an Toenen ausgelassen.
+  Dieser Fehler erscheint erstmals in CP 2.5.1.
+- Manche MIDI-patches (des www.cubic.org/player/- Patchsets!)
+  werden vom CP nicht geladen (z.B. DOO.PAT)
+  CP verweigert dann das jeweilige MIDI-File.
+- Beim Vorspulen sehr grosser MIDIs verabschiedet sich der CP gelegentlich.
+  (mal eben schnell einen MIDI "complete game soundtrack" herunterladen)
+    page fault (0x23F) at 0x833703EE:
+    playgmi.+0x3AE
+    .0+0x833703EE
+    stack content: [esp+]
+     8352ae53      [01] devpvxd._dllinfo+0x97063 (.0+0x8352ae53)
+     8337b4b4      [02] playgmi._gmiPlayer+0x30a4 (.0+0x8337b4b4)
+     83520051      [03] devpvxd._dllinfo+0x8c261 (.0+0x83520051)
+     833706fb      [04] playgmi.+0x6bb (.0+0x833706fb)

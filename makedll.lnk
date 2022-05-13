@@ -1,0 +1,6 @@
+option quiet 
+option osname='OpenCP' 
+library { dosdll.lib }
+reference _dllstart_
+format os2 le dll
+option { caseexact stack=0 map manglednames eliminate dosseg }

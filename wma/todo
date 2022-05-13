@@ -1,0 +1,28 @@
+todo (auf deutsch jetzt)
+
+(einiges ist inzwischen durch hacks beseitigt, aber trotzdem:)
+
+   - seeking muss rein
+   - asf reader ist ein reiner hack
+   - memory-leaks (einmal durch LoadResource, der andere durch den
+     Codec selber, DA KANN ICH NICHTS FöR ;)
+   - Das ganze ein wenig syncen. (wie immer das im mp3-player gemacht ist)
+   - loading to ram, damit im irq decoded werden kann (aber bitte vorher
+     den ganzen debuggingkram aus dem asfreader rausnehmen)
+   - "LoadString" vielleicht aus der Resource
+   - irgendwas wird irgendwie falsch aligned gelesen, Ñh...
+     also es dÅrfen nur vielfache von 16384 (oder 8192.. oder ... je
+     nach samplerate, aber 16384 ist afaik max.) vom codec gelesen werden.
+     wir brauchen sonst nen buffer, falls mehr soll.
+     also. der wmaplay.cpp achtet einigerma·en dadrauf, aber halt nicht
+     bis zum ende.
+     fixen.
+
+   - wegen lizens nachgucken. ich weiss nicht, in wieweit sowas erlaubt ist.
+
+   - vielleicht ein encode (multithreaded isses, ja, aber mtw ist drin,
+     sollte funktionieren. hab ich nur letztens standalone getestet.)
+
+                                                        tmb
+
+aber: ES FUNKTIONIERT! :)

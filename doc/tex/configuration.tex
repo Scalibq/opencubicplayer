@@ -1,0 +1,750 @@
+% OpenCP Module Player
+%
+% Documentation LaTeX source
+%
+% revision history: (please note changes here)
+% -doj990413  Dirk Jagdmann  <doj@cubic.org>
+%   -initial release
+
+\chapter{Configuration}
+\label{cp.ini}
+\cp\ can be widely configured using the \texttt{cp.ini} file, which should
+reside in the home directory of the player itself. This file is
+processed at every startup and informs the player about various
+modules / plugins and their respective configuration. For average
+users the default configuration should be sufficient. However if you
+want to change certain aspects of the player permanently you have to
+modify this file. You can use every ascii editor to edit the ini file.
+
+The \texttt{cp.ini} consists of many sections. Each section starts
+with a section identifier tag in square brackets [ ]. Examples of
+sections are \texttt{[general]} or
+\texttt{[sound]}. The sections id tag should be followed by a newline. After
+a section has been declared with the id tag the options describing the
+sections follow. Each options takes a single line and consists of a
+keyword followed by a ``='' and the parameters. Example:
+\texttt{mixrate=44100}.
+
+All options following a section id are options for that section. If a
+new section starts with a id tag all forthcoming options are assigned
+to the new section. All options for a section have to be grouped
+together. Multiple declarations of sections are not valid.
+\begin{quote}
+\begin{verbatim}
+[general]
+  link=dos4gfix
+[defaultconfig]
+  link=mchasm
+[general]
+  dos4gfix=off
+\end{verbatim}
+\end{quote}
+the above example has to be written as:
+\begin{quote}
+\begin{verbatim}
+[general]
+  link=dos4gfix
+  dos4gfix=off
+[defaultconfig]
+  link=mchasm
+\end{verbatim}
+\end{quote}
+{\small Note that in the above example the option \emph{link} has not
+been overridden by the \emph{defaultconfig} section. Both sections now
+can access an options named \emph{link}, but both options are totally
+independant of each other.}
+
+Comments can be placed anywhere in the configuration file and are
+marked by a \texttt{;}. The rest of the line starting from the
+\texttt{;} is considered as a comment and not processed.
+
+Normally the definition for an option ends with the end of the
+line. If many parameters are needed to specify an option they may
+exceed the default line width of 80 characters. Although this is no
+problem for \cp\ it is not nice looking. You can extend a line
+logically by using the unix like \emph{backquote} at the end of a line
+to begin a newline without interupting the current option definition.
+\begin{verbatim}
+[example]
+  option1=parameter1 parameter2
+  option2=parameter1 \
+          parameter2
+\end{verbatim}
+Both options contain exactly the same parameters.
+
+When modifying the configuration you should always start with the
+default configuration file and configure it to your needs. Building a
+bug free config file from scratch is difficult.\footnote{And remember
+to make backups before changing vital parts of the \texttt{cp.ini}}
+
+We will now have a look at the individual sections and their options.
+
+\section{general}
+The \emph{general} section describes which internal modules or plugins
+to load at startup. Most of them are required for normal operation of
+\cp\ so you should not remove any of the contents. All options listed
+in this section are loaded every time \cp\ starts!  The default
+\emph{general} section looks like:
+
+\begin{verbatim}
+[general]
+  link=dos4gfix mmcmphlp poutput hardware inflate pfilesel \
+       cpiface fstypes
+  ultradir=c:\sys\iw\  
+  dos4gfix=off
+;  datapath=   
+;  tempdir=
+\end{verbatim}
+
+\begin{dojlist}
+\item[link] this options describes the modules to load when starting \cp.
+There is no need to change this option, unless you have coded a basic
+internal module.
+\item[ultradir] If you want to hear MIDI music you need samples for the
+general midi instrument set.\footnote{a so called midi patch set} This
+option contains the path to the midi patches. Section \ref{midi}
+describes how to set up \cp\ for midi playback.
+\item[ados4gfix] DOS4GW is a protected mode extender used by the watcom c++
+compiler. However this extender has problems with IRQ greater than
+7. If you use the default dos extender \texttt{cplaunch} you should
+disable this option.  If you want to use DOS4GW for whatever reason
+and your soundcard uses an IRQ greater than 7 you have to enable this.
+\item[datapath] \cp\ searches for background pictures and animations in its
+home directory. If you want to store your artwork at a different place
+use this option to set the right directory.
+\item[tempdir] this directory is used for extracting modules from archives.
+If you have set a DOS environment variable called either \texttt{TEMP}
+or
+\texttt{TMP} these will be used.\footnote{Most programs make use of those
+environments, so you should set them at startup in your
+\texttt{autoexec.bat} file.}
+\end{dojlist}
+
+\section{defaultconfig}
+The \emph{defaultconfig} section is very similar to the \emph{general}
+section.  But unlike the \emph{general} section which is always
+processed the settings in the \emph{defaultconfig} section can be
+ommited with an alternative section and the \texttt{-c} flag from the
+command line. If the \texttt{-c} flag is not present the
+\emph{defaultconfig} section will be processed.\footnote{Therefore it
+was named \emph{defaultconfig}...}
+
+\begin{verbatim}
+[defaultconfig] ; default configuration
+  link=mchasm devi sets smpbase plrbase mcpbase arcarj arczip \
+       arcrar arcumx arcbpa arclha arcace playcda playinp
+  prelink= ; preloaded dlls
+\end{verbatim}
+
+\begin{dojlist}
+\item[link] just like in the \emph{general} section this option defines which
+modules should be loaded at startup. You can delete some entries if
+you will not need them -- however this is not recommended as they do
+not use much memory and do not require any processor power.
+\item[prelink] these files will be loaded before starting the main module. If
+something goes wrong here \cp\ will continue to work.
+\end{dojlist}
+
+\section{sound}
+This section is the most important one for using \cp. If you want to
+change the configuration permanently you have to modify the entries of
+this section.
+
+\begin{verbatim}
+[sound] ; default sound section
+  playerdevices=devpWSS devpEWS devpSB devpESS devpGUS devpPAS \
+                devpNone devpDisk devpMPx
+  samplerdevices=devsWSS devsSB devsGUS devsNone
+  wavetabledevices=devwMixQ devwIW devwGUS devwSB32 devwDGUS \
+                   devwMix devwNone
+  ampegtomono=off
+  ampegmaxrate=48000
+  mixrate=44100          
+  mixprocrate=4096000   
+  mix16bit=on            
+  mixstereo=on          
+  plrbufsize=500        
+  mixbufsize=500        
+  samprate=44100        
+  samp16bit=on          
+  sampstereo=on        
+  smpbufsize=2000       
+  defplayer=             
+  defsampler=            
+  defwavetable=        
+  midichan=64           
+  itchan=64
+  cdsamplelinein=off     
+  bigmodules=devwMixQ    
+  wavetostereo=1         
+  waveratetolerance=50  
+  amplify=100  
+  panning=100 
+  volume=100  
+  balance=0  
+  reverb=0   
+  chorus=0    
+  surround=off
+  filter=1  
+\end{verbatim}
+
+\begin{dojlist}
+\item[playerdevices] \cp\ uses three different devices to communicate with the
+hardware. The \emph{playerdevices} are used to play a stream of
+samples. As all sound cards support this feature you will find
+\emph{playerdevices} for every sound card supported by \cp. This
+device is needed for playing
+\texttt{.wav} and \texttt{.mp3} files and if you want/have to use the software
+(quality) mixer. \cp\ searches for all devices listed in this option
+at startup and only those found are actually loaded. You can delete
+all devices you have not installed to speed up to startup
+procedure. If you have multiple sound cards installed be sure to list
+all devices if you want to use more than one sound card.\footnote{you
+can change devices by using the special
+\texttt{@:} drive described in section \ref{fileselector}}. If more than one
+device is listed the first in the list will be used as default.
+\item[samplerdevices] these devices are the least important ones. They are
+only needed if you want to use \cp\ when playing cd audio tracks or
+start the player in sample mode. The sample data is not calculated
+from files, but sampled from either the cd, line or microphone jack of
+the sound card. You can then use the graphical screens to view the
+sounds.
+\item[wavetabledevices] for mixing several channels you have to use
+\emph{wavetabledevices}. Most sound cards are only able to play to channels
+simultaneously normally assigned to the left and right channel or your
+home stereo. The \emph{mixer} devices are used to mix the sample data
+of module files to those two channels. However modern sound cards have
+special hardware to mix channels ``onboard''. But all hardware mixers
+have a maximum amount of channels to mix\footnote{mostly 32
+channels}. Especially \texttt{.it} files often use more than 32
+channels so an errorfree playback can not be guaranteed when using
+hardware mixing. You should include one of the software mixers for
+this case.
+\item[ampegtomono] play \texttt{.mp3} files only mono. This might be necessary
+if you don't have the latest generation of Intel processors.
+\item[ampegmaxrate] the highest playback sample rate to use for \texttt{.mp3}
+files.
+\item[mixrate] the default mixrate. Unless you have a very old sound
+card\footnote{SoundBlaster 1.x or SoundBlaster Pro and compatibles} or
+a very old processor\footnote{Something like 386SX} there is no need
+to change this option.
+\item[mixprocrate] if you have a slow cpu\footnote{\texttt{<}486DX} you might 
+not be able to play 32 channels at full mixrate. This value defines
+the maximum ``calculation power'' to which \cp\ tries to use the full
+mixrate.
+\item[mix16bit] Leave this option enabled unless you have a 8bit sound card.
+\item[mixstereo] dito for stereo cards
+\item[plrbufsize] When using a \emph{playerdevice} to play sample streams a DMA
+buffer is used to minimize cpu resources for handling the sample
+stream. This option sets the DMA buffer length in miliseconds.
+\item[mixbufsize] When running in a multitasking environment there is no
+guarantee for constant cpu resources. To avoid a break in the sample
+stream \cp\ will calculate in advance. This option sets the buffer lenth in
+miliseconds.
+\item[samprate] When using a \emph{samplerdevice} this value will be used.
+\item[samp16bit] dito
+\item[sampstereo] dito
+\item[smpbufsize] this options sets the length of the sample DMA buffer in
+miliseconds.
+\item[defplayer] with this option you can override the default
+\emph{playerdevice}. Normally you don't need to set this option, as the
+default device can also be set by the order in the \emph{playerdevice}
+option.  This option can also be specified by using the \texttt{-sp}
+options from command line.
+\item[defwavetable] this option sets the default \emph{wavetabledevice}. Can
+also be set with \texttt{-sw} command.
+\item[defsampler] the same as the \texttt{-ss} command line option.
+\item[midichan] unlike the module file types the MIDI file format does not
+specify the exact amount of channles to use. Complex \texttt{.mid}
+files can easily try to play several dozens of channels
+simultaniously. This option sets the maximum amount of channels to mix
+when playing \texttt{.mid} files. Note that this value has no effect
+when a hardware mixing device is used, as the maximum number is
+limited by the hardware.
+\item[itchan] the \texttt{.it} format can play more than one sample per channel
+simultaniously. A maximum number of channels to mix is required for
+this file type too. When playing \texttt{.it} files using a hardware
+mixer the maximum number of channels is again limited to the hardware.
+\item[cdsamplelinein] If you select a \texttt{.cda} file the cd input of your
+sound card is used to sample the current music. If you do not have a
+cd input or if you have connected your cd-rom to the line-in jack
+enable this option to change to sample input.
+\item[bigmodules] This option is of interest for users of hardware mixing
+devices only. Sound cards capable of mixing channels are not only
+limited by the amount of channels played simultaniously, but by the
+amount of onboard memory to store the sample data too. If files are
+marked as ``big'' in the fileselector this device listed in this
+option will be used for mixing this module.\footnote{See section
+\ref{bigmodules} on page \pageref{bigmodules} for details about this
+feature}
+\item[wavetostereo] When playing a mono wave the sound card can either be
+switched to mono mode or the wave can be played as a stereo
+file.\footnote{switching the soundcard may cause problems so enable
+this option.}
+\item[waveratetolerance] if the sample rate of the wave file is not equal to
+a sample rate supported by your sound card, \cp\ will not resample
+unless this value is exceeded. Divide the value by 1000 to get the
+percentage.
+\item[amplify] the default amplification to use within the player. The 
+following options are described in section \ref{playerGeneral} in
+detail. The command line option \texttt{-va} overrides this option.
+\item[panning] the default panning (command \texttt{-vp})
+\item[volume] the default volume (command \texttt{-vv})
+\item[balance] the default balance (command \texttt{-vb})
+\item[reverb] some sound cards have an onboard effect processor\footnote{currently
+the SoundBlasterAWE and the TerraTecEWS} which features a reverb
+effect. This option controls the intensity of the onboard
+effect. (command \texttt{-vr})
+\item[chorus] dito as reverb (command \texttt{-vc})
+\item[surround] this options controls the fake surround effect\footnote{this
+has little to do with real Dolby Surround although there should be a
+certain effect if you have such an amplifier} (command \texttt{-vs})
+\item[filter] The software mixer can use a software filter to enhance the
+playback quality. Different algorithms can be used. (command
+\texttt{-vf}) \begin{itemize} \item[0] no filter \item[1] AOI - only
+filter samples when filtering is necessary \item[2] FOI - filter every
+sample even if filtering has no effect \end{itemize}
+\end{dojlist}
+
+\section{screen}
+When the player starts it will use the options in this section as the
+initial appearance.
+
+\begin{verbatim}
+[screen] 
+  usepics=opencp01.tga
+  compomode=off  
+  startupmode=text 
+  screentype=2    
+  analyser=on
+  mvoltype=1
+  pattern=on
+  insttype=0
+  channeltype=1
+  palette=0 1 2 3 4 5 6 7 8 9 a b c d e f
+\end{verbatim}
+
+\begin{dojlist}
+\item[usepics] When using graphics modes you can use a picture to show in the
+background. \cp\ will load any TGA files with 640x384 dimensions and
+256 colors.  As the TGA format is poorly implemented in modern graphic
+programs this might change in the future. As some colors out of the
+256 are used by \cp\ you should leave either the first or the last 16
+colors in the palette black.  The pictures should be copied to the
+home directory of \cp, unless you specify a different location in the
+\emph{defaultconfig} section.
+\item[compomode] this option will enable the compo mode. Section 
+\ref{compomode} describes the details.
+\item[startupmode] start the player in either text or graphic mode
+\item[screentype] the default screentextmode: \\
+  \begin{tabular}{l@{ -- }l}
+  0 & 80x25 \\
+  1 & 80x30 \\
+  2 & 80x50 \\
+  3 & 80x60 \\
+  4 & 132x25 \\
+  5 & 132x30 \\
+  6 & 132x50 \\
+  7 & 132x60 \\
+  \end{tabular}
+\item[analyzer] if the player starts in textmode show the analyzer (or not)
+\item[mvoltype] the appearance of the peak power levels: \\
+  \begin{tabular}{l@{ -- }l} 1 & big \\ 2 & small \\ \end{tabular}
+\item[pattern] show the tracklist when starting \cp\ in textmode
+\item[insttype] the appearance of the instrument function: \\
+  \begin{tabular}{l@{ -- }l}
+  0 & short \\
+  1 & long \\
+  2 & side (only in 132 column modes) \\
+  \end{tabular}
+\item[channeltype] the appearance of the channels in textmode: \\
+  \begin{tabular}{l@{ -- }l}
+  0 & short \\
+  1 & long \\
+  2 & side (only in 132 column mode) \\
+  \end{tabular}
+\item[palette] with this options you can redefine the default colors used in
+textmode. The first entry defines which color to use for the original
+color with number 0. Leave things as they are if you are satisfied
+with the visual appearance of \cp. We will provide new color schemes
+in the future.
+\end{dojlist}
+
+\section{fileselector}
+Except the first two options all options can also be specified at
+runtime by pressing \keys{ALT}+\keys{z} in the fileselector. However
+to make changes permanent you have to modify the \emph{fileselector}
+section.
+
+\begin{verbatim}
+[fileselector] ; default fileselector section
+  modextensions=MOD S3M XM IT MDL DMF ULT AMS MTM 669 NST WOW \
+                OKT PTM MXM MID WAV RMI MP1 MP2 MP3 SID DAT \
+                PLS M3U PLT
+  movepath=  ; default path to move files
+  screentype=2
+  typecolors=on
+  editwin=on
+  writeinfo=on
+  scanmdz=on
+  scaninarcs=on
+  scanmnodinfo=on
+  scanarchives=on
+  putarchives=on
+  playonce=on
+  randomplay=on
+  loop=on
+  path=.
+\end{verbatim}
+
+\begin{dojlist}
+\item[modextensions] files containing these extensions will be scanned by the
+fileselector. Only those files will be shown. If you want to load
+files with different extensions you have to specify them at the
+command line.\footnote{however files with different extensions are
+likely to be no valid module format, so they will be refused to load}
+\item[movepath] the standard path to move files into. This is describend in
+section \ref{fileselectoradvance}.
+\item[screentype] the textmode to use within the fileselector. The options are
+the same as in the \emph{screen} section.
+\item[typecolors] show files in different colors depending on the file type
+\item[editwin] show the edit window at the bottom of the screen
+\item[writeinfo] write the info to the information database located in the
+home directory of \cp. This speeds up the processing of directories,
+as files have to be scanned only once.
+\item[scanmdz] if \texttt{.mdz} files are found in the current directory, they
+will be scanned and the included information used.
+\item[scanmodinfo] scan inside the music files for module information.
+\item[scanarchives] if archives (like \texttt{.zip} or \texttt{.rar}) are
+found in the current directory the are scanned for modules.
+\item[putarchives] show archives in the fileselector, so they can be used just
+like subdirectories.
+\item[playonce] play every file only once (thus not looping it) and then 
+procede with the next file in the playlist. If the file contains a
+loop command the loop command is ignored.
+\item[randomplay] play files in the playlist in random order.
+\item[loop] loop files after the end.
+\item[path] the default path to use when starting the fileselector the first
+time. The default is the current directory (.). If you keep all your
+music files in one directory you can specfiy this directory here.
+\end{dojlist}
+
+\section{device configuration}
+The following sections define the various devices for the
+player. Unless you really know what to do you should not change the
+following options. As most entries are similar only some educational
+examples are listed here. For a complete reference have a look at your
+personal \texttt{cp.ini} file for details.
+
+The general form of a device looks like:
+\begin{verbatim}
+[handle]
+  link=...                                  
+  subtype=...                               
+  port=...                                  
+  port2=...                                 
+  irq=...                                   
+  irq2=...                                  
+  dma=...                                   
+  dma2=...                                  
+  bypass=...                                
+  keep=...                                  
+\end{verbatim}
+
+\begin{dojlist}
+\item[handle] The internal name to use within the player. The \texttt{cp.ini}
+file must contain all \emph{handles} listed in the devices options of
+the
+\emph{devices} section.
+\item[link] the name of the dll function this device will be linked to.
+\item[port(2)] the primary/secondary port of the sound card. This value has to
+be given in hexadecimal with preceeding \emph{0x} or appending \emph{h}!
+\item[irq(2)] the primary/secondary IRQ of the sound card
+\item[dma(2)] the primary/secondary DMA channel of the card
+\item[bypass] skip the autodetection if it may encounter problems
+\item[keep] keep the driver resident in memory, even it is not currently 
+needed.
+\end{dojlist}
+
+Most device functions of the standard dll contain autodetection
+routines for the supported sound cards, so there is normally no need
+to specify any of the port, irq or dma options. However if \cp\ is not
+able to detect your sound cards settings you can try to insert the
+appropriate values in the configuration file.
+
+The next subsections will look at the special features the different
+sound cards and drivers support. The original order of the
+\texttt{cp.ini} has been slightly modified for the purpose of
+documentation.
+
+\subsection{Sound Blaster}
+Most compatibles should work with the following sections and options
+aswell.  Be sure to include a mixing device aswell if you want to play
+module file types.
+
+\begin{verbatim}
+[devpSB]
+  link=devpsb
+  sbrevstereo=off
+; subtype= 1:sb 1.x, 2:sb 2.x, 3:sb pro, 4:sb16
+[devsSB]
+  link=devssb
+  sbrevstereo=off
+\end{verbatim}
+\begin{dojlist}
+\item[sbrevstereo] some revisions of the Sound Blaster Pro (and clones) have
+a bug, when playing stereo. The right and left channel are played on
+the appropriate other channel. To get the right order enable this
+option.
+\item[subtype] if your card is not properly detected (this can happen when
+clones are not 100\% compatible) you can set the type of card with this option\\
+  \begin{tabular}{l@{ -- }l}
+  1 & SoundBlaster 1.x mono 22Khz 8bit \\
+  2 & SoundBlaster 2.x mono 44Khz 8bit \\
+  3 & SoundBlasterPro either mono 44Khz 8bit \\
+    & or stereo 22KHz 8bit \\
+  4 & SoundBlaster16 stereo 44KHz 16bit \\
+  \end{tabular}
+\end{dojlist}
+
+\subsection{Terratec EWS}
+\begin{verbatim}
+[devpEWS]
+  link=devpews
+  reverb=75    
+  surround=10 
+\end{verbatim}
+\begin{dojlist}
+\item[reverb] the onboard effect processor will use this amount of reverb on
+the ouput.
+\item[surround] dito
+\end{dojlist}
+
+When starting \cp\ in a Window95 DOS-Box those settings will not work,
+because Windows refuses to set up the effect processor. You have to
+use the Windows control panel to change the default values set up at
+windows startup.
+
+\subsection{Windows Sound System}
+Sound cards using the Crystal Codec are normally Windows Sound Systems
+compatible.  The Gravis Ultrasound Max series has this codec aswell,
+but located at a non-standard port. You might have to specify the
+soundcard type manually.
+
+\begin{verbatim}
+[devpWSS]
+  link=devpwss
+  wss64000=off
+; subtype=
+[devsWSS]
+  link=devswss
+  wss64000=off 
+\end{verbatim}
+\begin{dojlist}
+\item[wss64000] as the Crystal Analog Codec can use sample rates up to 64Khz
+you should enable this feature to get crystal clear sound playback.
+\item[subtype] if your sound card is not detected automatically use this 
+options to set it: \\
+  \begin{tabular}{l@{ -- }l}
+  0 & Windows Sound System \\
+  1 & Gravis Ultrasound with 16bit Daughter board \\
+  2 & Gravis Ultrasound Max \\
+  \end{tabular}
+\end{dojlist}
+
+\subsection{Gravis Ultrasound}
+The Gravis Ultrasound series divides into two subseries. The old
+standard includes the Gravis Ultrasound (with daughterboard), Gravis
+Ultrasound Max and Gravix Ultrasound ACE which use the old GF1 chip
+for hardware mixing. The new Gravix Ultrasound PnP use the AMD
+Interwave chip for hardware playback.
+\begin{verbatim}
+[devwGUS]
+  link=devwgus
+  gusFastUpload=on
+  gusGUSTimer=on
+\end{verbatim}
+\begin{dojlist}
+\item[gusFastUpload] use a non-standard feature to upload the sample data to
+the fast ram. If you experience problems with corrupted playback, or
+if your system locks when loading a file disable this option.
+\item[gusGUSTimer] use the internal GUS timer for looping and synchronization.
+This enables more precise playback, but may cause problems.
+\end{dojlist}
+
+If you own two GUS cards of the old series you can use a special
+feature of \cp\ using both sound cards to enable quadruple or 3D
+playback.\footnote{This is a real 3D playback and has nothing in
+common with those fakes like QSound etc.}
+
+\begin{verbatim}
+[devwDGUS]
+  link=devwdgus
+;  port2=250
+; subtype=
+\end{verbatim}
+\begin{dojlist}
+\item[port2] the base port of the secondary GUS, if it was not autodetected.
+\item[subtype] you can specify how \cp\ will use the second GUS:
+  \begin{itemize}
+  \item[0] the second GUS will play the rear stereo channels. This is true
+  quadrophony. Of course you have to have a second stereo and a second pair
+  of boxes.
+  \item[1] this will enable 3D playback. The additional boxes have to placed
+  exactly behind the audioence, on the floor and the other at the ceiling.
+  \end{itemize}
+\end{dojlist}
+\cp\ will still use the panning information provided by the music files and
+place the channels randomly in the remaining dimensions. If you have
+access to a second GUS be sure to check this feature one day, as the
+sound experience is really amazing.
+
+For users of the new GUS PnP with the Interwave chip the following
+section is relevant.\footnote{The driver should work with other sound
+cards using the interwave chip aswell. However we have not encountered
+such card by now.}
+\begin{verbatim}
+[devwIW]
+  link=devwiw
+  iwIWTimer=off     
+  iwEffects=on       
+  iwForceEffects=off
+\end{verbatim}
+\begin{dojlist}
+\item[iwIWTimer] use the internal sound card timer for synchronization. When
+using \cp\ under DOS there is no need to use this feature. However if
+you want to use the player under Window95 you should enable this to
+prevent timer inconsenties from windows.
+\item[iwEffects] enable the onboard effects (reverb). This feature uses 64KB of
+the soundcard memory and 4 channels. So the maximum amount of channels
+is reduced to 28. If the music uses more channels \cp\ will turn off
+the effect to use the last channels or memory.
+\item[iwForceEffects] if you enable this option the effects will always be
+present, thus overriding the above option.
+\end{dojlist}
+
+\subsection{Diskwriter}
+\begin{verbatim}
+[devpDisk]
+  link=devpdisk
+  diskManual=off
+\end{verbatim}
+\begin{dojlist}
+\item[diskManual] enable this option if you want to start the disk writer
+from within the player with \keys{ALT}+\keys{s}.
+\end{dojlist}
+
+\subsection{MPx writer}
+\cp\ is able to store the sample data directly to mpeg compressed audio
+streams. At the moment only MP1 and MP2 are supported, but this might
+change in the near future.
+\begin{verbatim}
+[devpMPx]
+  link=devpmpx
+  diskManual=off 
+  layer=2        
+  mode=1        
+  freq=44100     
+  rate=112000    
+  model=2        
+  crc=off
+  extension=off
+  copyright=off
+  original=off
+  emphasis=0
+\end{verbatim}
+\begin{dojlist}
+\item[diskManual] start MPx writing with \keys{ALT}+\keys{s}. Note that this
+option interferes with the same option in the \emph{devpDisk} section.
+\item[layer] save the audio in either layer 1 or layer 2 format.
+\item[mode] set the audio output format: \\
+  \begin{tabular}{l@{ -- }l}
+  0 & stereo \\
+  1 & joint stereo \\
+  2 & dual channel \\
+  3 & mono \\
+  \end{tabular}
+\item[freq] the mixing frequency used to calculate the input sample stream.
+Valid options are 32000, 44100 and 48000.
+\item[rate] set the mpeg audio bitrate/s.
+\item[model] set the psychoacustic model. This is used for the internal
+encoding of the audio data. Valid options are either 1 or 2.
+\item[crc] save crc checksums into the audio stream. As this enlarges the file
+this option should be disabled.
+\item[extension] set the extension flag
+\item[copyright] set the copyright flag
+\item[original] set the original flag
+\item[emphasis] set the emphasis flag
+\end{dojlist}
+
+\subsection{software mixers}
+By default \cp\ will use its own routines for mixing several channels
+to the two stereo output channels. You have the choice between to
+mixers. The normal mixer is faster in calculating, thus can mix more
+channels at the same time.  The quality mixer however produces better
+sound ouput. For average modules and a pentium processor the quality
+mixer should be fast enough for sufficient playback. If many channels
+are used you may have to change back to the normal mixer\footnote{You
+can toggle by using the \emph{bigmodule} feature described in section
+\ref{bigmodules}.}
+
+Both mixers take identical options. As the mixers will be rewritten in
+the future the options are likely to change. Therefore they are not
+documented here. Please have a look at future versions of this
+document if you want to change to mixer settings. However these
+devices never have caused any trouble/bugs and there should be no need
+for change.
+
+\section{archivers}
+When processing files inside archives \cp\ has to know how to call the
+programs. The following sections define the usage of different
+archivers supported by the \cp\ fileselector.
+
+When substituting the command line 4 special variables are processed
+by the fileselector for accessing the archives:
+\begin{dojlist}
+\item[\%\%] evaluates to ``\%''
+\item[\%a] evaluates to the archiv name preceeded by the path to process.
+\item[\%n] evaluates to the filename of the file to process inside the archive.
+\item[\%d] evaluates to the destination directory used to extract files out 
+of archive.
+\end{dojlist}
+
+Three default command are defined for the arc modules:
+\begin{dojlist}
+\item[get] this command is used when a file should be extracted out of an 
+archive.
+\item[put] if a file should be added to the archive this command line is used.
+\item[delete] with \keys{ALT}+\keys{k} you can delete files out of archives.
+\end{dojlist}
+
+The following two archivers contain special options described below:
+\begin{verbatim}
+[arcZIP]
+  get=pkunzip %a %d %n
+  put=pkzip %a %n
+  delete=pkzip -d %a %n
+  deleteempty=on
+\end{verbatim}
+\begin{dojlist}
+\item[deleteempty] the program pkzip/pkunzip used by \cp\ to process 
+\texttt{.zip} files have a bug when deleting the last file inside an archive. 
+An empty archive of 22 bytes is left on the hard disk. With this
+option enabled the fileselector will delete those ``zip zombies''.
+\end{dojlist}
+
+\begin{verbatim}
+[arcACE]
+  get=ace32 e %a %n %d
+  scaninsolid=false
+\end{verbatim}
+\begin{dojlist}
+\item[scaninsolid] scan in solid archives. As this takes more time you can
+disable this feature.
+\end{dojlist}
+
+\section{filetypes}
+The \texttt{cp.ini} file contains descriptions for all supported file
+types.  These features will be included in the file loader devices in
+the next version of \cp, so these options will soon be obsolete. There
+should be no need to modify any of the file types.

@@ -1,0 +1,66 @@
+% OpenCP Module Player
+%
+% Documentation LaTeX source
+%
+% revision history: (please note changes here)
+%  -doj981222  Dirk Jagdmann  <doj@cubic.org>
+%    -not the first release, but this file is in the CVS since some days
+%    -updated midi sections to mention the default ultrasnd.ini
+%    -cplaunch is no longer included
+%  -doj981223  Dirk Jagdmann  <doj@cubic.org>
+%    -added tmb's famous article from hugi #12
+%  -ryg981226  Fabian Giesen  <fabian@jdcs.su.nw.schule.de>
+%    -tried and corrected several spelling mistakes (I hope)
+%    -added a short chapter describing the .MDZ file format
+%    -explained some new features of OpenCP 2.5.1 (like volume control)
+%    -added tmbinc and me to the authors list (yesssss :)
+%    -some other minor changes
+%  -doj990111  Dirk Jagdmann  <doj@cubic.org>
+%    -added section about running with old/slow computers
+%  -doj990413  Dirk Jagdmann  <doj@cubic.org>
+%    -splitted the documentation in single files per chapter
+%    -added chapter about compiling opencp (but about nothing in there)
+%  -doj990421  Dirk Jagdmann  <doj@cubic.org>
+%    -rearranged some chapters and introduced users and delopers part
+
+\documentclass{ocpmanual}
+
+\newcommand{\cp}{\textsc{OpenCP}}
+\newcommand{\cpversion}{2.6pre6}
+\newcommand{\longtitle}{Open Cubic Player \cpversion\ Documentation}
+
+\title{\cp\ \cpversion}
+\author{Felix Domke \and Fabian Giesen \and Tammo Hinrichs \and Dirk Jagdmann}
+
+\begin{document}
+\frontmatter
+\maketitle
+\input{copyright}
+\newpage
+\input{foreword}
+\begin{latexonly}
+\pagestyle{empty}
+\tableofcontents
+\end{latexonly}
+
+\mainmatter
+\part{Users Manual}
+\input{install}
+\input{starting}
+\input{fileselector}
+\input{player}
+\input{configuration}
+\input{support}
+\input{faq}
+\part{Developers Manual}
+\input{plugin}
+\input{compiling}
+\input{mdz} 
+\input{wap}
+
+\backmatter
+\begin{appendix}
+\part{Appendix}
+\input{thanks}
+\end{appendix}
+\end{document}

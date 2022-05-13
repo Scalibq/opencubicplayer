@@ -1,0 +1,10 @@
+http://www.microsoft.com/ddk/ddk98.asp 
+
+To compile the vapc.vxd directx driver you need the Windows98 Driver
+Development Kit (DDK98). This does not work with the MEDDK or NTDDK or
+2000DDK!
+
+The makefile is compatible with gnu make, nmake and wmake.
+
+If you have any problems write to
+doj@cubic.org

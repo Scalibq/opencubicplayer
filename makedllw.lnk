@@ -1,0 +1,6 @@
+option quiet 
+option osname='OpenCP/win' 
+library { windll.lib }
+reference _dllstart_
+system nt_dll
+option { caseexact stack=0 map manglednames }

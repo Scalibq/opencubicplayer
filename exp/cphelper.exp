@@ -1,0 +1,10 @@
+'_hlpReg'
+'_dllinfo'
+
+'W?brDecodeRef$n(pna)pn$helppage$$'
+'W?brRenderPage$n(pn$helppage$$)v'
+'W?brSetPage$n(pn$helppage$$)v'
+'W?brDisplayHelp$n()v'
+'W?brSetWinStart$n(s)v'
+'W?brSetWinHeight$n(s)v'
+'W?brHelpKey$n(us)i'

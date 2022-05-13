@@ -1,0 +1,71 @@
+% OpenCP Module Player
+%
+% Documentation LaTeX source
+%
+% revision history: (please note changes here)
+% -fg990413  Fabian Giesen 
+%   -initial release
+
+\chapter{.MDZ files}
+\label{mdz}
+This was written by Fabian Giesen, based on the original
+\texttt{.MDZ}\ description by Niklas Beisert.
+
+\section{What are \texttt{.MDZ} files?}
+
+\texttt{.MDZ} files are Module Description files (the \emph{DZ} is a short
+form of \emph{DIZ}, which is in turn a short form of Description).
+The \texttt{.MDZ} format can, however, contain much more information than
+normal Module/Sound files, which normally only contain the song's title and
+sometimes a ``song message'', which can be freely entered by the author.
+Things like the name of the author of a song, its playtime, a comment about
+it etc.\ which can be entered in \cp's Fileselector cannot be stored inside
+the module file, so they have to be stored somewhere else. Usually this is
+in the file \texttt{cpmodnfo.dat}, which normally perfectly suits this task.
+
+However, this format has some disadvantages. Imagine you give a module file
+to a friend. Simply copying your \texttt{cpmodnfo.dat} together with the
+song on the disk is impractical, because this file overwrites your friend's
+\texttt{cpmodnfo.dat} when he simply copies it. So he could take your
+description, write it down somewhere, and take it with him, but that is
+pretty uncomfortable.
+
+That's why the \texttt{.MDZ} files were invented. \texttt{.MDZ} files
+contain the description of one or more module file(s), just like the
+\texttt{cpmodnfo.dat}, but have attributes which make them interesting:
+
+\begin{itemize}
+\item{\texttt{.MDZ} files are normal text files and therefore human readable}
+\item{The content of \texttt{.MDZ} files gets automatically inserted in the
+module description database \texttt{cpmodnfo.dat} without need for user
+interaction}
+\item{\texttt{.MDZ} files can be exported from within the \cp\ fileselector
+with one keystroke (see section \ref{fsreference}).}
+\end{itemize}
+
+\section{Why should I use them?}
+
+(This section is intended for composers)
+
+There are of course some good reasons for using them:
+
+\begin{itemize}
+\item{Every \cp\ user sees your description automatically when he moves the
+cursor over the file}
+\item{The module type is also stored in \texttt{.MDZ} files, so you can
+explicitely force \cp\ to play your Module in Protracker (or FastTracker)
+mode, for example.}
+\item{Even if the user does not use \cp, he can still read your description,
+because \texttt{.MDZ} is a simple, human readable text format}
+\item{Creating \texttt{.MDZ} files is almost no extra work (you can create a
+complete \texttt{.MDZ} file from within \cp\ in less than one minute)}
+\end{itemize}
+
+So, as you see, using \texttt{.MDZ} files has many advantages, but (almost)
+no disadvantages. It is surely worth trying.
+
+\section{The \texttt{.MDZ} file format}
+
+This is not documented here. If you want a complete description, wait for the
+soon to be released \cp\ Technical Reference Manual.
+

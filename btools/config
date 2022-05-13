@@ -1,0 +1,6 @@
+  "Which compiler? &watcom, &gcc: ", WATCOM, GCC
+  "Which version of watcom? 1&0.6, 1&1.0: ", WATCOM106, WATCOM11
+  "Which build do you want? &win32, &dos: ", WIN32, DOS32
+  DOS32
+  "Which GUI do you want? &textmode (emulated), &windowed: ", GUI_TEXTMODE, GUI_WINDOWED
+  GUI_TEXTMODE FICKEN POSEN BUMSEN BLA 

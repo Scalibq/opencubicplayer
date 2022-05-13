@@ -1,0 +1,49 @@
+Wavetable devices:
+
+  driver  subtype  card
+  ------------------------------------------------------------------
+  devwGUS    0     Gravis Ultrasound Classic / MAX / ACE
+  devwdDGUS  0     Double GUS
+  devwIW     0     AMD InterWave (GUS PnP, Dynasonix Pro, Compaq 9xxx)
+  devwSB32   0     Creative Labs Soundblaster 32 / AWE32 / AWE64
+  devwMix    0     16-bit software mixer (uses player device for output)
+  devwMixQ   0     32-bit Quality mixer  (             "               )
+  devwMixF   0     32-bit Super High Quality float mixer (      "      )
+  devwNone   0     Super High Quality Quiet Wavetable Device
+
+
+Player devices:
+
+  driver  subtype  card
+  ------------------------------------------------------------------
+  devpVXD    0     DirectX
+  devpSB     1     SoundBlaster 1.x
+             2     SoundBlaster 2.x
+             3     SoundBlaster Pro
+             4     SoundBlaster 16 / 32 / AWE32 / AWE64
+  devpGUS    0     Gravis Ultrasound Classic
+  devpWSS    0     Windows Sound System (CS4231, AD1848 or compatible)
+             1     Gravis Ultrasound w/ Daughterboard
+             2     Gravis Ultrasound MAX / PnP or AMD Interwave
+  devpEWS    0     Terratec AudioSystem EWS64L/XL
+  devpPAS    0     Pro Audio Spectrum
+  devpESS    0     ESS AudioDrive 688 / 1688
+  devpDisk   0     .WAV writer (writes .ITs mono)
+  devpMPx    0     .MPx writer (writes MPEG I Layer 1 and 2 files)
+  devpNone   0     32bit hyper-eleet null device output
+
+
+
+Sampler devices:
+
+  driver  subtype  card
+  ------------------------------------------------------------------
+  devsSB     1     SoundBlaster 1.x
+             2     SoundBlaster 2.x
+             3     SoundBlaster Pro
+             4     SoundBlaster 16 / 32 / AWE32 / AWE64
+  devsGUS    0     Gravis Ultrasound Classic / ACE / MAX (NO InterWave!)
+  devsWSS    0     Windows Sound System (CS4231, AD1848 or compatible)
+             1     Gravis Ultrasound w/ Daughterboard
+             2     Gravis Ultrasound MAX / PnP or AMD Interwave
+  devsNone   0     Extreme Silence Recording Device

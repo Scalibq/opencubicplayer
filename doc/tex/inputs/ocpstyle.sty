@@ -1,0 +1,209 @@
+%
+% OpenCP documentation style (mit viiel gestohlen von pythondoku und so)
+%
+% -doj990714  Dirk Jagdmann <doj@cubic.org>
+%   -moved FAQ definitions from faq.tex
+
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+\ProvidesPackage{ocpstyle}[1999/05/08 LaTeX package (OpenCP style)]
+
+% wir brauchen diese pakete:
+
+\RequirePackage{latexsym}
+\RequirePackage{html}
+\RequirePackage{longtable}
+
+\RequirePackage{fancyhdr}
+\RequirePackage[Lenny]{fncychap}
+
+% ein paar parameter korrigieren:
+
+\setlength{\parindent}{1em}
+\setlength{\parskip}{1ex plus0.5ex minus0.2ex}
+
+\sloppy
+\raggedbottom
+
+% for PDF output, use maximal compression & a lot of other stuff
+% (test for PDF recommended by Tanmoy Bhattacharya <tanmoy@qcd.lanl.gov>)
+%
+\newif\ifpy@doing@page@targets
+\py@doing@page@targetsfalse
+
+\ifx\pdfoutput\undefined\else\ifcase\pdfoutput
+\else
+  \input{pdfcolor}
+  \let\py@LinkColor=\NavyBlue
+  \let\py@NormalColor=\Black
+  \pdfcompresslevel=9
+  \pdfpagewidth=\paperwidth    % page width of PDF output
+  \pdfpageheight=\paperheight  % page height of PDF output
+  %
+  % Pad the number with '0' to 3 digits wide so no page name is a prefix
+  % of any other.
+  %
+  \newcommand{\py@targetno}[1]{\ifnum#1<100 0\fi\ifnum#1<10 0\fi#1}
+  \newcommand{\py@pageno}{\py@targetno\thepage}
+  %
+  % This definition allows the entries in the page-view of the ToC to be
+  % active links.  Some work, some don't.
+  %
+  \let\py@OldContentsline=\contentsline
+  %
+  % Macro that takes two args: the name to link to and the content of
+  % the link.  This takes care of the PDF magic, getting the colors
+  % the same for each link, and avoids having lots of garbage all over 
+  % this style file.
+  \newcommand{\py@linkToName}[2]{%
+    \pdfannotlink attr{/Border [0 0 0]} goto name{#1}%
+      \py@LinkColor#2\py@NormalColor%
+    \pdfendlink%
+  }    
+  % Compute the padded page number separately since we end up with a pair of
+  % \relax tokens; this gets the right string computed and works.
+  \renewcommand{\contentsline}[3]{%
+    \def\my@pageno{\py@targetno{#3}}%
+    \py@OldContentsline{#1}{\py@linkToName{page\my@pageno}{#2}}{#3}%
+  }
+  \AtEndDocument{
+    \InputIfFileExists{\jobname.bkm}{\pdfcatalog{/PageMode /UseOutlines}}{}
+  }
+  \newcommand{\py@target}[1]{%
+    \ifpy@doing@page@targets%
+      {\pdfdest name{#1} xyz}%
+    \fi%
+  }
+  \let\py@OldLabel=\label
+  \renewcommand{\label}[1]{%
+    \py@OldLabel{#1}%
+    \py@target{label-#1}%
+  }
+  % This stuff adds a page# destination to every PDF page, where # is three
+  % digits wide, padded with leading zeros.  This doesn't really help with
+  % the frontmatter, but does fine with the body.
+  %
+  % This is *heavily* based on the hyperref package.
+  %
+  \def\@begindvi{%
+    \unvbox \@begindvibox
+    \@hyperfixhead
+  }
+  \def\@hyperfixhead{%
+   \let\H@old@thehead\@thehead
+       \global\def\@foo{\py@target{page\py@pageno}}%
+     \expandafter\ifx\expandafter\@empty\H@old@thehead
+       \def\H@old@thehead{\hfil}\fi
+    \def\@thehead{\@foo\relax\H@old@thehead}%
+  }
+\fi\fi
+
+% Increase printable page size (copied from fullpage.sty)
+\topmargin 0pt
+\advance \topmargin by -\headheight
+\advance \topmargin by -\headsep
+
+% attempt to work a little better for A4 users
+\textheight \paperheight
+\advance\textheight by -2in
+
+\oddsidemargin 0pt
+\evensidemargin 0pt
+%\evensidemargin -.25in  % for ``manual size'' documents
+\marginparwidth 0.5in
+
+\textwidth \paperwidth
+\advance\textwidth by -2in
+
+
+% Style parameters and macros used by most documents here
+\hbadness = 5000		% don't print trivial gripes
+
+\pagenumbering{roman}
+\setcounter{secnumdepth}{1}
+
+% I'd really like to get rid of this!
+\newif\iftexi\texifalse
+
+% This is used to get l2h to put the copyright and abstract on
+% a separate HTML page.
+\newif\ifhtml\htmlfalse
+
+% hier ist der defaultpagestyle und ein abgewandelter plainstyle (der dann
+% fuer die contents/chapters verwendet wird, damit das konsistent aussieht)
+%
+% (achtung! hack)
+
+\pagestyle{fancy}%
+  \renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}%
+  \renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}%
+  \fancyhf{}\fancyhead[LE,RO]{\rightmark}%
+  \fancyhead[RE,LO]{\bfseries\leftmark}\fancyfoot[LE,RO]{\thepage}
+
+\fancypagestyle{plain}{%
+  \fancyhf{}\fancyhead[C]{\bfseries\longtitle}\fancyfoot[LE,RO]{\thepage}}
+
+% das hier ist ein ekelerregender hack, aber wir brauchen ihn:
+
+\let\ps@realempty=\ps@empty
+
+\fancypagestyle{empty}{%
+  \fancyhf{}\fancyfoot[LE,RO]{\thepage}}
+
+% und das hier ist schon lange nicht mehr feierlich (aua):
+
+\renewcommand{\tableofcontents}{\if@twocolumn\@restonecoltrue\onecolumn%
+  \else\@restonecolfalse\fi\chapter*{\contentsname\@mkboth{%
+  \contentsname}{}}\@starttoc{toc}\if@restonecol\twocolumn\fi}
+
+
+% das gute tastenmakro von Michael Kofler
+\newbox\mybox%
+\newcount\laenge%
+\newcount\laengehalbe%
+\newcommand{\keys}[1]{%
+\setbox\mybox=%
+\hbox{\footnotesize #1}%
+\laenge=\wd\mybox%
+\advance\laenge by 370000%
+\laengehalbe=\laenge%
+\divide \laengehalbe by 2%
+\unitlength1sp%
+\begin{picture}(\laenge,600000)(0,140000)%
+\put(\laengehalbe,300000){\oval(\laenge, 600000)}%
+\put(185000, 140000){\unhbox\mybox}%
+\end{picture}}
+
+% die dojlist fuer tasten etc.
+\newenvironment{dojlist}{
+  \begin{list}{-}{
+     \setlength{\rightmargin}{0cm}
+     \setlength{\leftmargin}{3cm}
+     \setlength{\labelwidth}{2.5cm}
+     \setlength{\labelsep}{0.5cm}
+     \setlength{\listparindent}{0cm}
+     \setlength{\parsep}{0.25ex}
+     \setlength{\itemsep}{0ex}
+     \setlength{\topsep}{2ex}
+  }
+}
+{
+  \end{list}
+}
+
+% the FAQ definitions
+
+\newcounter{faqCounter}
+\newcommand{\faqtocontents}[1]{\addcontentsline{toc}{section}{\protect%
+  \numberline{\arabic{chapter}.\arabic{faqCounter}}#1}}
+\newcommand{\faq}[2]{\stepcounter{faqCounter}\begin{list}{-}{%
+  \setlength{\rightmargin}{0cm}\setlength{\leftmargin}{1cm}%
+  \setlength{\labelwidth}{0.75cm}\setlength{\labelsep}{0.25cm}%
+  \setlength{\listparindent}{0cm}\setlength{\parsep}{0.25ex}%
+  \setlength{\itemsep}{0ex}\setlength{\topsep}{2ex}}%
+    \item[Q\arabic{faqCounter}:]\emph{#1}\item[A\arabic{faqCounter}:]{#2}%
+  \end{list}%
+  %if you want the faq-lines to appear in contents, uncomment next line
+  %\faqtocontents{#1}
+  }
+
+\newcommand{\dojdots}{$\ldots$}
