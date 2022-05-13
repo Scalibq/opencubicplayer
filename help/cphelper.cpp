@@ -215,7 +215,7 @@ static int doReadVersion100Helpfile(binfile &file)
     Page[i].rendered=NULL;
   };
 
-  for (i=0; i<Helppages; i++)
+  for (int i=0; i<Helppages; i++)
   {
     Page[i].data=new char[Page[i].size];
     file.read(Page[i].data, Page[i].size);
@@ -250,7 +250,7 @@ static int doReadVersion110Helpfile(binfile &file)
     Page[i].rendered=NULL;
   };
 
-  for (i=0; i<Helppages; i++)
+  for (int i=0; i<Helppages; i++)
   {
     Page[i].data=new char[Page[i].size];
     inbuf=new char[compdatasize[i]];
@@ -617,8 +617,10 @@ void brDisplayHelp()
                        79-xp);
 
         char dummystr[82];
+		
+		int i, off;
 
-        for (int i=0, off=yp+curlink->posx; curpage->rendered[off] & 0xff;
+        for (i=0, off=yp+curlink->posx; curpage->rendered[off] & 0xff;
              i++, off++)
              dummystr[i]=curpage->rendered[off] & 0xff;
 
