@@ -241,7 +241,7 @@ pe_c::pe_c(binfile &image)
     {
       name=(char*)ConvertPtr(iid->Name);
 //      printf("%s (TS: %d)\n", name?name:"<illegal>", iid->TimeDateStamp);
-      IMAGE_THUNK_DATA *oitd=(IMAGE_THUNK_DATA *)ConvertPtr((int)iid->OriginalFirstThunk);
+      IMAGE_THUNK_DATA *oitd=(IMAGE_THUNK_DATA *)ConvertPtr((int)iid->OrdinalFirstThunk);
       IMAGE_THUNK_DATA *itd=(IMAGE_THUNK_DATA *)ConvertPtr((int)iid->FirstThunk);
       while (oitd->u1.AddressOfData)
       {
@@ -264,7 +264,7 @@ pe_c::pe_c(binfile &image)
 
         if (!sym) return;
 
-        itd->u1.AddressOfData=(IMAGE_IMPORT_BY_NAME *)sym;
+        itd->u1.AddressOfData=(DWORD)sym;
         itd++;
         oitd++;
       }
