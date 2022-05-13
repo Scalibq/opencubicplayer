@@ -31,7 +31,7 @@ int delbinfile::open(const char *name, int m)
   return r;
 }
 
-virtual errstat delbinfile::rawclose()
+errstat delbinfile::rawclose()
 {
   sbinfile::rawclose();
   if (*delname)
