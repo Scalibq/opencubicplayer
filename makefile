@@ -613,7 +613,7 @@ dlldeps = cp.lib dosdll.lib
 makedll = *wlink $(dlllopt) @makedll.lnk name $*.dll &
                  libpath %WATCOM%\lib386 libpath %WATCOM%\lib386\dos &
                  export { @exp\$($*_exp) } &
-                 library { cp.lib $($*_libs) $($*_stdlibs) math387r.lib plib3r.lib } &
+                 library { cp.lib $($*_libs) $($*_stdlibs) math387r.lib plib3r.lib clib3r.lib } &
                  file { $($*_objs) } &
                  option version = $(cp_ver) &
                  option description $($*_desc)
