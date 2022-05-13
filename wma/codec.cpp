@@ -31,7 +31,7 @@ errstat acmcodec::open(binfile &file, WAVEFORMATEX* pfmt, DRIVERPROC drv, void *
 {
   src=&file;
   DriverProc=drv;
-  hnd=_hnd;
+  hnd=(HDRVR)_hnd;
   fmtdst=pfmt;
 
   int err=InitDriver();

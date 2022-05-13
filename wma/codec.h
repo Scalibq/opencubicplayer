@@ -19,7 +19,7 @@ protected:
   binfile *src;
   //DRIVERPROC DriverProc;
   long CALLBACK (*DriverProc)(DWORD, HDRVR, UINT, LPARAM, LPARAM);
-  void *hnd;
+  HDRVR hnd;
   WAVEFORMATEX *fmtsrc, *fmtdst;
   ACMDRVSTREAMINSTANCE padsi;
   ACMDRVOPENDESC paod;

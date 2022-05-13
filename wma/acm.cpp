@@ -176,7 +176,7 @@ extern "C" int WINAPI LoadStringA(HINSTANCE, UINT uid, LPSTR dst, int max)
   return 0;
 }
 
-extern "C" HLOCAL WINAPI LocalAlloc(UINT flags, UINT bytes)
+extern "C" HLOCAL WINAPI LocalAlloc(UINT flags, SIZE_T bytes)
 {
 //  printf("LocalAlloc(0x%x, %d)", flags, bytes);
   void *x=malloc(bytes);
@@ -222,7 +222,7 @@ extern "C" HRSRC WINAPI FindResource(HMODULE mod, LPCSTR name, LPCSTR type)
 //  printf("FindResource(%p, %p, %p);\n", mod, name, type);
   if (!mod) return 0;
   mt->Yield();
-  return ((pe_c*)mod)->GetResource(name, type);
+  return (HRSRC)((pe_c*)mod)->GetResource(name, type);
 }
 
                         /*
@@ -297,7 +297,8 @@ extern "C" void WINAPI *LocalFree(void *addr)
 
 extern "C" int WINAPI MultiByteToWideChar(UINT cp, DWORD, LPCSTR st, int, LPWSTR d, int)
 {
-  for (int i=0; i<=strlen(st); i++)
+  int i;
+  for (i=0; i<=strlen(st); i++)
     d[i]=(cp<<8)|st[i];
   mt->Yield();
   return i;
@@ -362,5 +363,5 @@ extern "C" LRESULT WINAPI DefDriverProc(DWORD, HDRVR, UINT, LPARAM, LPARAM) // (
 extern "C" HMODULE WINAPI GetDriverModuleHandle(HDRVR hdrvr)
 {
   mt->Yield();
-  return hdrvr;
+  return (HMODULE)hdrvr;
 }
