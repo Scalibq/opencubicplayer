@@ -47,6 +47,13 @@ typedef float floatm;
 
 inline intm normbool(boolm x) { return x?1:0; } // false:0, true:1
 
+#ifdef __WATCOMC__
+inline uint2 swaplb2(uint2 v);
+inline uint4 swaplb4(uint4 v);
+#ifdef INT8
+inline uint8 swaplb8(uint8 v);
+#endif
+#else
 inline uint2 swaplb2(uint2 v) { return (v<<8)|(v>>8); }
 inline uint4 swaplb4(uint4 v) { return ((v&0xFF)<<24)|((v&0xFF00)<<8)|((v>>8)&0xFF00)|((v>>24)&0xFF); }
 #ifdef INT8
@@ -61,6 +68,7 @@ inline uint8 swaplb8(uint8 v)
         |((v>>40)&0xFF00)
         |((v>>56)&0xFF);
 }
+#endif
 #endif
 
 #if 0
