@@ -234,7 +234,7 @@ intm getil2(binfile &f);
 intm getib2(binfile &f);
 intm getil4(binfile &f);
 intm getib4(binfile &f);
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 intm8 getil8(binfile &f);
 intm8 getib8(binfile &f);
 #endif
@@ -243,7 +243,7 @@ uintm getul2(binfile &f);
 uintm getub2(binfile &f);
 uintm getul4(binfile &f);
 uintm getub4(binfile &f);
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 uintm8 getul8(binfile &f);
 uintm8 getub8(binfile &f);
 #endif
@@ -253,7 +253,7 @@ intm peekil2(binfile &f);
 intm peekib2(binfile &f);
 intm peekil4(binfile &f);
 intm peekib4(binfile &f);
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 intm8 peekil8(binfile &f);
 intm8 peekib8(binfile &f);
 #endif
@@ -262,7 +262,7 @@ uintm peekul2(binfile &f);
 uintm peekub2(binfile &f);
 uintm peekul4(binfile &f);
 uintm peekub4(binfile &f);
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 uintm8 peekul8(binfile &f);
 uintm8 peekub8(binfile &f);
 #endif
@@ -272,7 +272,7 @@ boolm putil2(binfile &f, intm v);
 boolm putib2(binfile &f, intm v);
 boolm putil4(binfile &f, intm v);
 boolm putib4(binfile &f, intm v);
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 boolm putil8(binfile &f, int8 v);
 boolm putib8(binfile &f, int8 v);
 #endif

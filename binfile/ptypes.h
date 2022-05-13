@@ -50,13 +50,13 @@ inline intm normbool(boolm x) { return x?1:0; } // false:0, true:1
 #ifdef __WATCOMC__
 inline uint2 swaplb2(uint2 v);
 inline uint4 swaplb4(uint4 v);
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 inline uint8 swaplb8(uint8 v);
 #endif
 #else
 inline uint2 swaplb2(uint2 v) { return (v<<8)|(v>>8); }
 inline uint4 swaplb4(uint4 v) { return ((v&0xFF)<<24)|((v&0xFF00)<<8)|((v>>8)&0xFF00)|((v>>24)&0xFF); }
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 inline uint8 swaplb8(uint8 v)
 {
   return ((v&0xFF)<<56)
@@ -152,7 +152,7 @@ public:
   operator uint4() { return (i[0]<<24)|(i[1]<<16)|(i[2]<<8)|i[3]; }
 };
 
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 class intl8
 {
 private:
@@ -201,7 +201,7 @@ public:
 #ifdef __WATCOMC__
 #pragma aux swaplb2 parm [ax] value [ax] = "xchg al,ah"
 #pragma aux swaplb4 parm [eax] value [eax] = "bswap eax"
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 #pragma aux swaplb8 parm [eax edx] value [eax edx] = "bswap eax" "bswap edx" "xchg eax,edx"
 #endif
 #endif
@@ -210,7 +210,7 @@ typedef int2 intl2;
 typedef uint2 uintl2;
 typedef int4 intl4;
 typedef uint4 uintl4;
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 typedef int8 intl8;
 typedef uint8 uintl8;
 #endif
@@ -255,7 +255,7 @@ public:
   operator uint4() { return swaplb4(i); }
 };
 
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 class intb8
 {
 private:
@@ -326,7 +326,7 @@ public:
   operator uint4() { return swaplb4(i); }
 };
 
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 class intl8
 {
 private:

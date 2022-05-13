@@ -1023,7 +1023,7 @@ intm getil2(binfile &f) { intl2 v=0; f.read(&v,2); return v; }
 intm getib2(binfile &f) { intb2 v=0; f.read(&v,2); return v; }
 intm getil4(binfile &f) { intl4 v=0; f.read(&v,4); return v; }
 intm getib4(binfile &f) { intb4 v=0; f.read(&v,4); return v; }
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 intm8 getil8(binfile &f) { intl8 v=0; f.read(&v,8); return v; }
 intm8 getib8(binfile &f) { intb8 v=0; f.read(&v,8); return v; }
 #endif
@@ -1032,7 +1032,7 @@ uintm getul2(binfile &f) { uintl2 v=0; f.read(&v,2); return v; }
 uintm getub2(binfile &f) { uintb2 v=0; f.read(&v,2); return v; }
 uintm getul4(binfile &f) { uintl4 v=0; f.read(&v,4); return v; }
 uintm getub4(binfile &f) { uintb4 v=0; f.read(&v,4); return v; }
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 uintm8 getul8(binfile &f) { uintl8 v=0; f.read(&v,8); return v; }
 uintm8 getub8(binfile &f) { uintb8 v=0; f.read(&v,8); return v; }
 #endif
@@ -1041,7 +1041,7 @@ intm peekil2(binfile &f) { intl2 v=0; f.peek(&v,2); return v; }
 intm peekib2(binfile &f) { intb2 v=0; f.peek(&v,2); return v; }
 intm peekil4(binfile &f) { intl4 v=0; f.peek(&v,4); return v; }
 intm peekib4(binfile &f) { intb4 v=0; f.peek(&v,4); return v; }
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 intm8 peekil8(binfile &f) { intl8 v=0; f.peek(&v,8); return v; }
 intm8 peekib8(binfile &f) { intb8 v=0; f.peek(&v,8); return v; }
 #endif
@@ -1050,7 +1050,7 @@ uintm peekul2(binfile &f) { uintl2 v=0; f.peek(&v,2); return v; }
 uintm peekub2(binfile &f) { uintb2 v=0; f.peek(&v,2); return v; }
 uintm peekul4(binfile &f) { uintl4 v=0; f.peek(&v,4); return v; }
 uintm peekub4(binfile &f) { uintb4 v=0; f.peek(&v,4); return v; }
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 uintm8 peekul8(binfile &f) { uintl8 v=0; f.peek(&v,8); return v; }
 uintm8 peekub8(binfile &f) { uintb8 v=0; f.peek(&v,8); return v; }
 #endif
@@ -1059,7 +1059,7 @@ boolm putil2(binfile &f, intm v) { intl2 v2=v; return f.ewrite(&v2, 2); }
 boolm putib2(binfile &f, intm v) { intb2 v2=v; return f.ewrite(&v2, 2); }
 boolm putil4(binfile &f, intm v) { intl4 v2=v; return f.ewrite(&v2, 4); }
 boolm putib4(binfile &f, intm v) { intb4 v2=v; return f.ewrite(&v2, 4); }
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 boolm putil8(binfile &f, intm8 v) { intl8 v2=v; return f.ewrite(&v2, 8); }
 boolm putib8(binfile &f, intm8 v) { intb8 v2=v; return f.ewrite(&v2, 8); }
 #endif
