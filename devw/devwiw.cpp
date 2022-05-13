@@ -1088,7 +1088,7 @@ static int LoadSamples(sampleinfo *sil, int n)
       largestbank=b;
     }
 
-    for (sa=0; sa<n; sa++) if (samplen[sa]>samplen[largestsample])
+    for (int sa=0; sa<n; sa++) if (samplen[sa]>samplen[largestsample])
       largestsample=sa;
 
     if (!samplen[largestsample])

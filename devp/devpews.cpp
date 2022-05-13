@@ -138,7 +138,7 @@ static char detectews(short rdp)
       }
     }
     kval1&=0xff;
-    for (i=0; i<8; i++)
+    for (int i=0; i<8; i++)
     {
       kval2=kval2>>1;
       bitval=inp(rdp)<<8;

@@ -56,7 +56,7 @@ static void init(int rate, int stereo)
   srate=rate;
   st=stereo;
 
-  for (i=0; i<6; i++)
+  for (int i=0; i<6; i++)
   {
     llen[i]=(int) (delays[i]*rate/1000.0);
 

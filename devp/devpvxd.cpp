@@ -160,7 +160,7 @@ void vxdSetOptions(int a, int b)
 
 int vxdGetBufPos()
 {
-  static lastpos=0;
+  static int lastpos=0;
   int res=vplrGetBufPos();
   if (res==-1)
     return lastpos;
@@ -170,7 +170,7 @@ int vxdGetBufPos()
 
 int vxdGetPlayPos()
 {
-  static lastpos=0;
+  static int lastpos=0;
   int res=vplrGetPlayPos();
   if (res==-1)
     return lastpos;
