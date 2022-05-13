@@ -1261,7 +1261,7 @@ goodies\helpc\ocphhc.exe: goodies\helpc\ocphhc.cpp goodies\helpc\adler32.c goodi
   %write ocphhc.lnk file { ocphhc.obj adler32.obj compress.obj deflate.obj trees.obj zutil.obj }
   %write ocphhc.lnk name goodies\helpc\ocphhc.exe
   %write ocphhc.lnk library goodies\helpc\zlib.lib
-  %write ocphhc.lnk system dos4g option { map dosseg quiet }
+  %write ocphhc.lnk system win32 option { map dosseg quiet }
   wlink @ocphhc.lnk
   del ocphhc.lnk > nul
 
@@ -1274,7 +1274,7 @@ cp.hlp: doc\opencp.dox goodies\helpc\ocphhc.exe
 pack.exe: pack.obj
   echo Now making the Quake PAK generator...
   echo $@
-  *wlink option quiet name $*.exe $(lopt) system dos4g &
+  *wlink option quiet name $*.exe $(lopt) system win32 &
          option { caseexact stack=16384 eliminate dosseg } &
          library $(defaultlibs) &
          file pack.obj
