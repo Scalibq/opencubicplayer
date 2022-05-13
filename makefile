@@ -684,12 +684,12 @@ conv.exe: btools\conv.cpp
   *wpp386 btools\conv.cpp -zq
   echo $@
 !ifeq defaultlibrarysfordlls NO
-  *wlink option quiet name $*.exe $(lopt) system dos4g &
+  *wlink option quiet name $*.exe $(lopt) system win32 &
          option { caseexact stack=16384 eliminate dosseg } &
          library $(defaultlibs) &
          file conv.obj
 !else
-  *wlink option quiet name $*.exe $(lopt) system dos4g &
+  *wlink option quiet name $*.exe $(lopt) system win32 &
          option { caseexact stack=16384 eliminate dosseg } &
          file conv.obj
 !endif
