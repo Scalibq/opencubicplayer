@@ -168,7 +168,7 @@ void midClose()
   {
     for (int i=0; i<4; i++)
       delete midInstrumentPaths[i];
-    for (i=0; i<256; i++)
+    for (int i=0; i<256; i++)
       delete midInstrumentNames[i];
   }
 }
