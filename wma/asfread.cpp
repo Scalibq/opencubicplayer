@@ -94,7 +94,7 @@ void asfreader::ReadChunk()
   GUID guid;
   if (!src->eread(&guid, sizeof(GUID)))
     return;
-#ifdef INT8
+#ifdef INT8_SUPPORTED
   uint8 size;
   if (!src->eread(&size, 8))
     return;
@@ -173,7 +173,7 @@ void asfreader::ReadChunk()
 #endif
     GUID unknown;
     src->read(&unknown, 16);
-#ifdef UINT8
+#ifdef INT8_SUPPORTED
     uint8 _packets;
     src->read(&_packets, 8);
 #else

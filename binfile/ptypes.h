@@ -17,18 +17,18 @@ typedef signed int int4;
 typedef unsigned int uint4;
 #ifdef __WATCOMC__
 #if __WATCOMC__>=1100
-#define INT8
+#define INT8_SUPPORTED
 typedef signed __int64 int8;
 typedef unsigned __int64 uint8;
 #endif
 #else
-#define INT8
+#define INT8_SUPPORTED
 typedef signed long long int8;
 typedef unsigned long long uint8;
 #endif
 typedef signed int intm;    // fast, but at least 4
 typedef unsigned int uintm;
-#ifdef INT8
+#ifdef INT8_SUPPORTED
 typedef int8 intm8;         // fast, but at least 8
 typedef uint8 uintm8;
 #endif
