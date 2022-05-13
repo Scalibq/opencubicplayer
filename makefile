@@ -895,7 +895,7 @@ pstub.obj: pstub.cpp
 
 .asm.obj:
   echo $@
-  tasm /t $(aopt) $(adebopt) $<
+  tasm32 /t $(aopt) $(adebopt) $<
 
 .was.obj:
   echo $@
