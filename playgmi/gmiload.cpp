@@ -1455,13 +1455,13 @@ int loadpatchFFF(minstrument    &ins,
       for(int n=0; n<rec.nattack; n++)
         printf("%04d ", rec.attack_points[n].next);
       printf("\n    r/t :   ");
-      for(n=0; n<rec.nattack; n++)
+      for(int n=0; n<rec.nattack; n++)
         printf("%04d ", rec.attack_points[n].rate);
       printf("\n   release_envelope:\n    next:   ");
-      for(n=0; n<rec.nrelease; n++)
+      for(int n=0; n<rec.nrelease; n++)
         printf("%04d ", rec.release_points[n].next);
       printf("\n    r/t :   ");
-      for(n=0; n<rec.nrelease; n++)
+      for(int n=0; n<rec.nrelease; n++)
         printf("%04d ", rec.release_points[n].rate);
       printf("\n");
     }
@@ -1561,7 +1561,7 @@ int loadpatchFFF(minstrument    &ins,
 
     if(wave.format&32) // ulaw
     {
-      signed char *temp=new char[wave.size];
+      signed char *temp=new signed char[wave.size];
       short *d=(short*)smps[smp].ptr;
       dat.eread(temp, wave.size);
       for (int i=0; i<wave.size; i++)
