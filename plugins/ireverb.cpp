@@ -268,7 +268,7 @@ int doreverb(int inp, long *lpos, long *lines[], long lpf[])
 
   for (int i=0; i<4; i++)
   {
-    long a=lpf[i]+=imulshr24(lpfval, (inp+imulshr16(gainsf[i], lines[i][lpos[i]]-lpf[i])));
+    long a=lpf[i]+=imulshr24(lpfval, (inp+imulshr16(gainsf[i], lines[i][lpos[i]])-lpf[i]));
     lines[i][lpos[i]]=a;
     asum+=a;
   }
