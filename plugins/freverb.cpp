@@ -73,8 +73,10 @@ static float co1atten, co1attack, co1decay, co1thres, co1cprv;
 
 static float gainsc[6]={0.966384599, 0.958186359, 0.953783929, 0.950933178,
                         0.994260075, 0.998044717};
-static float delays[6]={29.68253968, 37.07482993, 41.06575964, 43.67346939,
+static const float ldelays[6]={29.68253968, 37.07482993, 41.06575964, 43.67346939,
                          4.98866213,  1.67800453};
+static const float rdelays[6]={21.18461635, 41.26753476, 14.15636606, 15.66663244,
+                         3.21700938,  1.35656276};
 static float gainsf[6]={0.966384599, 0.958186359, 0.953783929, 0.950933178,
                         0.994260075, 0.998044717};
 
@@ -143,7 +145,7 @@ static void init(int rate, int stereo)
   // init reverb
   for (int i=0; i<6; i++)
   {
-    llen[i]=(int) (delays[i]*rate/1000.0);
+    llen[i]=(int) (ldelays[i]*rate/1000.0);
     lpos[i]=0;
     llpf[i]=rlpf[i]=0;
 
@@ -172,7 +174,7 @@ static void init(int rate, int stereo)
 
     if (st)
     {
-      rlen[i]=((delays[i]+(((float) rand()/16384.0)-1.0))*rate/1000.0);
+      rlen[i]=(int) (rdelays[i]*rate/1000.0);
       rpos[i]=0;
 
       rightl[i]=new float[rlen[i]];
@@ -493,13 +495,13 @@ extern "C"
     1. der reverbeffekt besteht aus 4 comb- und 2 allpassfiltern
        mit folgenden parametern:
 
-       1. comb   gain: 0.966384599   delay: 29.68253968 ms
-       2. comb   gain: 0.958186359   delay: 37.07482993 ms
-       3. comb   gain: 0.953783929   delay: 41.06575964 ms
-       4. comb   gain: 0.950933178   delay: 43.67346939 ms
+       1. comb   gain: 0.966384599   delay: 29.68253968,21.18461635 ms
+       2. comb   gain: 0.958186359   delay: 37.07482993,41.26753476 ms
+       3. comb   gain: 0.953783929   delay: 41.06575964,14.15636606 ms
+       4. comb   gain: 0.950933178   delay: 43.67346939,15.66663244 ms
 
-       1. apass  gain: 0.994260075   delay:  4.98866213 ms
-       2. apass  gain: 0.998044717   delay:  1.67800453 ms
+       1. apass  gain: 0.994260075   delay:  4.98866213,3.21700938 ms
+       2. apass  gain: 0.998044717   delay:  1.67800453,1.35656276 ms
 
     2. gains in fixedpoint sind dabei:
 
