@@ -91,7 +91,7 @@ static void updatevol(int n)
     case 0:  // rvb time
       v=pow(25.0/(irevvol[0].val+1),2);
       for (i=0; i<6; i++)
-        gainsf[i]=pow(gainsc[i],v)*65536.0;
+        gainsf[i]=pow(gainsc[i],v)*65536.0*((i&1)?-1:1);
       break;
     case 1:  // rvb high cut
       v=((irevvol[1].val+20)/70.0)*(44100.0/srate);
